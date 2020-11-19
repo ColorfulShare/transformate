@@ -1,0 +1,82 @@
+.btn-sc{
+    padding: 10px;
+    background-color: #53b8d3;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 0.8em;        
+}
+.btn-buy-course {
+    padding: 2px 30px 2px 30px;
+    background-color: #53b8d3;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+.add-sc{
+    background-color: #53b8d3;
+    color: #FFF;
+    font-weight: 600;  
+    padding: 8px;   
+    width: 100%;
+    display: block;   
+}
+.price-course-original{
+    font-size: 1.3em;
+    color: #53b8d3;
+    margin: 0;
+}
+.discount{
+    text-decoration: line-through;
+    margin: 0;
+}
+.view-preview{
+    /*background: #53b8d3;*/
+    color: #ffffff !important;
+    font-size: x-large;
+    /*padding: 8px;*/
+}
+
+.content-image{
+    max-height: 10em;
+    max-width: 50em;
+    padding: 5px;
+}
+
+.button-sc{
+    background-color: #00568c;
+    color: #fff !important;
+    border: 1px solid transparent;
+}
+
+.content-carousel{
+    margin: 0 100px 0 100px;
+}
+.courses-content{
+    margin: auto;
+    width: 70em;
+    background: #214679;
+ }
+ .card-course{
+    width: 25%;
+    margin: 0 10px 0 10px;           
+ }
+
+ .button-position{
+     position: absolute;
+     margin-top: -100px;
+     margin-left: 100px;
+ }
+
+.notification-read{
+    background: green;
+}
+.w-dropdown{
+    width: 25em;
+}
+.content-logo-header{
+    margin-top: -0.7em;
+}
+
+.pb-nav{
+    padding-bottom: 0.8em;
+}

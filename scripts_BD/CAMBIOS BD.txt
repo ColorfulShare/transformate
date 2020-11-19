@@ -1,0 +1,72 @@
+-------------- 31/01/2020 ------------
+-->Tabla DISCUSSIONES 
+	*agregar campo slug (varchar 255 )
+
+-------------- 30/01/2020 ------------
+-->Tabla PROFILES: 
+	*agregar campo report (TINYINT Predefinido 0)
+-->Tabla BANK_TRANSFERS: 
+	*quitar campo reference_number y date
+
+-------------- 29/01/2020 ------------
+-->Tabla PROFILES: 
+	*agregar campo reports (TINYINT Predefinido 0)
+
+-------------- 28/01/2020 ------------
+Nueva Tabla: Profiles
+
+-->Tabla USERS: 
+	*agregar campo profile_id (INT NULL)
+
+-------------- 23/01/2020 ------------
+-->Tabla COURSES: 
+	*agregar campos cover_name, preview_name y preview_cover_name (varchar 255)
+	*agregar campo image_cover (varchar 100)
+
+-->Tabla CERTIFICATIONS 
+	*agregar campos cover_name, preview_name y preview_cover_name (varchar 255) 
+	*agregar campo image_cover (varchar 100)
+
+-->Tabla PODCASTS: 
+	*agregar campos cover_name, preview_name (varchar 255) 
+	*agregar campo image_cover (varchar 100)
+	
+-------------- 23/01/2020 ------------
+Nuevas Tablas:
+
+applied_coupons
+bank_accounts
+bank_transfers
+pending_products
+resource_files
+tags
+courses_tags
+certifications_tags
+podcasts_tags
+
+CAMBIOS EN LAS TABLAS EXISTENTES
+
+-->Tabla COURSES: 
+	*agregar campo preview_cover (varchar 255) 
+	*eliminar campo preview_type
+
+-->Tabla CERTIFICATIONS: 
+	*agregar campo preview_cover (varchar 255) 
+	*eliminar campo preview_type
+
+-->Tabla Purchases
+	*agregar campo coupon_id (int 11 NULL)
+
+-->Tabla Purchase_Details
+	*Eliminar campo coupon_id
+
+-->Tabla Pending_Product
+	*Eliminar campo coupon_id
+
+-->Tabla Lessons
+	*Agregar campos filename (varchar 255), file_extension (varchar 20), file_icon (varchar 30)
+	*Eliminar campo type
+
+-->Tabla Users
+	*agregar campos de slug (varchar 255), facebook (varchar 255 NULL), twitter (varchar 255 NULL), instagram (varchar 255 NULL), youtube (varchar 255 NULL) y  pinterest (varchar 255 NULL)
+

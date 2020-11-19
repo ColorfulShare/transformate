@@ -1,0 +1,305 @@
+/**** Nuevo Diseño Carrito de Compras y Checkout (Luisana Marín) ***/
+.background-shop{
+    background-color: #f1f1f1;
+    padding-top: 20px;
+    padding-bottom: 25px;
+}
+.items-number{
+    padding-left: 15px;
+}
+.icon-cart{
+    font-size: 20px;
+    margin-right: 5px;
+}
+.keep-buying-header-div{
+    padding-right: 15px; 
+    padding-bottom: 20px;
+}
+.keep-buying-header{
+    color: #848484;
+}
+.keep-buying-header:hover,.keep-buying-header:active,.keep-buying-header:focus{
+    color: #F02D00;
+}
+.items-content{
+    background-color: white; 
+    padding: 15px 15px;
+}
+.keep-buying-card-div{
+    padding-bottom: 15px; 
+    border-bottom: solid #cfcfcf 1px;
+}
+.keep-buying-card{
+    color: #F02D00;
+}   
+.items{
+    padding-left: 5px;
+}   
+.close-div{
+    padding-top: 5px;
+    padding-right: 5px;
+}
+.close-icon{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #FFF;
+    opacity: 0.5;
+}
+.img-item{
+    width: 200px;
+    height: 110px;
+}
+.item-info{
+    padding-left: 10px;
+}        
+.item-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: #414141;
+}
+.item-instructor{
+    font-size: 17px;
+}
+.item-discount{
+    font-size: 14px; 
+    color: red;
+}
+.item-code{
+    color: green;
+    font-size: 13px;
+}
+.item-price{
+    border-bottom: solid #cfcfcf 1px; 
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+.total-div{
+    padding-top: 15px; 
+    font-size: 20px;
+    font-weight: bold;
+}
+.buttons-div{
+    padding: 30px 5px;
+}
+.button{
+    color:white; 
+    padding: 8px 30px; 
+    font-weight: 600; 
+    font-size: 18px;
+    cursor: pointer;
+}
+.button-checkout-div{
+    text-align: right;
+}
+.button-checkout{
+    background-color: #F02D00;
+}
+.button-checkout:hover{
+    background-color: white;
+    color: #F02D00;
+    border: solid #F02D00 1px; 
+}
+.button-code-div{
+    text-align: left;
+}
+.button-code{
+    background-color: #114d89;
+}
+.button-code:hover{
+    background-color: white;
+    color: #114d89;
+    border: solid #114d89 1px; 
+}
+.button-partner-code{
+    background-color: #41a8c4;
+}
+.button-partner-code:hover{
+    background-color: white;
+    color: #41a8c4;
+    border: solid #41a8c4 1px; 
+}
+.payment-items{
+    padding-right: 15px;
+}
+.list-inline{
+    padding-left:0;
+    list-style:none;
+}
+.list-inline-item{
+    display:inline-block;
+}
+.list-inline-item:not(:last-child){
+    margin-right:0.5rem;
+}
+.cards-list>li:not(:last-child){
+    margin-right:0.1rem;
+    margin-bottom:5px;
+}
+.card-wrapper{
+    display:inline-block;
+    vertical-align:middle;
+    line-height:1;
+    border:1px solid #E8E8E8;
+    border-radius:0.125rem;
+}
+.payment-item-small{
+    width: 35px;
+}
+.payment-item-large{
+    width: 35px;
+}
+.checkout-total-div{
+    padding-left: 15px;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+.register-for-continue{
+    font-size: 18px;
+    font-weight: bold;
+}
+.login-click{
+    font-size: 16px;
+    font-weight: 400;
+}
+.button-register-with-google{
+    background-color: #dc3545; 
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+.button-register-with-google:hover{
+    color: #dc3545; 
+    background-color: white; 
+    border: solid #dc3545 1px;
+}
+.register-with-email{
+    font-style: italic; 
+    color: #B0B0B0;
+}
+.birthdate{
+    font-weight: 500;
+}
+.info{
+    margin-top: 20px;
+    padding-left: 0;
+}
+.info h6{
+    font-size: 12px;
+    color: #848484;
+}
+.payment-methods li{
+    border: solid #cfcfcf 1px; 
+    padding: 10px 10px;
+}
+.button-paypal{
+    background-color: #009FDB; 
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+.button-paypal:hover{
+    color: #009FDB; 
+    background-color: white; 
+    border: solid #009FDB 1px;
+}
+.button-block{
+    width: 100%;
+}
+.uk-accordion-title::after {
+    content: "";
+    width: 1.4em;
+    height: 1.4em;
+    float: right;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.uk-open > .uk-accordion-title::after {
+    content:"\F107";
+    color: #fff;
+    /*background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2213%22%20height%3D%2213%22%20viewBox%3D%220%200%2013%2013%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22%23666%22%20width%3D%2213%22%20height%3D%221%22%20x%3D%220%22%20y%3D%226%22%20%2F%3E%0A%3C%2Fsvg%3E");*/
+}
+.accordion-bank::after {
+    width: 5.0em;
+    height: 2.5em;
+    background-image: url("https://transformatepro.com/template/images/pse.png");
+}
+.uk-open > .accordion-bank::after {
+    background-image: url("https://transformatepro.com/template/images/pse.png")
+}    
+.accordion-paypal::after {
+    width: 5.0em;
+    height: 2.5em;
+    background-image: url("https://transformatepro.com/template/images/logo-paypal.png");
+}
+.uk-open > .accordion-paypal::after {
+    background-image: url("https://transformatepro.com/template/images/logo-paypal.png")
+}
+.accordion-mp::after {
+    width: 5.0em;
+    height: 2.5em;
+    background-image: url("https://transformatepro.com/template/images/logo-tdc.png")
+}
+.uk-open > .accordion-mp::after {
+    background-image: url("https://transformatepro.com/template/images/logo-tdc.png")
+}
+.accordion-efecty::after {
+    width: 5.0em;
+    height: 2.5em;
+    background-image: url("https://transformatepro.com/template/images/efecty.png")
+}
+.uk-open > .accordion-efecty::after {
+    background-image: url("https://transformatepro.com/template/images/efecty.png")
+}
+
+/*** Móvil ***/
+@media (min-width: 320px) and (max-width: 640px) {
+    .keep-buying-header{
+        font-size: 15px;
+    }
+    .img-item{
+        width: 110px;
+        height: 70px;
+    }
+    .item-title{
+        font-size: 15px;
+    }
+    .item-instructor{
+        font-size: 14px;
+    }   
+    .item-discount{
+        font-size: 13px;
+    }
+    .item-code{
+        font-size: 12px;
+    }
+    .total-div{
+        font-size: 17px;
+    }
+    .item-price{
+        font-size: 17px;
+    }
+    .buttons-div{
+        padding: 30px 15px;
+    }
+    .button{
+        width: 100%; 
+        display:block; 
+    }
+    .button-code-div{
+        text-align: center;
+    }
+    .button-checkout-div{
+        text-align: center;
+    }
+    .register-for-continue{
+        font-size: 16px;
+    }
+    .login-click{
+        font-size: 14px;
+    }
+    #payment-link{
+        font-size: 24px;
+    }
+}

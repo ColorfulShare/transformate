@@ -1,0 +1,405 @@
+.pt-20 {
+    padding-top: 20px;
+}
+
+.pb-20 {
+    padding-bottom: 20px;
+}
+
+.mt-10 {
+    margin-top: 10px !important;
+}
+
+.padding-50 {
+    padding: 50px;
+}
+
+.white-text {
+    color: white;
+}
+
+.main-content-event {
+    padding: 20px 10%;
+}
+
+.video-section {
+    background-color: #6E12FF;
+    color: white;
+    font-size: 19px;
+    padding: 10px 10px;
+}
+
+.video-section-event-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.video-section-event-price {
+    font-size: 15px;
+}
+
+.benefits-title {
+    font-size: 40px;
+    padding-bottom: 20px;
+}
+
+.benefits-items {
+    font-size: 36px;
+}
+
+.mentor-section-title {
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.testimony-content {
+    padding: 20px 20%;
+}
+
+.testimony-card {
+    -webkit-box-shadow: 2px 6px 25px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 6px 25px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 6px 25px 0px rgba(0, 0, 0, 0.75);
+}
+
+.testimony-img {
+    width: 150px;
+    height: 150px;
+}
+
+.testimony-autor {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.diary-content {
+    padding: 20px 30px !important;
+}
+
+.diary-title {
+    color: white;
+    font-size: 40px;
+}
+
+.diary-img {
+    width: 500px;
+    height: 300px;
+}
+
+.gift-content {
+    padding: 0px 30px 20px 30px !important;
+}
+
+.gift-section {
+    text-align: right;
+    color: #00AAC6;
+    font-size: 30px;
+    padding-top: 50px;
+}
+
+.gift-img {
+    width: 150px;
+    height: 150px;
+}
+
+.gift-button-left {
+    text-align: right;
+}
+
+.gift-button-right {
+    text-align: left;
+}
+
+.now-section {
+    padding: 20px 30px !important;
+}
+
+.atention-img {
+    width: 400px;
+    height: 250px;
+}
+
+.atention-text {
+    font-size: 26px;
+    padding-top: 40px;
+    color: blue;
+}
+
+.atention-text-small {
+    font-size: 18px;
+    color: gray;
+}
+
+.event-button {
+    padding: 15px 45px;
+    font-size: 18px;
+    line-height: 38px;
+    text-align: center;
+    transition: 0.1s ease-in-out;
+    font-weight: 700;
+    color: white;
+}
+
+.event-button-info {
+    background-color: #004995;
+    color: white;
+    border: solid #004995 5px;
+}
+
+.event-button-info:hover {
+    background-color: white;
+    color: #004995;
+    border: solid #004995 5px;
+    text-decoration: none;
+}
+
+.event-button-inscribe {
+    padding-left: 75px;
+    padding-right: 75px;
+    background-color: #00AAC6;
+    color: white;
+    border: solid #004995 5px;
+    text-decoration: none;
+}
+
+.event-button-inscribe:hover {
+    background-color: white;
+    color: #004995;
+    border: solid #004995 5px;
+    text-decoration: none;
+}
+
+.countdown {
+    /*background-color: #6E12FF !important;*/
+    padding: 20px 10px !important;
+}
+
+.countdown-normal-price-div {
+    padding: 20px 15px 0 60px;
+}
+
+.countdown-presale-price-div {
+    padding: 20px 60px 0 15px;
+}
+
+.countdown-normal-price-text {
+    background-color: #41a8c4;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.countdown-presale-price-text {
+    background-color: #034a91;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.countdown-end-div {
+    padding: 0 25% 20px 25%;
+    margin-top: 15px !important;
+}
+
+.countdown-end-text {
+    background-color: white;
+    color: #41a8c4;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.countdown-div {
+    margin-top: 0 !important;
+    padding-left: 30%;
+    padding-right: 30%;
+    color: white;
+    font-size: 30px;
+}
+
+.countdown-time-div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.countdown-time-div-background {
+    background-color: #41a8c4;
+    border-radius: 10px;
+}
+
+.countdown-time {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+@media (max-width: 1200px) {
+    .benefits-title {
+        font-size: 35px;
+    }
+    .benefits-items {
+        font-size: 30px;
+    }
+    .gift-section {
+        text-align: center;
+        font-size: 20px;
+    }
+    .gift-button-left {
+        text-align: center !important;
+    }
+    .gift-button-right {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 1050px) {
+    .event-button {
+        padding: 15px 25px;
+    }
+    .event-button-inscribe {
+        padding-left: 55px;
+        padding-right: 55px;
+    }
+    .diary-buttons-div {
+        text-align: center;
+    }
+    .atention-text {
+        font-size: 36px;
+    }
+    .atention-text-small {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 960px) {
+    .countdown-normal-price-div {
+        padding: 20px 15px 0 15px;
+    }
+    .countdown-presale-price-div {
+        padding: 0 15px 0 15px;
+    }
+    .countdown-end-div {
+        padding: 0 20% 20px 20%;
+    }
+    .countdown-end-text {
+        font-size: 36px;
+    }
+    .countdown-div {
+        padding-left: 25%;
+        padding-right: 25%;
+        font-size: 28px;
+    }
+    .countdown-time {
+        font-size: 45px;
+    }
+}
+
+@media (max-width: 640px) {
+    .main-content-event {
+        padding: 20px 5%;
+    }
+    .video-section {
+        font-size: 17px;
+        padding: 10px 10px;
+    }
+    .video-section-event-title {
+        font-size: 15px;
+    }
+    .video-section-event-price {
+        font-size: 13px;
+    }
+    .benefits-title {
+        font-size: 30px;
+        padding-bottom: 20px;
+    }
+    .benefits-items {
+        font-size: 25px;
+    }
+    .mentor-section-title {
+        font-size: 20px;
+    }
+    .testimony-content {
+        padding: 20px 5%;
+    }
+    .testimony-img {
+        width: 100px;
+        height: 100px;
+    }
+    .diary-content {
+        padding: 20px 0px !important;
+    }
+    .event-button {
+        padding: 15px 0px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .event-button-inscribe {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .gift-content {
+        padding: 0px 10px 20px 10px !important;
+    }
+    .gift-section {
+        padding-top: 30px;
+    }
+    .gift-img {
+        width: 150px;
+        height: 150px;
+    }
+    .now-section {
+        padding: 20px 5px !important;
+    }
+    .atention-text {
+        text-align: center !important;
+        font-size: 22px;
+        padding-top: 10px;
+    }
+    .atention-text-small {
+        font-size: 15px;
+    }
+    .atention-img {
+        width: 450px;
+        height: 200px;
+    }
+    .countdown-normal-price-text {
+        font-size: 30px;
+    }
+    .countdown-presale-price-text {
+        font-size: 30px;
+    }
+    .countdown-end-div {
+        padding: 0 15% 20px 15%;
+    }
+    .countdown-end-text {
+        font-size: 30px;
+    }
+    .countdown-div {
+        padding-left: 15;
+        padding-right: 15%;
+        font-size: 18px;
+    }
+    .countdown-time {
+        font-size: 35px;
+    }
+    .gift-button-left {
+        text-align: center !important;
+    }
+    .gift-button-right {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .countdown-div {
+        padding-left: 15%;
+        padding-right: 15%;
+        font-size: 16px;
+    }
+    .countdown-time {
+        font-size: 30px;
+    }
+}

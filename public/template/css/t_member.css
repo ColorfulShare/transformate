@@ -1,0 +1,159 @@
+#t-member{
+	text-align: center; 
+	padding: 40px 0 10px 0;
+}
+.tab-t-mentor{
+	border-radius: 0px; 
+	background-color: white; 
+	padding: 10px 60px; 
+	border: solid white 1px;
+}
+.tab-t-mentor:hover{
+	background-color: white; 
+	border: solid white 1px;
+}
+.tab-t-mentor:active{
+	background-color: white; 
+	border: solid white 1px;
+}
+.tab-t-mentor:focus{
+	background-color: white; 
+	border: solid white 1px;
+}
+.tab-t-mentor:target{
+	background-color: white; 
+	border: solid white 1px;
+}
+.tab-t-member{
+	border-radius: 0px; 
+	background-color: gray; 
+	padding: 10px 60px; 
+	border: solid gray 1px;
+}
+.tab-t-member:hover{
+	background-color: gray; 
+	border: solid gray 1px;
+}
+.tab-t-member:active{
+	background-color: gray; 
+	border: solid gray 1px;
+}
+.tab-t-member:focus{
+	background-color: gray; 
+	border: solid gray 1px;
+}
+.tab-t-member:target{
+	background-color: gray; 
+	border: solid gray 1px;
+}
+#t-member-tabs{
+	padding: 50px 30px 10px 30px;
+}
+.t-member-text{
+	font-size: 22px; 
+	font-weight: 500;
+}
+.t-member-items{
+	padding: 20px 100px;
+}
+.t-member-items2{
+	padding: 0px 200px;
+}
+.img-item{
+	width: 150px; 
+	height: 150px;
+}
+.text-item{
+	padding: 10px 60px; 
+	font-size: 18px; 
+	font-weight: 400;
+}
+#t-member-observation{
+	text-align: left; 
+	padding: 20px 150px;
+}
+.three-pack-div{
+	padding: 20px 110px;
+}
+.three-pack-item{
+	padding: 0 50px;
+}
+.three-pack-header{
+	height:110px; 
+	line-height:110px; 
+	text-align:center;
+}
+.three-pack-header span{
+	display:inline-block; 
+	vertical-align:middle; 
+	line-height:normal;
+	font-size: 26px;
+	font-weight: bold;
+	color: white;
+}
+.list-item{
+	height:70px; 
+	line-height:70px;
+}
+.list-item span{
+	display:inline-block; 
+	vertical-align:middle; 
+	line-height:normal;
+	font-size: 18px;
+}
+.t-member-buttons{
+	padding: 40px 40px 40px 0;
+}
+.t-member-button-show{
+	text-align: right;
+}
+.t-member-button-buy{
+	text-align: left;
+}
+/*** Móvil ***/
+@media (min-width: 320px) and (max-width: 640px) {
+	.tab-t-mentor{
+		padding: 5px 25px; 
+	}
+	.tab-t-member{
+		padding: 5px 25px; 
+	}
+	#t-member-tabs{
+		padding: 50px 10px 10px 10px;
+	}
+	.t-member-text{
+		font-size: 18px; 
+		font-weight: 500;
+	}
+	.t-member-items{
+		padding: 20px 10px 0 10px;
+	}
+	.t-member-items2{
+		padding: 0px 10px;
+	}
+	.img-item{
+		width: 100px; 
+		height: 100px;
+	}
+	.text-item{
+		padding: 5px 10px; 
+		font-size: 15px; 
+		font-weight: 400;
+	}
+	#t-member-observation{
+		text-align: center; 
+		padding: 20px 20px;
+	}
+	.three-pack-div{
+		padding: 20px 0px;
+	}
+	.t-member-buttons{
+		padding: 40px 0 25px 0;
+	}
+	.t-member-button-show{
+		text-align: center;
+	}
+	.t-member-button-buy{
+		text-align: center;
+	}
+}

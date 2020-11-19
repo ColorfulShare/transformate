@@ -1,0 +1,164 @@
+/**** Nuevo Diseño Footer (Luisana Marín) ***/
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider2 {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider2:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider2 {
+  background-color: #302F2F;
+}
+
+input:focus + .slider2 {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider2:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider2.round {
+  border-radius: 34px;
+}
+
+.slider2.round:before {
+  border-radius: 50%;
+}
+
+
+
+
+.footer-section{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    color: #f1f1f1;
+    padding: 25px 25px;
+}
+.list a{
+    color: #000;
+}
+.font-weight-bold {
+    font-weight: 700!important;
+}
+.font-size-13-tr {
+    font-size: 1.3rem;
+}
+.text-color-black-tr{
+    color: #f1f1f1;
+}
+.text-color-dark-tr {
+    color: #034a91;
+}
+.list-style-none-tr{
+    list-style: none;
+}
+.bg-color-dark-tr{
+    background-color: #034A91;
+}
+.bg-color-light-tr{
+    background-color: #3197B9;
+}
+.third-column{
+    text-align: center;
+}
+.language-div-tr{
+    margin-right: -.7%;
+    padding: .375rem .75rem;
+    border-bottom-left-radius: .7rem;
+    border-top-left-radius: .7rem;"
+}
+.coin-div-tr{
+    margin-left: -.7%;
+            padding: .375rem .75rem;
+            color:#fff;
+            font-weight: bold;
+            border-bottom-right-radius: .7rem;
+            border-top-right-radius: .7rem;" 
+        }
+        .social-div-tr
+        {
+            color:#fff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        .courses-content{
+           margin: auto;
+           width: 70em;
+           background: #214679;
+        }
+        .card-course{
+           width: 32em;
+        }
+
+        .button-position{
+            position: absolute;
+            margin-top: -100px;
+            margin-left: 100px;
+        }
+
+        .view-preview{
+            /*background: #ff0000;*/
+            color: #ffffff !important;
+            font-size: x-large;
+        }
+
+        .content-image{
+            /*max-height: 50em;*/
+            max-width: 45em;
+        }
+        .button-suscription{
+            padding: 10px;
+            background-color: #41a8c4;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .button-suscription:hover{
+            background-color: white;
+            color: #41a8c4;
+            border: solid #41a8c4 1px;
+        }
+@media (min-width: 320px) and (max-width: 640px) {
+    .third-column{
+        text-align: left;
+    }
+}

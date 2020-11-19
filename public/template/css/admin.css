@@ -1,0 +1,162 @@
+body{
+    background-color: #f8f9fa;
+} 
+
+.uk-accordion-title:hover {
+    border-left: 4px solid  #71BCCB;
+}
+.btn-icon{
+            margin-left: 5px;
+        }
+.admin-side {
+    width: 250px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 25px;
+    background: 
+    #034a91;
+    transition: 0.4s ease all;
+    z-index: 1;
+
+    overflow-x: hidden;
+}
+
+
+@media screen and (max-width: 960px){
+    .admin-side{ 
+        margin-left: -260px
+    } 
+    .admin-side-active{
+        margin-left: 0px !important;
+        box-shadow: 0 0 0 800px #0000005e;
+    } 
+    .admin-side-close-btn{
+        background: white;
+        margin-right: -48px;
+        margin-top: 13px;
+        padding: 10px 12px;
+        border-radius: 25px;
+        display: none;
+    }
+    .admin-side-active .admin-side-close-btn{
+        display: block !important        
+    }
+    .admin-content{
+        margin-left: 0px !important; 
+    } 
+    .admin-content-inner{
+        padding: 10px !important
+    }
+    .admin-mobile-headder{
+        background: #343a40;
+        padding: 10px 20px;
+    } 
+    .dashboard-card{
+        padding: 20px !important;
+    }  
+} 
+.admin-content{
+    margin-left: 250px; 
+}
+.admin-content .uk-navbar{
+    padding: 10px;
+    padding: 10px 30px;
+} 
+.admin-content-inner{
+    padding: 30px ;
+    max-width: 1200px;
+    margin: auto;
+}
+.admin-logo{
+    font-size: 20px;
+    color: white;
+    font-weight: bolder;
+}
+.admin-logo:hover{
+    text-decoration: none;
+    color: white
+}
+.admin-logo i{
+    color: white;
+    font-size: 40px;
+    font-weight: bolder;
+    padding: 21px 10px;
+    padding-bottom: 9px;
+    padding-left: 25px;
+}
+.admin-side ul{
+    margin: 0;
+    padding: 0;
+}
+.admin-side ul li{
+    list-style: none;
+}
+.admin-side ul li a{
+    padding: 16px 20px;
+    padding-left: 30px; 
+    color: rgba(255, 255, 255, 0.9); 
+    font-weight: 500;
+    text-align: left;
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+.admin-side ul li a:hover{
+    text-decoration: none
+}
+.admin-side ul li a i{
+    margin-right: 5px;
+}
+.admin-side .uk-accordion-title:hover, .uk-accordion-title:focus {
+    color: rgba(255, 255, 255, 0.9); 
+}
+.admin-side .uk-accordion-content a {
+    color: rgba(255, 255, 255, 0.65)  
+}
+.admin-side .uk-accordion-content a:hover{
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.dashboard-card{
+    padding: 40px;
+    text-align: center;
+    background-color: rgba(62, 71, 79, 0.5);
+    background-blend-mode: color-burn;
+}
+.dashboard-card i {
+    background: #00000045;
+    padding: 25px;
+    border-radius: 50px;
+}
+.dashboard-card h3{
+    font-weight: 100;
+    margin: 20px;
+}
+.dashboard-card a{
+    background: #1e80e2;
+    padding: 8px 22px;
+    border-radius: 3px;
+}
+.dashboard-card a:hover{
+    text-decoration: none;
+    background: #67a8e8
+}
+.admin-btn{
+    padding: 0px 18px;
+    font-size: 14px;
+    box-shadow: 0px -2px 0px 0px #84848430 inset;
+}
+.admin-table-btn{
+    padding: 0px 12px;
+    font-size: 13px;
+    box-shadow: 0px -2px 0px 0px #84848430 inset;
+    margin-right: 10px;
+}
+.admin-book-img{
+    height: 90px;
+    width: 70px;
+}

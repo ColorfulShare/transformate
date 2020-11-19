@@ -1,0 +1,213 @@
+button,input{
+    color:inherit;
+    font:inherit;
+    font-family:inherit;
+    font-size:inherit;
+    line-height:inherit;
+    margin:0;
+}
+button{
+    -webkit-appearance:button;
+    cursor:pointer;
+}
+ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+ul{
+    margin-top:0;
+    margin-bottom:10.5px;
+}
+ul ul{
+    margin-bottom:0;
+}
+.course-content{
+    font-size:16px;
+    font-weight:600;
+    line-height:1.5em;
+    display:flex;
+    justify-content:space-between;
+    padding:16px;
+    border:1px solid #dedfe0;
+    border-right:none;
+    height: auto;
+}
+.modules-content{
+    height: 700px;  
+    overflow-y: scroll;
+}
+.lessons-accordion{
+    z-index:1;
+    background-color:#fff;
+    border:1px solid #e8e9eb;
+    height: auto;
+}
+.lessons-accordion .title-li{
+   /* padding-top:15px; */
+    border-bottom:1px solid #dedfe0;
+}
+.lessons-accordion li a{
+    margin-left: 15px;
+    padding-bottom: 15px;
+}
+.accordion-lesson-title{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.43em; 
+    max-width:100%; 
+    margin:0 24px 0 0;
+    border-bottom: 1px solid #dedfe0;
+}
+.completed-lessons{
+    margin-right:4px;
+}
+.duration-module{
+    margin-left:4px;
+}
+.font-text-xs{
+    font-size:12px;
+    font-weight:400;
+    line-height:1.33em;
+}
+.accordion-lesson-content{
+    margin-top: 0px;
+}
+.lessons-list{
+    margin:0;
+}
+
+.lesson{
+    position:relative;
+}
+.lesson>.item-link{
+    display:flex;
+    justify-content:space-between;
+    color:#14171c;
+    padding:8px 16px;
+}
+.lesson>.item-link:hover{
+    background:#f2f3f5;
+}
+.lesson>.item-link:focus{
+    outline-offset:-4px;
+}
+.item-link-default{
+    display:inline-block;
+    color:#007791;
+}
+.item-link-default:hover{
+    cursor:pointer;
+    text-decoration:none;
+    color:#003845;
+}
+
+.lesson>.item-link .lesson-duration-icon .icon-play-circle{
+    padding-left:1px;
+    padding-right: 5px;
+}
+.lesson.current>.item-link{
+    background:#e6f2f5;
+}
+.lesson.current>.item-link .lesson-duration-icon{
+    color:#007791;
+}
+.lesson.current>.item-link:hover{
+    background:#d4e9ee;
+}
+.lesson>.item-link .lesson-info{
+    flex:1;
+    min-width:1px;
+    display:flex;
+    flex-direction:column;
+    margin-left:4px;
+}
+.lesson>.item-link .lesson-title{
+    max-width:100%;
+    font-size:14px;
+    font-weight:400;
+    line-height:1.43em;
+}
+.lesson>.item-link .lesson-resources{
+    display:flex;
+    justify-content:space-between;
+    padding-top:4px;
+}
+.lesson>.item-link .lesson-duration{
+    display:flex;
+    justify-content:flex-start;
+    font-size:12px;
+    font-weight:400;
+    line-height:1.33em;
+    opacity:.7;
+    padding-top:4px;
+}
+.resources-btn{
+    color:#007791;
+    background-color:#fff;
+    border:1px solid #007791;
+}
+.resources-btn:hover{
+    color:#003440;
+    background-color:#fff;
+    border-color:#003440;
+}
+.resources-btn:active{
+    color:#003440;
+    background-color:#e6f2f5;
+    border-color:#003440;
+}
+.resources-btn:active:hover,.btn-default:active:focus{
+    color:#003440;
+    background-color:#e6f2f5;
+    border-color:#003440;
+}
+.resources-btn:active{
+    background-image:none;
+}
+.resources-btn:focus{
+    color:#007791;
+    background-color:#fff;
+}
+.dropdown-resources{
+    height:24px;
+    padding-bottom: 5px;
+}
+.dropdown-resources button{
+    padding-right:18px!important;
+}
+.dropdown-resources-label{
+    padding:0 8px 0 4px;
+    font-size:14px;
+    font-weight:400;
+    line-height:1.43em;
+}
+.lesson-checkbox{
+    padding-right: 10px;
+}
+.resources-list{
+    padding: 5px 0;
+}
+.resources-list ul li a{
+    font-size: 0.9em;
+}
+.demo-check input[type="checkbox"] {
+    display: none;
+}
+.demo-check input[type="checkbox"] + label span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    background: url(../images/checkbox-uncheck.png);
+    background-size: cover;
+    cursor: pointer;
+}
+.demo-check input[type="checkbox"]:checked + label span {
+    background: url(../images/checkbox-check.png);
+    background-size: cover;
+}
+
+
+
