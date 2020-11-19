@@ -69,11 +69,19 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <a href="{{ route('landing.t-mentor') }}">
-                                <span><i class="fa fa-users"></i> T-Mentor</span>
-                            </a>
-                        </li>
+                        @if (Auth::guest())
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @elseif (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{ route('instructors.courses.steps') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a href="{{ route('landing.t-member') }}">
                                 <span><i class="fa fa-user-tie"></i> T-Member</span>
@@ -362,9 +370,15 @@
         </div>
 
         <div class="menu-links">
-            <a href="{{ route('landing.t-mentor') }}" class="header-link">
-                <span class="font-h3">T-Mentor</span>
-            </a>
+            @if (Auth::guest())
+                <a href="{{ route('landing.t-mentor') }}" class="header-link">
+                    <span class="font-h3">T-Mentor</span>
+                </a>
+            @elseif (Auth::user()->role_id == 2)
+                <a href="{{ route('instructors.courses.steps') }}" class="header-link">
+                    <span class="font-h3">T-Mentor</span>
+                </a>
+            @endif
             <a href="{{ route('landing.t-member') }}" class="header-link">
                 <span class="font-h3">T-Member</span>
             </a>
@@ -388,11 +402,19 @@
                                 </a> 
                             </li>
                         @endif
-                        <li>
-                            <a href="{{ route('landing.t-mentor') }}">
-                                <span><i class="fa fa-users"></i> T-Mentor</span>
-                            </a>
-                        </li>
+                        @if (Auth::guest())
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @elseif (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{ route('instructors.courses.steps') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a href="{{ route('landing.t-member') }}">
                                 <span><i class="fa fa-user-tie"></i> T-Member</span>

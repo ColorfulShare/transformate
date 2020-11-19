@@ -264,6 +264,7 @@ Route::group(['prefix' => 'instructors', 'middleware' => ['https', 'auth', 'inst
 
 	Route::group(['prefix' => 't-courses'], function() {
 		Route::get('/', 'CourseController@index')->name('instructors.courses.index');
+		Route::get('steps', 'CourseController@steps')->name('instructors.courses.steps');
 		Route::get('show/{slug}/{id}', 'CourseController@show')->name('instructors.courses.show')->middleware('course_instructor');
 		Route::get('create', 'CourseController@create')->name('instructors.courses.create');
 		Route::post('store', 'CourseController@store')->name('instructors.courses.store');

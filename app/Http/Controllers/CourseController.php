@@ -62,6 +62,10 @@ class CourseController extends Controller
         
     }
 
+    public function steps(){
+        return view('instructors.courses.steps');
+    }
+
     //**** Instructor / T-Courses / Nuevo T-Course
     public function create(){
         $categorias = DB::table('categories')
