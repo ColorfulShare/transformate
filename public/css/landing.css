@@ -29,7 +29,11 @@
 }
 
 .color-ligth2 {
-    color: black;
+    color: #1B4965;
+}
+
+.color-ligth3 {
+    color: #8A8A8A;
 }
 
 .color-dark2 {
@@ -41,13 +45,13 @@
 
 .course-pro {
     position: absolute;
-    top: 40%;
+    top: 25%;
     left: 5%;
 }
 
 .course-pro .title {
     color: black;
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .course-pro .description {
@@ -272,7 +276,7 @@
     font-size: 14px;
     padding-bottom: 5px;
     padding-top: 5px;
-    font-style: italic;
+    color: #5FA8D3;
 }
 
 .course-subtitle {
@@ -310,11 +314,27 @@
     font-size: 18px;
 }
 
+.btn-course2{
+    padding: 15px;
+    background-color: #034a91;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
 .link-course:hover {
     text-decoration: none;
 }
 
 .link-course:hover .btn-course {
+    text-decoration: none;
+    background-color: white;
+    color: #034a91;
+    border: solid #034a91 1px;
+}
+
+.link-course:hover .btn-course2 {
     text-decoration: none;
     background-color: white;
     color: #034a91;

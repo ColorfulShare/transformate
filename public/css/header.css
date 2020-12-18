@@ -32,24 +32,24 @@
     background-color: #000;
 }
 #navbar{
-    height: 50px; 
+    height: 50px;
 }
 .navbar-left-movil{
-    padding-left: 10px; 
+    padding-left: 10px;
     width: 50%;
 }
 #navbar-search{
-    height: 50px; 
+    height: 50px;
 }
 .search-nav-left{
 	width: 95%;
 }
 .search-nav-right{
-	width: 5%; 
+	width: 5%;
 	margin-right: 10px;
 }
 #navbar-large{
-    height: 75px; 
+    height: 75px;
 }
 .header-large-left{
     padding-left: 20px;
@@ -66,7 +66,7 @@
 	height: 26px;
 }
 .logo-img img{
-    width: 85%; 
+    width: 85%;
 }
 .logo-pc{
     margin-right: 20px;
@@ -98,7 +98,7 @@
     border-bottom: solid white 1px; padding-bottom: 10px;
 }
 .menu-bars-content{
-    padding: 10px 10px; 
+    padding: 10px 10px;
     height: 100%;
 }
 .menu{
@@ -107,7 +107,7 @@
     padding-left: 0px;
 }
 .menu li{
-	border-bottom: solid white 1px; 
+	border-bottom: solid white 1px;
 	padding: 10px 10px;
 }
 .menu li a{
@@ -129,7 +129,7 @@
     padding: 0 0;
 }
 .menu-categories-content{
-    padding: 15px 10px; 
+    padding: 15px 10px;
     height: 100%;
 }
 .bars-menu-buttons-section{
@@ -144,12 +144,12 @@
     font-size: 18px;
 }
 .button-register{
-	color: white; 
-	background-color: #2493B5; 
+	color: white;
+	background-color: #2493B5;
     border: solid white 1px;
 }
 .button-show-courses{
-	background-color: #034a91; 
+	background-color: #034a91;
     width: 100%;
     border: solid white 1px;
 }
@@ -181,8 +181,8 @@
 }
 .register-button-header{
 	padding: 6px 15px;
-    background-color: white; 
-    color: #034a91; 
+    background-color: white;
+    color: #034a91;
     text-decoration: none;
 }
 .register-button-header:hover{
@@ -195,7 +195,7 @@
     margin-right: 15px;
     font-size: 15px;
     font-weight: bold;
-    padding-right:5px; 
+    padding-right:5px;
 }
 .header-link:hover{
     text-decoration: none;
@@ -230,8 +230,8 @@
 	color: white;
 }
 .t-cursos{
-    font-weight:700; 
-    color: #034a91; 
+    font-weight:700;
+    color: #034a91;
     padding-bottom: 8px;
 }
 .hr{
@@ -337,6 +337,9 @@
     .switch-button__checkbox:checked + .switch-button__label:before {
         transform: translateX(1.2rem);
     }
+    #slideropen{
+        display: none;
+    }
 }
 @media (min-width: 640px) and (max-width: 1440px) {
     .menu-links{
@@ -350,11 +353,19 @@
     .menu-links-reduced{
         display: none;
     }
+    #navbar-large{
+        padding-left: 3%;
+        padding-right: 3%;
+    }
 }
 @media (min-width: 640px) and (max-width: 1110px){
     .logo-pc img{
         width: 175px;
         height: 35px;
+    }
+    #navbar-large{
+        padding-left: 3%;
+        padding-right: 3%;
     }
 }
 

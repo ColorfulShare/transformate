@@ -35,7 +35,7 @@ Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 });
 
 Route::group(['middleware' => ['https']], function () {
-	
+
 	Route::post('login', 'Auth\LoginController@post_login')->name('login');
 	Route::post('register', 'Auth\RegisterController@create')->name('register');
 	Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -94,7 +94,7 @@ Route::group(['middleware' => ['https']], function () {
 		Route::post('mercado-pago-gift-membership', 'PaymentController@mercado_pago_checkout')->name('landing.shopping-cart.mercado-pago-gift-membership');
 		Route::get('show-gift/{compra_id}', 'ShoppingCartController@show_gift')->name('landing.shopping-cart.show-gift');
 		Route::post('send-gift-membership', 'ShoppingCartController@send_gift_membership')->name('landing.shopping-cart.send-gift-membership');
-		
+
 	});
 
 	Route::group(['prefix' => 't-events'], function(){
@@ -221,7 +221,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 		Route::post('add-gift', 'ShoppingCartController@add_gift')->name('students.shopping-cart.add-gift');
 		Route::post('apply-coupon', 'CouponController@apply')->name('students.shopping-cart.apply-coupon');
 		Route::get('checkout', 'ShoppingCartController@checkout')->name('students.shopping-cart.checkout');
-		Route::get('free-checkout', 'PaymentController@free_checkout')->name('students.shopping-cart.free-checkout'); 
+		Route::get('free-checkout', 'PaymentController@free_checkout')->name('students.shopping-cart.free-checkout');
 		Route::get('/', 'ShoppingCartController@index')->name('students.shopping-cart.index');
 		Route::post('bank-transfer-checkout', 'PaymentController@bank_transfer_checkout')->name('students.checkout.bank-transfer-checkout');
 		Route::post('paypal-checkout', 'PaypalController@checkout')->name('students.shopping-cart.paypal-checkout');
@@ -256,7 +256,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 
 Route::group(['prefix' => 'instructors', 'middleware' => ['https', 'auth', 'instructors']], function() {
 	Route::get('/', 'InstructorController@home')->name('instructors.index');
-	
+
 	Route::group(['prefix' => 'profile'], function() {
 		Route::get('/', 'InstructorController@my_profile')->name('instructors.profile.my-profile');
 		Route::post('update', 'InstructorController@update_profile')->name('instructors.profile.update');
@@ -457,7 +457,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('change-status', 'AdminController@change_status')->name('admins.courses.change-status');
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.courses.send-corrections');
 		Route::get('home-cover', 'AdminController@home_cover')->name('admins.courses.home-cover');
-		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.courses.upload-home-cover');	
+		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.courses.upload-home-cover');
 		Route::post('load-cover-image', 'AdminController@load_cover_image')->name('admin.courses.load-cover-image');
 		Route::get('home-sliders', 'AdminController@home_sliders')->name('admin.courses.home-sliders');
 		Route::post('update-home-sliders', 'AdminController@update_home_sliders')->name('admin.courses.update-home-sliders');
@@ -486,7 +486,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('change-status', 'AdminController@change_status')->name('admins.certifications.change-status');
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.certifications.send-corrections');
 		Route::get('home-cover', 'AdminController@home_cover')->name('admins.certifications.home-cover');
-		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.certifications.upload-home-cover');	
+		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.certifications.upload-home-cover');
 		Route::post('load-cover-image', 'AdminController@load_cover_image')->name('admin.certifications.load-cover-image');
 		Route::get('home-sliders', 'AdminController@home_sliders')->name('admins.certifications.home-sliders');
 		Route::post('update-home-sliders', 'AdminController@update_home_sliders')->name('admins.certifications.update-home-sliders');
@@ -512,7 +512,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('resume/{slug}/{id}', 'PodcastController@resume')->name('admins.podcasts.resume');
 		Route::post('update', 'PodcastController@update')->name('admins.podcasts.update');
 		Route::post('change-status', 'AdminController@change_status')->name('admins.podcasts.change-status');
-		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.podcasts.send-corrections');	
+		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.podcasts.send-corrections');
 		Route::get('featured', 'AdminController@featured')->name('admins.podcasts.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.podcasts.update-featured');
 		Route::group(['prefix' => 'reports'], function() {
@@ -538,7 +538,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('change-status/{id}/{status}', 'MasterClassController@change_status')->name('admins.master-class.change-status');
 		Route::get('disabled', 'MasterClassController@disabled')->name('admins.master-class.disabled');
 	});
-	
+
 
 	Route::group(['prefix' => 'tests'], function() {
 		Route::get('show/{show}/{id}', 'TestController@show')->name('admins.tests.show');
