@@ -817,6 +817,44 @@
     font-weight: bold;
 }
 
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .flex-item-left {
+    padding: 3%;
+    flex: 40%;
+  }
+
+  .flex-item-right {
+    flex: 60%;
+  }
+
+  .contenflex{
+      text-align: left;
+  }
+
+  .descrip{
+      font-size: 22px;
+  }
+
+  /* Responsive layout - makes a one column-layout instead of two-column layout */
+  @media (max-width: 800px) {
+    .flex-container {
+      flex-direction: column;
+    }
+
+    .flex-btn-left {
+        flex: 100%;
+      }
+
+    .flex-btn-right {
+        flex: 100%;
+    }
+  }
 
 /*** Móvil ***/
 

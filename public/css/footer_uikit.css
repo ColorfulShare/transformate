@@ -69,7 +69,7 @@ input:checked + .slider2:before {
     font-family: 'Open Sans', sans-serif;
     font-size: 0.9em;
     color: #f1f1f1;
-    padding: 25px 25px;
+    padding: 40px 40px;
 }
 .list a{
     color: #000;
@@ -102,7 +102,7 @@ input:checked + .slider2:before {
     margin-right: -.7%;
     padding: .375rem .75rem;
     border-bottom-left-radius: .7rem;
-    border-top-left-radius: .7rem;"
+    border-top-left-radius: .7rem;
 }
 .coin-div-tr{
     margin-left: -.7%;
@@ -110,7 +110,7 @@ input:checked + .slider2:before {
             color:#fff;
             font-weight: bold;
             border-bottom-right-radius: .7rem;
-            border-top-right-radius: .7rem;" 
+            border-top-right-radius: .7rem;
         }
         .social-div-tr
         {
@@ -162,3 +162,4 @@ input:checked + .slider2:before {
         text-align: left;
     }
 }
+

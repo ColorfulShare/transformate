@@ -712,34 +712,25 @@
       </div>
    </div>
 
+
    {{-- Sección final --}}
-   <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider id="slideropen">
-            <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-2@m">
-                <li class="uk-width-1-3">
-                    <div class="course-pro">
-                        <div class="uk-visible@s">
-                            <div class="uk-text-bold title">Se parte de la transformación y expande tu ser</div>
-                            <div class="description">Con acceso a mucho más que educación<br> online serás parte de una comunidad de<br> transformadores.</div>
-                        </div>
-                        <div class="uk-hidden@s">
-                            <div class="uk-text-bold title">TransfórmatePRO<br> expande tu ser</div>
-                        </div>
-                        <div uk-grid >
-                            <div class="uk-width-1-3 course-button-white-div" style="text-align: left;">
-                                <a class="link-course"> <span class="btn-course2">Crear cuenta</span></a>
-                            </div>
-                            <div class="uk-width-2-3 register-button-blue-div" style="text-align: right;">
-                                <a class="link-course"> <span class="btn-course2">Volverme mentor de cursos</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="uk-width-2-3">
-                    <img src="{{ asset('/images/image2.jpg') }}" alt="">
-                    <div class="uk-position-center"></div>
-                </li>
-            </ul>
+    <div class="flex-container">
+        <div class="flex-item-left">
+            <div class="contenflex">
+
+                <div class="uk-text-bold title">Se parte de la transformación y expande tu ser</div>
+                <p class="descrip">Con acceso a mucho más que educación<br> online serás parte de una comunidad de<br> transformadores.</p>
+
+                    <a class="link-course"> <span class="btn-course2">Crear cuenta</span></a>
+
+                    <a class="link-course"> <span class="btn-course2">Volverme mentor de cursos</span></a>
+            </div>
+
         </div>
+        <div class="flex-item-right">
+            <img src="{{ asset('/images/image2.jpg') }}" alt="">
+        </div>
+    </div>
 
         {{-- Sección Botones --}}
     <div class="course-pro-buttons background-ligth uk-hidden@s" id="transformatepro-section">

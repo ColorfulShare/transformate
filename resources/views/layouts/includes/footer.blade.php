@@ -1,19 +1,19 @@
 <footer class="footer-section header-background-ligth" id="footer">
-    <div class="uk-column-1-2@s uk-column-1-2@m uk-column-1-4@l">
-        <div class="uk-text-white">
-            <img src="{{ asset('template/images/logopngblanco.png')}}" style="width: 70%;"><br>
+<div class="uk-column-1-2@s uk-column-1-2@m uk-column-1-4@l">
+    <div class="uk-text-white">
+        <img src="{{ asset('template/images/logopngblanco.png')}}" style="width: 70%;"><br>
                     &copy; Transfórmatepro 2020 Todos los derechos reservados<br>
                     Políticas de privacidad.
-        </div>
+    </div>
 
-        <div class="uk-text-white">
-            <span style="font-size: 18px; font-weight: 500;">¿Quieres recibir noticias sobre nosotros?</span>
-            <span style="font-size: 14px;">Sé el primero en enterarte sobre las últimas promociones y novedades sobre nosotros</span><br>
-            <button type="submit" class="uk-button button-suscription" href="#modal-newsletter" uk-toggle>Suscríbete</button><br>
-            <span style="font-size: 18px; font-weight: 500;">Linea de atención PRO 3016088008</span>
-        </div>
+    <div class="uk-text-white">
+        <span style="font-size: 18px; font-weight: 500;">¿Quieres recibir noticias sobre nosotros?</span>
+        <span style="font-size: 14px;">Sé el primero en enterarte sobre las últimas promociones y novedades sobre nosotros</span><br>
+        <button type="submit" class="uk-button button-suscription" href="#modal-newsletter" uk-toggle>Suscríbete</button><br>
+        <span style="font-size: 18px; font-weight: 500;">Linea de atención PRO 3016088008</span>
+    </div>
 
-        <div class="uk-text-white">
+    <div class="uk-text-white">
             <span style="font-size: 18px; font-weight: 500;">Redes</span><br>
             <style>
                ul.social-network {
@@ -94,5 +94,6 @@
             <span style="font-size: 14px;">Déjanos tu comentario, sugerencia o pregunta por aquí</span><br>
             <button type="button" class="uk-button button-suscription"  href="#modal-contact-us" uk-toggle>Contáctanos</button>
         </div>
-    </div>
+
+</div>
 </footer>
