@@ -43,14 +43,14 @@
         <div class="background-ligth uk-text-center" id="t-member-tabs">
             <div id="t-mentor-section">
                 <div class="t-member-text color-ligth2" id="t-member-text">
-                    Si eres Mentor o Potencial Mentor de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE USD$ 100 ANUALES, con la que obtendrás los siguientes beneficios.
+                    Si eres Mentor o Potencial Mentor de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ 99.000 o USD$ 29 ANUALES, con la que obtendrás los siguientes beneficios.
                 </div>
 
                 <div class="uk-child-width-1-3@m uk-child-width-1-1@s t-member-items" uk-grid>
                     <div class="uk-text-center color-ligth2" id="t-member-item-1">
                         <img src="{{ asset('template/images/Grupo_277.png') }}" class="img-item">
                         <div class="text-item">
-                            Un super descuento del 30% en el valor de cualquiera de los servicios de producción audiovisual de tus cursos online y en el marketing de contenidos, que a continuación te ofrecemos. Este descuento tambien aplica a los packs.
+                            Un super descuento en el valor de todos los T courses, Mentorings y T Books que curses durante todo el año en nuestra Plataforma.
                         </div>
                     </div>
                     <div class="uk-text-center color-ligth2" id="t-member-item-2">
@@ -62,7 +62,7 @@
                     <div class="uk-text-center color-ligth2" id="t-member-item-3">
                         <img src="{{ asset('template/images/Grupo_226.png') }}" class="img-item">
                         <div class="text-item">
-                            Harás parte de la comunidad más global de Mentores Transformadores, con la posibilidad de generar sinergias y economías colaborativas.
+                           Un super descuento del 30% en cualquiera de los servicios de nuestra Productora Audiovisual Transformatepro.
                         </div>
                     </div>
                 </div>
@@ -76,39 +76,39 @@
                     <div class="uk-text-center color-ligth2" id="t-member-item-5">
                         <img src="{{ asset('template/images/Grupo_218.png') }}" class="img-item">
                         <div class="text-item">
-                            Un super descuento del 20% en el valor de cualquiera de los cursos que tomes en la plataforma TransfórmatePRO.
+                            Un super descuento del 30% en el valor de todos los T Events (Congresos y Mentorías en directo) que realizamos durante todo el año.
                         </div>
                     </div>
                 </div>
 
                 <div class="color-ligth2" id="t-member-observation">
                     <b>SERVICIOS PRODUCTORA TRANSFÓRMATE</b><br>
-                    CON LA T-MEMBER 100 DÓLARES ANUALES, PODRÁS ACCEDER A CUALQUIER SERVICIO CON UN 30% DE DESCUENTO.
+                    CON LA T-MEMBER DE COP$ 99.000 o USD$ 29 ANUALES, PODRÁS ACCEDER A CUALQUIER SERVICIO CON UN 30% DE DESCUENTO.
                 </div>
             </div>
 
             <div id="t-member-section" style="display: none;">
                 <div class="t-member-text color-ligth2" id="t-member-text2">
-                    Si eres Miembro o Potencial Miembro de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE USD$ 100 ANUALES, con la que obtendrás los siguientes beneficios.
+                    Si eres Miembro o Potencial Miembro de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ 99.000 o USD$ 29 ANUALES, con la que obtendrás los siguientes beneficios.
                 </div>
 
                 <div class="uk-child-width-1-3@m uk-child-width-1-1@s t-member-items" uk-grid>
                     <div class="uk-text-center color-ligth2" id="t-member-item-21">
                         <img src="{{ asset('template/images/Grupo_218.png') }}" class="img-item">
                         <div class="text-item">
-                            Un super descuento del 20% en el valor de cualquiera de los cursos que tomes en la plataforma TransfórmatePRO.
+                            Un super descuento del 30% en el valor de todos los T Events (Congresos y Mentorías en directo) que realizamos durante todo el año.
                         </div>
                     </div>
                     <div class="uk-text-center color-ligth2" id="t-member-item-22">
                         <img src="{{ asset('template/images/Grupo_277.png') }}" class="img-item">
                         <div class="text-item">
-                            Un súper descuento del 30% en el valor de cualquiera de los servicios de producción audiovisual, cursos online y en el marketing de contenidos, que a continuación te ofrecemos.
+                            Un super descuento en el valor de todos los T courses, Mentorings y T Books que curses durante todo el año en nuestra Plataforma.
                         </div>
                     </div>
                     <div class="uk-text-center color-ligth2" id="t-member-item-23">
                         <img src="{{ asset('template/images/Grupo_226.png') }}" class="img-item">
                         <div class="text-item">
-                            Obtendrás un Perfil Blue T-Member con el cuál podrás acceder a los eventos T-EXPRO de tu ciudad, presenciales y virtuales con un 30% de descuento.
+                           Un super descuento del 30% en cualquiera de los servicios de nuestra Productora Audiovisual Transformatepro.
                         </div>
                     </div>
                     <div class="uk-text-center color-ligth2" id="t-member-item-24">
@@ -129,6 +129,19 @@
                             Recibirás nuestro Newsletter con eventos, promociones, tips y tendencias.
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="uk-child-width-1-2@m uk-child-width-1-1@s t-member-buttons" uk-grid>
+                <div class="uk-width-1-1@s uk-width-1-2@m show-more-div" style="margin-bottom: 10px;">
+                    <button class="button-transformate btn-buy-course">
+                        <a class="no-link" href="https://www.transformatepro.com/documents/productora-transformate-def.pdf" target="_blank" id="link-show-more"> Ver Más Información</a>
+                    </button>
+                </div>
+                <div class="uk-width-1-1@s uk-width-1-2@m buy-course-div" style="margin-top: 0px;">
+                    <button class="button-transformate btn-show-more">
+                        <a class="no-link" href="{{ route('landing.shopping-cart.store', [1, 'membresia']) }}">  Adquirir Membresía</a>
+                    </button>
                 </div>
             </div>
 
@@ -234,19 +247,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="uk-child-width-1-2@m uk-child-width-1-1@s t-member-buttons" uk-grid>
-            <div class="uk-width-1-1@s uk-width-1-2@m show-more-div" style="margin-bottom: 10px;">
-                <button class="button-transformate btn-buy-course">
-                    <a class="no-link" href="https://www.transformatepro.com/documents/t MENTOR pro_TRANSFORMATE_180520.pdf" target="_blank" id="link-show-more"> Ver Más Información</a>
-                </button>
-            </div>
-            <div class="uk-width-1-1@s uk-width-1-2@m buy-course-div" style="margin-top: 0px;">
-                <button class="button-transformate btn-show-more">
-                    <a class="no-link" href="{{ route('landing.shopping-cart.store', [1, 'membresia']) }}">  Adquirir Membresía</a>
-                </button>
             </div>
         </div>
         

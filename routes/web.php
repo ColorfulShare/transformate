@@ -179,7 +179,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 		Route::get('/', 'LandingController@courses')->name('students.courses');
 		Route::get('resume/{slug}/{id}', 'CourseController@resume')->name('students.courses.resume')->middleware('course_student');
 		Route::get('lessons/{slug}/{id}/{lesson_id}', 'CourseController@lessons')->name('students.courses.lessons');
-		Route::get('add/{id}', 'CourseController@add')->name('students.courses.add');
+		Route::get('add/{id}/{membresia?}', 'CourseController@add')->name('students.courses.add');
 		Route::get('load-video-duration/{leccion}/{duracion?}', 'LessonController@load_video_duration')->name('students.courses.lessons.load-video-duration');
 	});
 

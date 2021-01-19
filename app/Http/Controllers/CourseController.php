@@ -233,10 +233,15 @@ class CourseController extends Controller
     }
 
     //**** Estudiante / Ver Curso / Tomar Curso (Guatuito) ****//
-    public function add($curso){
+    public function add($curso, $membresia = NULL){
         DB::table('courses_students')
             ->insert(['course_id' => $curso, 'user_id' => Auth::user()->id, 'progress' => 0, 'start_date' => date('Y-m-d')]);
 
+        if (!is_null($membresia)){
+            DB::table('users')
+                ->where('id', '=', Auth::user()->id)
+                ->update(['membership_courses' => Auth::user()->membership_courses+1]);
+        }
         return redirect('students/my-content')->with('msj-exitoso', 'El curso ha sido añadido a su lista con éxito');
     }
 

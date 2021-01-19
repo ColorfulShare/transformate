@@ -159,7 +159,7 @@ class PaypalController extends BaseController
             	$cuponAplicado = NULL;
             }
 
-            $ultCompra = DB::table('purchases')
+            /*$ultCompra = DB::table('purchases')
                         ->select('id')
                         ->where('user_id', '=', Auth::user()->id)
                         ->where('status', '=', 1)
@@ -176,7 +176,7 @@ class PaypalController extends BaseController
 	            if ($detallesUltCompra > 0){
 	                $descuentoCodigo = 1;
 	            }
-	        }
+	        }*/
 
 	        $totalOriginal = 0;
 			$totalCompra = 0;
@@ -187,7 +187,7 @@ class PaypalController extends BaseController
 						if (is_null(Auth::user()->membership_id)){
 							$totalCompra += ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $totalCompra += ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
 					}else if (!is_null($item->podcast_id)){
@@ -195,7 +195,7 @@ class PaypalController extends BaseController
 						if (is_null(Auth::user()->membership_id)){
 							$totalCompra += ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $totalCompra += ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
 					}else if (!is_null($item->membership_id)){
@@ -213,14 +213,14 @@ class PaypalController extends BaseController
 						if (is_null(Auth::user()->membership_id)){
 							$totalCompra += $item->course->price;
                         }else{
-                            $totalCompra += (($item->course->price * 20) / 100);
+                            $totalCompra += (($item->course->price * 70) / 100);
                         }
 					}else if (!is_null($item->podcast_id)){
 						$totalOriginal += $item->podcast->price;
 						if (is_null(Auth::user()->membership_id)){
 							$totalCompra += $item->podcast->price;
                         }else{
-                            $totalCompra += (($item->podcast->price * 50) / 100);
+                            $totalCompra += (($item->podcast->price * 70) / 100);
                         }
 					}else if (!is_null($item->membership_id)){
 						$totalOriginal += $item->membership->price;
@@ -232,7 +232,7 @@ class PaypalController extends BaseController
 				} 
             }
 
-            if ($descuentoCodigo == 1){
+            if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
             	$totalCompra = (($totalCompra * 90) / 100);
             }
 
@@ -248,7 +248,7 @@ class PaypalController extends BaseController
 			if (!is_null(Auth::user()->membership_id)){
 				$compra->membership_discount = 1;
 			}
-			$compra->instructor_code_discount = $descuentoCodigo;
+			//$compra->instructor_code_discount = $descuentoCodigo;
 			$compra->date = date('Y-m-d');
 			$compra->save();
 
@@ -265,14 +265,14 @@ class PaypalController extends BaseController
 						if (is_null(Auth::user()->membership_id)){
 							$detalle->amount = ( $item2->course->price - (($item2->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item2->course->price * 20) / 100);
+                            $precioConMembresia = (($item2->course->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
 					}else{
 						if (is_null(Auth::user()->membership_id)){
 							$detalle->amount = $item2->course->price;
                         }else{
-                            $detalle->amount = (($item2->course->price * 20) / 100);
+                            $detalle->amount = (($item2->course->price * 70) / 100);
                         }
 					}
 				}else if (!is_null($item2->podcast_id)){
@@ -282,14 +282,14 @@ class PaypalController extends BaseController
 						if (is_null(Auth::user()->membership_id)){
 							$detalle->amount = ( $item2->podcast->price - (($item2->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item2->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item2->podcast->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
 					}else{
 						if (is_null(Auth::user()->membership_id)){
 							$detalle->amount = $item2->podcast->price;
                         }else{
-                            $detalle->amount = (($item2->podcast->price * 50) / 100);
+                            $detalle->amount = (($item2->podcast->price * 70) / 100);
                         }
 					}
 				}else if (!is_null($item2->membership_id)){
@@ -310,7 +310,7 @@ class PaypalController extends BaseController
 					}
 				}
 				$detalle->instructor_code = $item2->instructor_code;
-				if ($descuentoCodigo == 1){
+				if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
 					$detalle->amount = (($detalle->amount * 90) / 100);
 				}
 				$detalle->save();

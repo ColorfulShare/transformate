@@ -65,7 +65,7 @@ class ShoppingCartController extends Controller
                 $cuponAplicado = null;
             }
 
-            $ultCompra = DB::table('purchases')
+            /*$ultCompra = DB::table('purchases')
                             ->select('id')
                             ->where('user_id', '=', Auth::user()->id)
                             ->where('status', '=', 1)
@@ -82,7 +82,7 @@ class ShoppingCartController extends Controller
                 if ($detallesUltCompra > 0){
                     $descuentoCodigo = 1;
                 }
-            }
+            }*/
 
             $cantItems = 0;
             $cantItemsInstructorCode = 0;
@@ -190,11 +190,11 @@ class ShoppingCartController extends Controller
                 }         
             }
 
-            if ($descuentoCodigo == 1){
+            if ( ($cantItemsInstructorCode > 0) || ($cantItemsPartnerCode > 0) ){
                 $totalItems = (($totalItems * 90) / 100);
             }
             
-        	return view('landing.shoppingCart.index')->with(compact('items', 'cantItems', 'totalItems', 'totalAnterior', 'descuentoCodigo', 'cuponAplicado', 'cantItemsInstructorCode', 'cantItemsPartnerCode', 'cantGifts'));
+        	return view('landing.shoppingCart.index')->with(compact('items', 'cantItems', 'totalItems', 'totalAnterior', 'cuponAplicado', 'cantItemsInstructorCode', 'cantItemsPartnerCode', 'cantGifts'));
         }
     }
 
@@ -471,7 +471,7 @@ class ShoppingCartController extends Controller
                 $cuponAplicado = null;
             }
 
-            $ultCompra = DB::table('purchases')
+            /*$ultCompra = DB::table('purchases')
                             ->select('id')
                             ->where('user_id', '=', Auth::user()->id)
                             ->where('status', '=', 1)
@@ -488,7 +488,7 @@ class ShoppingCartController extends Controller
                 if ($detallesUltCompra > 0){
                     $descuentoCodigo = 1;
                 }
-            }
+            }*/
 
             $cantItems = 0;
             $cantItemsInstructorCode = 0;
@@ -560,23 +560,15 @@ class ShoppingCartController extends Controller
                 }
             }
 
-            if ($descuentoCodigo == 1){
-                if ( ($cantItemsInstructorCode > 0) || ($cantItemsPartnerCode > 0) ){
-                    $totalItems = (($totalItems * 80) / 100);
-                }else{
-                    $totalItems = (($totalItems * 90) / 100);
-                }
-            }else{ 
-                if ( ($cantItemsInstructorCode > 0) || ($cantItemsPartnerCode > 0) ){
-                    $totalItems = (($totalItems * 90) / 100);
-                }
+            if ( ($cantItemsInstructorCode > 0) || ($cantItemsPartnerCode > 0) ){
+                $totalItems = (($totalItems * 90) / 100);
             }
 
             \MercadoPago\SDK::setAccessToken("APP_USR-1902410051285318-043020-57263f6c7aa781de7dba01fd37458c14-515837620");
             $payment_methods = \MercadoPago\SDK::get("/v1/payment_methods");
             $bancosDisponibles = $payment_methods['body'][8]['financial_institutions'];
 
-            return view('landing.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior', 'descuentoCodigo', 'bancosDisponibles'));
+            return view('landing.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior', 'bancosDisponibles'));
         }
     }
 
@@ -599,7 +591,7 @@ class ShoppingCartController extends Controller
                                 ->first();
         }
 
-        $ultCompra = DB::table('purchases')
+        /*$ultCompra = DB::table('purchases')
                         ->select('id')
                         ->where('user_id', '=', Auth::user()->id)
                         ->where('status', '=', 1)
@@ -617,7 +609,7 @@ class ShoppingCartController extends Controller
             if ($detallesUltCompra > 0){
                 $descuentoCodigo = 1;
             }
-        }
+        }*/
 
         $compra = new Purchase();
         $compra->user_id = Auth::user()->id;
@@ -631,7 +623,7 @@ class ShoppingCartController extends Controller
         if (!is_null(Auth::user()->membership_id)){
             $compra->membership_discount = 1;
         }
-        $compra->instructor_code_discount = $descuentoCodigo;
+        //$compra->instructor_code_discount = $descuentoCodigo;
         $compra->date = date('Y-m-d');
         $compra->status = $status;
         $compra->save();
@@ -651,18 +643,18 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                     }else{
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = $item->course->price;
                         }else{
-                            $detalle->amount = (($item->course->price * 20) / 100);
+                            $detalle->amount = (($item->course->price * 70) / 100);
                         }
                     }
 
-                    if ($descuentoCodigo == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $detalle->amount = (($detalle->amount * 90) / 100);
                     }
 
@@ -693,18 +685,18 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                     }else{
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = $item->podcast->price;
                         }else{
-                            $detalle->amount = (($item->podcast->price * 50) / 100);
+                            $detalle->amount = (($item->podcast->price * 70) / 100);
                         }
                     }
 
-                    if ($descuentoCodigo == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $detalle->amount = (($detalle->amount * 90) / 100);
                     }
                     
@@ -736,9 +728,6 @@ class ShoppingCartController extends Controller
                     }else{
                         $detalle->amount = $item->membership->price;
                     }
-                    if ($descuentoCodigo == 1){
-                        $detalle->amount = (($detalle->amount * 90) / 100);
-                    }
                     $detalle->save();
 
                     $fechaActual = new Carbon();
@@ -755,10 +744,6 @@ class ShoppingCartController extends Controller
                         $detalle->amount = ( $item->market_product->price - (($item->market_product->price * $cuponAplicado->discount) / 100));
                     }else{
                         $detalle->amount = $item->market_product->price;
-                    }
-
-                    if ($descuentoCodigo == 1){
-                        $detalle->amount = (($detalle->amount * 90) / 100);
                     }
                     $detalle->save();
 
@@ -800,18 +785,18 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                     }else{
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = $item->course->price;
                         }else{
-                            $detalle->amount = (($item->course->price * 20) / 100);
+                            $detalle->amount = (($item->course->price * 70) / 100);
                         }
                     }
 
-                    if ($descuentoCodigo == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $detalle->amount = (($detalle->amount * 90) / 100);
                     }
 
@@ -823,18 +808,18 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                     }else{
                         if (is_null(Auth::user()->membership_id)){
                             $detalle->amount = $item->podcast->price;
                         }else{
-                            $detalle->amount = (($item->podcast->price * 50) / 100);
+                            $detalle->amount = (($item->podcast->price * 70) / 100);
                         }
                     }
 
-                    if ($descuentoCodigo == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $detalle->amount = (($detalle->amount * 90) / 100);
                     }
                     $detalle->save();
@@ -846,9 +831,6 @@ class ShoppingCartController extends Controller
                     }else{
                         $detalle->amount = $item->membership->price;
                     }
-                    if ($descuentoCodigo == 1){
-                        $detalle->amount = (($detalle->amount * 90) / 100);
-                    }
                     $detalle->save();
                 }else if (!is_null($item->product_id)){
                     $detalle->product_id = $item->podcast_id;
@@ -857,9 +839,6 @@ class ShoppingCartController extends Controller
                         $detalle->amount = ( $item->market_product->price - (($item->market_product->price * $cuponAplicado->discount) / 100));
                     }else{
                         $detalle->amount = $item->market_product->price;
-                    }
-                    if ($descuentoCodigo == 1){
-                        $detalle->amount = (($detalle->amount * 90) / 100);
                     }
                     $detalle->save();
                 }

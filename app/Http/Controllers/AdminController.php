@@ -773,7 +773,7 @@ class AdminController extends Controller
             if ($request->featured == 0){
                 return redirect('admins/t-courses/featured')->with('msj-exitoso', 'El T-Course ha sido removido de los destacados con éxito.');
             }else{
-                 return redirect('admins/courses/featured')->with('msj-exitoso', 'El T-Course ha sido agregado a los destacados con éxito.');
+                 return redirect('admins/t-courses/featured')->with('msj-exitoso', 'El T-Course ha sido agregado a los destacados con éxito.');
             }
         }else if (isset($request->certification_id)){
              DB::table('certifications')
