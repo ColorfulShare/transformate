@@ -61,7 +61,7 @@
 	                    </div>
 	                    <div class="uk-width-1-1">
 	                    	Subtítulo: 
-	                    	<input class="uk-input" type="text" name="subtitle" value="{{ $curso->subtitle }}" maxlength="100" required>
+	                    	<input class="uk-input" type="text" name="subtitle" value="{{ $curso->subtitle }}" required>
 	                    </div>
 	                    <div class="uk-width-1-2">
 	                    	Categoría: 

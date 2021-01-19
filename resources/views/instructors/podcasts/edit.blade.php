@@ -355,7 +355,7 @@
 
 					   			<div class="uk-width-1-1">
 						        	<label class="uk-form-label" for="subtitle"><b>Subtítulo:</b></label>
-						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" placeholder="Subtítulo del Podcast" maxlength="100" value="{{ $podcast->subtitle }}"> 
+						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" placeholder="Subtítulo del Podcast" value="{{ $podcast->subtitle }}"> 
 						    	</div>
 
 							    <div class="uk-width-1-2">

@@ -90,12 +90,12 @@
 				    		<div class="uk-grid">
 					    		<div class="uk-width-1-1">
 					    			<label class="uk-form-label" for="title"><b>Título:</b></label>
-						            <input class="uk-input" id="title" name="title" type="text" value="{{ old('title') }}"placeholder="Título del Curso"> 
+						            <input class="uk-input" id="title" name="title" type="text" value="{{ old('title') }}" placeholder="Título del Curso"> 
 					   			</div> 
 
 					   			<div class="uk-width-1-1">
 						        	<label class="uk-form-label" for="subtitle"><b>Subtítulo:</b></label>
-						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" value="{{ old('subtitle') }}"placeholder="Subtítulo del Curso" maxlength="100"> 
+						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" value="{{ old('subtitle') }}" placeholder="Subtítulo del Curso"> 
 						    	</div>
 
 							    <div class="uk-width-1-2">
