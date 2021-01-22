@@ -78,7 +78,11 @@
 	                    	<option value="1" @if ($evento->status == 1) selected @endif>Disponible</option>
 	                    	<option value="0" @if ($evento->status == 0) selected @endif>No Disponible</option>
 	                    </select> 
-	                </div> 
+	                </div>
+	                <div class="uk-width-1-1 uk-margin-small-bottom">
+                        Breve Leyenda (*):
+                        <input class="uk-input" type="text" name="legend" maxlength="200" value="{{ $evento->legend }}" required>
+                    </div> 
 	                <div class="uk-width-1-1"> 
 	                    <div class="uk-form-label">Descripción</div>    
 	                    <textarea name="description" rows="10">{{ $evento->description }}</textarea>

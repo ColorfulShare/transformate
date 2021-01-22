@@ -1,5 +1,5 @@
 <footer class="footer-section header-background-ligth" id="footer">
-   <div class="uk-child-width-1-4" uk-grid>
+   <div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid>
       <div class="uk-text-white">
          <img src="{{ asset('template/images/logopngblanco.png')}}" style="width: 70%;"><br>
          &copy; Transfórmatepro 2020 Todos los derechos reservados<br>

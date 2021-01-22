@@ -129,6 +129,10 @@
                             </select>
                         </div>
                         <div class="uk-width-1-1 uk-margin-small-bottom">
+                            Breve Leyenda (*):
+                            <input class="uk-input" type="text" name="legend" placeholder="Leyenda del evento" maxlength="200" required>
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-small-bottom">
                             Descripción (*):
                             <textarea class="ckeditor" name="description" rows="10"></textarea>
                             <script>

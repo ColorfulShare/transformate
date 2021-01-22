@@ -47,7 +47,7 @@
             <div class="uk-card-header uk-text-bold">
                 <i class="fas fa-user uk-margin-small-right"></i> Detalles de Curso
             </div>   
-            <form action="{{ route('admins.courses.update') }}" method="POST">
+            <form action="{{ route('admins.courses.update') }}" method="POST" enctype="multipart/form-data">
             	@csrf
             	<input type="hidden" name="course_id" value="{{ $curso->id }}">           
 		        <div class="uk-card-body"> 
@@ -55,6 +55,10 @@
 		            	<div class="uk-width-1-1 uk-text-center">
 		            		<img src="{{ asset('uploads/images/courses/'.$curso->cover) }}" style="width: 400px;">
 		            	</div>
+		            	<div class="uk-width-1-1">
+	                    	Cambiar Portada: 
+	                    	<input class="uk-input" type="file" name="cover">
+	                    </div>
 	                    <div class="uk-width-1-1">
 	                    	Título: 
 	                    	<input class="uk-input" type="text" name="title" value="{{ $curso->title }}" required>

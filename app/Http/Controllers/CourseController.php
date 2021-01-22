@@ -316,6 +316,14 @@ class CourseController extends Controller
                     );
                 }
             }
+
+            if ($request->hasFile('cover')){
+                $file = $request->file('cover');
+                $name = $curso->id.".".$file->getClientOriginalExtension();
+                $file->move(public_path().'/uploads/images/courses', $name);
+                $curso->cover = $name;
+                $curso->cover_name = $file->getClientOriginalName();
+            }
             
             $curso->save();
 

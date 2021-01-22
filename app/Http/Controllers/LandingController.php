@@ -99,7 +99,15 @@ class LandingController extends Controller
         
         $cantEventos = $eventos->count();
 
-        return view('landing.indexNew')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'cursosAgregados', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
+        $cantMasterClass = DB::table('master_class')
+                                ->where('status', '=', 1)
+                                ->count();
+
+        $cantPodcasts = DB::table('podcasts')
+                                ->where('status', '=', 2)
+                                ->count();
+
+        return view('landing.indexNew')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'cursosAgregados', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts'));
     }
     
     /** Landing / Home **/

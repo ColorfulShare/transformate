@@ -233,7 +233,7 @@
 }
 
 .content-image {
-    height: 80% !important;
+    height: 100% !important;
 }
 
 .image-category-div {
@@ -268,8 +268,9 @@
 }
 
 .course-title {
-    font-size: 16px;
-    font-weight: bold;
+    color: #1B4965;
+    font-size: 22px;
+    font-weight: 700;
     -moz-line-clamp: 2;
     -o-line-clamp: 2;
     -moz-box-orient: vertical;
@@ -296,16 +297,30 @@
     padding-bottom: 5px;
     padding-top: 5px;
     color: #5FA8D3;
+    font-weight: 700;
+}
+
+.course-category {
+    font-size: 16px;
+    color: #8A8A8A;
+    font-weight: 700;
+}
+
+.course-price {
+    font-size: 16px;
+    color: white !important;
+    font-weight: 700;
 }
 
 .show-more-link {
-    font-size: 17px;
-    color: #034a91 !important;
-    font-weight: bold;
+    font-size: 16px;
+    color: #0877BB;
+    font-weight: 700;
     text-decoration: underline;
 }
 
 .course-subtitle {
+    color: #8A8A8A;
     font-weight: 400;
     line-height: 1.2;
     font-size: 14px;

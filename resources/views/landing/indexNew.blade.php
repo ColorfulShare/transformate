@@ -46,7 +46,7 @@
                                     <div class="contenflex" style="padding-left: 10%; padding-right: 10%;">
                                         <div class="uk-text-bold title" style="color: white; line-height: 28px;">{{ $evento->title }}</div>
                                         <p class="descrip">
-                                            <h5>{{ $evento->description }}</h5><br>
+                                            <h5>{{ $evento->legend }}</h5><br>
                                         </p>
 
                                         <div uk-grid>
@@ -105,12 +105,9 @@
                         <div class="uk-card uk-card-small card-background-ligth" id="curso-destacado-{{$cursoDestacado->id}}">
                             <div class="uk-card-media-top image-div">
                                 @if (!is_null($cursoDestacado->preview))
-                                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                        <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                </a>
+                                    <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}">
+                                        <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
+                                    </a>
                                 @else
                                 <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
                                     <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
@@ -119,11 +116,11 @@
                             </div>
                             <div class="uk-card-body card-body" style="padding-top: 2%; ">
                                 <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
-                                    <div style="min-height: 170px;">
-                                        <div class="course-title color-ligth2" id="course-destacado-{{$cursoDestacado->id}}">{{ $cursoDestacado->title }}</div>
-                                        <div class="course-instructor color-ligth2" id="course-destacado-instructor-{{$cursoDestacado->id}}">Por: {{ $cursoDestacado->user->names.' '.$cursoDestacado->user->last_names }}</div>
-                                        <div class="color-ligth3" id="course-destacado-subtitle-{{$cursoDestacado->id}}"><strong>{{ $cursoDestacado->category->title }}</strong></div>
-                                        <div class="course-subtitle color-ligth3" id="course-destacado-subtitle-{{$cursoDestacado->id}}">{{ strtolower($cursoDestacado->subtitle) }}</div>
+                                    <div style="min-height: 215px;">
+                                        <div class="course-title">{{ $cursoDestacado->title }}</div>
+                                        <div class="course-instructor">Por: {{ $cursoDestacado->user->names.' '.$cursoDestacado->user->last_names }}</div>
+                                        <div class="course-category"><strong>{{ $cursoDestacado->category->title }}</strong></div>
+                                        <div class="course-subtitle">{{ strtolower($cursoDestacado->subtitle) }}</div>
 
                                         <br>
                                         <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">Ver más</a>
@@ -135,7 +132,7 @@
                             </div>
                             <div class="uk-card-footer" style="padding:0px">
                                 <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <h5 class="uk-text-center">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</h5>
+                                    <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -153,9 +150,6 @@
                                 @if (!is_null($cursoVendido->course->preview))
                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoVendido->course_id, 'curso']) }}">
                                     <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                        <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoVendido->course_id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
                                 </a>
                                 @else
                                 <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
@@ -165,11 +159,11 @@
                             </div>
                             <div class="uk-card-body card-body" style="padding-top: 2%; ">
                                 <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
-                                    <div style="min-height: 170px;">
-                                        <div class="course-title color-ligth2" id="course-vendido-{{$cursoVendido->course_id}}">{{ $cursoVendido->course->title }}</div>
-                                        <div class="course-instructor color-ligth2" id="course-vendido-instructor-{{$cursoVendido->course_id}}">Por: {{ $cursoVendido->course->user->names.' '.$cursoVendido->course->user->last_names }}</div>
-                                        <div class="color-ligth3" id="course-vendido-subtitle-{{$cursoVendido->course_id}}"><strong>{{ $cursoVendido->course->category->title }}</strong></div>
-                                        <div class="course-subtitle color-ligth3" id="course-vendido-subtitle-{{$cursoVendido->course_id}}">{{ strtolower($cursoVendido->course->subtitle) }}</div>
+                                    <div style="min-height: 215px;">
+                                        <div class="course-title">{{ $cursoVendido->course->title }}</div>
+                                        <div class="course-instructor">Por: {{ $cursoVendido->course->user->names.' '.$cursoVendido->course->user->last_names }}</div>
+                                        <div class="course-category"><strong>{{ $cursoVendido->course->category->title }}</strong></div>
+                                        <div class="course-subtitle">{{ strtolower($cursoVendido->course->subtitle) }}</div>
 
                                         <br>
                                         <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">Ver más</a>
@@ -181,7 +175,7 @@
                             </div>
                             <div class="uk-card-footer" style="padding:0px">
                                 <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <h5 class="uk-text-center">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</h5>
+                                    <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -199,9 +193,6 @@
                                 @if (!is_null($cursoRecomendado->preview))
                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}">
                                     <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                        <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
                                 </a>
                                 @else
                                 <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
@@ -211,11 +202,11 @@
                             </div>
                             <div class="uk-card-body card-body" style="padding-top: 2%; ">
                                 <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
-                                    <div style="min-height: 170px;">
-                                        <div class="course-title color-ligth2" id="course-recomendado-{{$cursoRecomendado->id}}">{{ $cursoRecomendado->title }}</div>
-                                        <div class="course-instructor color-ligth2" id="course-recomendado-instructor-{{$cursoRecomendado->id}}">Por: {{ $cursoRecomendado->user->names.' '.$cursoRecomendado->user->last_names }}</div>
-                                        <div class="color-ligth3" id="course-recomendado-subtitle-{{$cursoRecomendado->id}}"><strong>{{ $cursoRecomendado->category->title }}</strong></div>
-                                        <div class="course-subtitle color-ligth3" id="course-recomendado-subtitle-{{$cursoRecomendado->id}}">{{ strtolower($cursoRecomendado->subtitle) }}</div>
+                                    <div style="min-height: 215px;">
+                                        <div class="course-title">{{ $cursoRecomendado->title }}</div>
+                                        <div class="course-instructor">Por: {{ $cursoRecomendado->user->names.' '.$cursoRecomendado->user->last_names }}</div>
+                                        <div class="course-category"><strong>{{ $cursoRecomendado->category->title }}</strong></div>
+                                        <div class="course-subtitle">{{ strtolower($cursoRecomendado->subtitle) }}</div>
 
                                         <br>
                                         <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Ver más</a>
@@ -227,7 +218,7 @@
                             </div>
                             <div class="uk-card-footer" style="padding:0px">
                                 <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <h5 class="uk-text-center">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</h5>
+                                    <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -256,22 +247,52 @@
     {{-- Versión Móvil (8 Cards Verticales en dos columnas) --}}
     <div class="best-sellers-cards">
         <div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-1@s" uk-grid>
-            @foreach ($categoriasHome as $categoriaH)
             <div>
-                <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
+                <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
                     <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
-                                <img src="{{ asset('/images/'.$categoriaH->image) }}" style="width:40px;">
+                                <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
                             </div>
                             <div class="uk-width-expand" style="text-align:left;line-height:20px">
-                                <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">{{ $categoriaH->title }}</h3>
-                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $categoriaH->courses_count }} cursos</p>
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">T-Master Class</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantMasterClass }} cursos</p>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
+            <div>
+                <a href="{{ route('landing.courses', ['t-books', 0]) }}">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img src="{{ asset('/images/icon12.png') }}" style="width:40px;">
+                            </div>
+                            <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">T-Books</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantPodcasts }} cursos</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @foreach ($categoriasHome as $categoriaH)
+                <div>
+                    <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
+                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img src="{{ asset('/images/'.$categoriaH->image) }}" style="width:40px;">
+                                </div>
+                                <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">{{ $categoriaH->title }}</h3>
+                                    <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $categoriaH->courses_count }} cursos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             @endforeach
         </div>
     </div>
