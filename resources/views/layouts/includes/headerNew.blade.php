@@ -333,61 +333,6 @@
             @endif
         @endif
 
-        <a href="#" class="header-link">
-            <span class="font-h3">Educación Online <i class="fa fa-chevron-down"></i></span>
-        </a>
-        <div uk-dropdown="pos: bottom" class="categories_dropdown">
-            <div class="uk-grid uk-child-width-1-2 no-padding">
-              <!-- Columna numero 1 menú "Educacion online"-->
-                <div class="no-padding">
-                    <ul class="categories_menu">
-                        <span class="t-cursos">T-Cursos<hr class="hr"></span>
-                        <li style="font-size:14px">
-                            <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
-                                <span><i class="fab fa-tumblr"></i> T-Master Class</span>
-                            </a>
-                        </li>
-                        <li style="font-size:14px">
-                            <a href="{{ route('landing.courses', ['t-books', 0]) }}">
-                                <span><i class="fas fa-book"></i> T-Books</span>
-                            </a>
-                        </li>
-                        @foreach ($categorias as $categoria)
-                            <li style="font-size:14px">
-                                <a href="{{ route('landing.courses', [$categoria->slug, $categoria->id]) }}">
-                                    <span><i class="{{ $categoria->icon }}"></i> {{ $categoria->title }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-                <div>
-                <a class="logo-img" href="{{ route('landing.t-member') }}">
-                    <img src="{{ asset('template/images/promo.png')}}" alt="">
-                </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="menu-links">
-            @if (Auth::guest())
-                <a href="{{ route('landing.t-mentor') }}" class="header-link">
-                    <span class="font-h3">T-Mentor</span>
-                </a>
-            @elseif (Auth::user()->role_id == 2)
-                <a href="{{ route('landing.t-mentor') }}" class="header-link">
-                    <span class="font-h3">T-Mentor</span>
-                </a>
-            @endif
-            <a href="{{ route('landing.t-member') }}" class="header-link">
-                <span class="font-h3">T-Member</span>
-            </a>
-            @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
-                <a href="{{ route('students.my-content') }}" class="header-link">
-                    <span class="font-h3">Mis Cursos</span>
-                </a>
-            @endif
-        </div>
         <div class="menu-links-reduced">
             <a href="#" class="link-reduced">
                 <span class="font-h3">...</span>
@@ -428,13 +373,47 @@
 
     {{-- Menú de Opciones--}}
     <div class="uk-navbar-right header-large-right">
-        <div class="uk-navbar-item">
-            <form action="{{ route('landing.search') }}" method="GET" id="search-form-pc">
-                <div class="uk-inline">
-                    <a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search;" onclick="buscar('pc');"></a>
-                    <input class="uk-input" type="text" name="busqueda" placeholder="Buscar cursos...">
+
+        <a href="#" class="header-link">
+            <span class="font-h3">T-Cursos <i class="fa fa-chevron-down"></i></span>
+        </a>
+        <div uk-dropdown="pos: bottom" class="categories_dropdown">
+            <div class="uk-grid uk-child-width-1-2 no-padding">
+              <!-- Columna numero 1 menú "Educacion online"-->
+                <div class="no-padding">
+                    <ul class="categories_menu">
+                        <span class="t-cursos">T-Cursos<hr class="hr"></span>
+                        <li style="font-size:14px">
+                            <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+                                <span><i class="fab fa-tumblr"></i> T-Master Class</span>
+                            </a>
+                        </li>
+                        <li style="font-size:14px">
+                            <a href="{{ route('landing.courses', ['t-books', 0]) }}">
+                                <span><i class="fas fa-book"></i> T-Books</span>
+                            </a>
+                        </li>
+                        @foreach ($categorias as $categoria)
+                            <li style="font-size:14px">
+                                <a href="{{ route('landing.courses', [$categoria->slug, $categoria->id]) }}">
+                                    <span><i class="{{ $categoria->icon }}"></i> {{ $categoria->title }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-            </form>
+                <div>
+                <a class="logo-img" href="{{ route('landing.t-member') }}">
+                    <img src="{{ asset('template/images/promo.png')}}" alt="">
+                </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-links" style="border-right: 4px solid #fff;margin-right: 15px;">
+            <a href="{{ route('landing.events') }}" class="header-link">
+                <span class="font-h3">T-Eventos</span>
+            </a>
         </div>
 
         @if ( (!Auth::guest()) && (Auth::user()->role_id < 3) )

@@ -44,6 +44,64 @@ class LandingController extends Controller
 
         return redirect('/')->with('msj-exitoso', 'Tu mensaje ha sido enviado con éxito');
     }
+    
+    public function index2(){
+        $url = explode("www", \Request::url());
+        if (count($url) > 1){
+            $www = 1;
+        }else{
+            $www = 0;
+        }
+
+        $categoriasHome = Category::withCount('courses')
+                            ->orderBy('id', 'ASC')
+                            ->get();
+        
+
+        $cursosDestacados = Course::where('status', '=', 2)
+                                ->where('featured', '=', 1)
+                                ->orderBy('created_at', 'DESC')
+                                ->take(4)
+                                ->get();
+
+        $cursosVendidos = PurchaseDetail::with('course', 'course.user')
+                                ->select('purchase_details.course_id', DB::raw('count(*) as total'))
+                                ->where('course_id', '<>', NULL)
+                                ->groupBy('course_id')
+                                ->orderBy('total', 'DESC')
+                                ->take(4)
+                                ->get();
+        
+        $cursosRecomendados = Course::where('status', '=', 2)
+                                ->orderBy('created_at', 'DESC')
+                                ->take(4)
+                                ->get();
+        
+        $cursosAgregados = NULL;
+
+        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
+            $misCursos = DB::table('courses_students')
+                                ->where('user_id', '=', Auth::user()->id)
+                                ->get();
+
+            $cursosAgregados = array();
+            foreach ($misCursos as $miCurso){
+                array_push($cursosAgregados, $miCurso->course_id);
+            }  
+        }
+
+        $categoriaSeleccionada = 1;
+
+        $eventos = DB::table('events')
+                    ->where('status', '=', 1)
+                    ->orderBy('date', 'ASC')
+                    ->get();
+        
+        $cantEventos = $eventos->count();
+
+        return view('landing.indexNew')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'cursosAgregados', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
+    }
+    
     /** Landing / Home **/
     public function index(){
         $url = explode("www", \Request::url());

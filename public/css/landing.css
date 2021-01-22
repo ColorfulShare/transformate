@@ -29,7 +29,11 @@
 }
 
 .color-ligth2 {
-    color: black;
+    color: #1B4965;
+}
+
+.color-ligth3 {
+    color: #8A8A8A;
 }
 
 .color-dark2 {
@@ -41,13 +45,13 @@
 
 .course-pro {
     position: absolute;
-    top: 40%;
+    top: 25%;
     left: 5%;
 }
 
 .course-pro .title {
     color: black;
-    font-size: 35px;
+    font-size: 30px;
 }
 
 .course-pro .description {
@@ -92,7 +96,8 @@
     text-decoration: none;
 }
 
-.courses-button {
+
+/*.courses-button {
     padding: 6px;
     display: block;
     font-size: 18px;
@@ -103,6 +108,7 @@
     color: white;
     background-color: #034a91;
     width: 100%;
+    border-radius: 10px;
 }
 
 .courses-button:hover {
@@ -110,7 +116,7 @@
     color: #034a91;
     border: solid #034a91 1px;
     text-decoration: none;
-}
+}*/
 
 .courses-button-white {
     padding: 15px 45px;
@@ -122,11 +128,28 @@
     color: #034a91;
     background-color: white;
     width: 100%;
+    border-radius: 10px;
+}
+
+.transf-button {
+    text-align: center;
+    display: block;
+    padding: 8px 0px;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.courses-button-white {
+    padding: 6px 15px;
+    background-color: white;
+    color: #034a91 !important;
+    text-decoration: none;
 }
 
 .courses-button-white:hover {
     background-color: #034a91;
-    color: white;
+    color: white !important;
     border: solid white 1px;
     text-decoration: none;
 }
@@ -269,10 +292,17 @@
 }
 
 .course-instructor {
-    font-size: 14px;
+    font-size: 16px;
     padding-bottom: 5px;
     padding-top: 5px;
-    font-style: italic;
+    color: #5FA8D3;
+}
+
+.show-more-link {
+    font-size: 17px;
+    color: #034a91 !important;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .course-subtitle {
@@ -310,11 +340,27 @@
     font-size: 18px;
 }
 
+.btn-course2 {
+    padding: 8px 15px;
+    background-color: #034a91;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
 .link-course:hover {
     text-decoration: none;
 }
 
 .link-course:hover .btn-course {
+    text-decoration: none;
+    background-color: white;
+    color: #034a91;
+    border: solid #034a91 1px;
+}
+
+.link-course:hover .btn-course2 {
     text-decoration: none;
     background-color: white;
     color: #034a91;
@@ -460,6 +506,15 @@
 .best-sellers-title {
     font-size: 24px;
     font-weight: bold;
+}
+
+.big-title {
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.small-title {
+    font-size: 24px;
 }
 
 .best-seller-image-div {
@@ -763,6 +818,30 @@
     font-size: 45px;
 }
 
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+}
+
+.flex-item-left {
+    padding: 3%;
+    flex: 40%;
+}
+
+.flex-item-right {
+    flex: 60%;
+}
+
+.contenflex {
+    text-align: left;
+}
+
+.descrip {
+    font-size: 22px;
+}
+
 .t-mentor-banner-final .description {
     font-size: 25px;
     font-weight: 400;
@@ -840,6 +919,7 @@
         color: white;
         background-color: #034a91;
         width: 100%;
+        border-radius: 10px;
     }
     .transformate-pro {
         font-size: 22px;
@@ -1029,6 +1109,21 @@
     }
     .start-now-button {
         padding: 10px 30px;
+    }
+}
+
+
+/* Responsive layout - makes a one column-layout instead of two-column layout */
+
+@media (max-width: 800px) {
+    .flex-container {
+        flex-direction: column;
+    }
+    .flex-btn-left {
+        flex: 100%;
+    }
+    .flex-btn-right {
+        flex: 100%;
     }
 }
 

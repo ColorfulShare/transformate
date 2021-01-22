@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $table = 'categories';
 
-    protected $fillable = ['title', 'slug', 'icon', 'color'];
+    protected $fillable = ['title', 'slug', 'icon', 'color', 'image'];
 
     public function subcategories(){
         return $this->hasMany('App\Models\Subcategory');

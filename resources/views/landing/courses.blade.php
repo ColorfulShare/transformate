@@ -216,10 +216,22 @@
 															<a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
 														</div>
 													@elseif (Auth::user()->role_id == 1)
-														@if ($curso->price > 0)
-															<div style="margin-top: 10px;">
-																<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-															</div>
+		  												@if (!is_null(Auth::user()->membership_id))
+		  													@if (Auth::user()->membership_courses < 3)
+																<div style="margin-top: 10px;">
+																	<a class="link-course" href="{{ route('students.courses.add', [$curso->id, 'membresia']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Agregar a Mis Cursos</span></a>
+																</div>
+															@else
+																<div style="margin-top: 10px;">
+																	<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+																</div>
+															@endif
+														@else
+															@if ($curso->price > 0)
+																<div style="margin-top: 10px;">
+																	<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+																</div>
+															@endif
 														@endif
 													@endif
 												@endif
@@ -355,10 +367,22 @@
 																<a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
 															</div>
 														@elseif (Auth::user()->role_id == 1)
-															@if ($cursoPC->price > 0)
-																<div style="margin-top: 10px;">
-																	<a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoPC->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-																</div>
+															@if (!is_null(Auth::user()->membership_id))
+																@if (Auth::user()->membership_courses < 3)
+																	<div style="margin-top: 10px;">
+																		<a class="link-course" href="{{ route('students.courses.add', [$cursoPC->id, 'membresia']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Agregar a Mis Cursos</span></a>
+																	</div>
+																@else
+																	<div style="margin-top: 10px;">
+																		<a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoPC->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+																	</div>
+																@endif
+															@else
+																@if ($cursoPC->price > 0)
+																	<div style="margin-top: 10px;">
+																		<a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoPC->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+																	</div>
+																@endif
 															@endif
 														@endif
 													@endif

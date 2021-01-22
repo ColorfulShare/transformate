@@ -108,7 +108,6 @@
                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next" style="color: black !important;"></a>
             </div>
 
-            <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
          </div>
          <div class="uk-width-1-1 uk-text-center more-courses-div">
             <a class="more-courses-button" href="{{ route('landing.events') }}"> Ver T-Events</a>
@@ -118,9 +117,10 @@
 
    {{-- Sección Botones --}}
    <div class="t-mentor" style="padding: 20px 5% 20px 5%; ">
-      <a href="{{ route('landing.courses.show', ['un-cafe-con-tu-angel-de-la-guarda', 63]) }}"><img src="https://www.transformatepro.com/template/images/CURSO_PRO_DEL_MES_1400_X_500_SUSANA_final-01.png" /></a>
+      <a href="{{ route('landing.t-member') }}" class="uk-visible@s"><img src="https://www.transformatepro.com/images/miembro-pro-10-10.jpg" /></a>
+      <a href="{{ route('landing.t-member') }}" class="uk-hidden@s"><img src="https://www.transformatepro.com/images/miembro-pro-11-11.jpg" /></a>
       <div class="course-pro">
-         <div class="uk-visible@s">
+         <!--<div class="uk-visible@s">
             <div class="uk-text-bold title">TransfórmatePRO expande tu ser</div>
             <div class="description">Más que educación online, una comunidad de transformadores. <br>Conoce nuestro curso PRO del mes.</div>
          </div>
@@ -137,7 +137,7 @@
                   <a class="register-button-blue" href="#modal-register" uk-toggle>Crea Tu Cuenta</a>
                </div>
             </div>
-         </div>
+         </div>-->
       </div>
    </div>
 
@@ -280,11 +280,23 @@
                                              <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
                                           </div>
                                        @elseif (Auth::user()->role_id == 1)
-                                          @if ($cursos[$i]->price > 0)
-                                             <div style="margin-top: 10px;">
-                                                <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursos[$i]->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-                                             </div>
-                                          @endif
+                                            @if (!is_null(Auth::user()->membership_id))
+												@if (Auth::user()->membership_courses < 3)
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('students.courses.add', [$cursos[$i]->id, 'membresia']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Agregar a Mis Cursos</span></a>
+													</div>
+												@else
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursos[$i]->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+													</div>
+												@endif
+											@else
+												@if ($cursos[$i]->price > 0)
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoS[$i]->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+													</div>
+												@endif
+											@endif
                                        @endif
                                     @else
                                        <div>
@@ -386,11 +398,23 @@
                                              <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
                                           </div>
                                        @elseif  (Auth::user()->role_id == 1)
-                                          @if ($curso2->price > 0)
-                                             <div style="margin-top: 10px;">
-                                                <a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso2->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-                                             </div>
-                                          @endif
+                                            @if (!is_null(Auth::user()->membership_id))
+												@if (Auth::user()->membership_courses < 3)
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('students.courses.add', [$curso2->id, 'membresia']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Agregar a Mis Cursos</span></a>
+													</div>
+												@else
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso2->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+													</div>
+												@endif
+											@else
+												@if ($cursos[$i]->price > 0)
+													<div style="margin-top: 10px;">
+														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso2->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+													</div>
+												@endif
+											@endif
                                        @endif
                                     @else
                                        <div>
@@ -502,11 +526,23 @@
                                                       <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
                                                    </div>
                                                 @elseif (Auth::user()->role_id == 1)
-                                                   @if ($curso->price > 0)
-                                                      <div style="margin-top: 10px;">
-                                                         <a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-                                                      </div>
-                                                   @endif
+                                                   @if (!is_null(Auth::user()->membership_id))
+        												@if (Auth::user()->membership_courses < 3)
+        													<div style="margin-top: 10px;">
+        														<a class="link-course" href="{{ route('students.courses.add', [$curso->id, 'membresia']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Agregar a Mis Cursos</span></a>
+        													</div>
+        												@else
+        													<div style="margin-top: 10px;">
+        														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+        													</div>
+        												@endif
+        											@else
+        												@if ($curso->price > 0)
+        													<div style="margin-top: 10px;">
+        														<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
+        													</div>
+        												@endif
+        											@endif
                                                 @endif
                                              @else
                                                 <div>

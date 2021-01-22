@@ -39,6 +39,7 @@
                <a href="{{ route('admins.courses.index') }}">Creados</a>
                <a href="{{ route('admins.courses.pending-for-publication') }}">Pendientes Para Publicación</a>
                <a href="{{ route('admins.courses.published') }}">Publicados</a>
+               <a href="{{ route('admins.courses.featured') }}">Destacados</a>
                <a href="{{ route('admins.courses.disabled-record') }}">Deshabilitados</a>
                <a href="{{ route('admins.courses.home-cover') }}">Configuraciones</a>
                <a href="{{ route('admins.courses.reports.sales') }}">Reportes</a>

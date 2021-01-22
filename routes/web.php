@@ -19,6 +19,8 @@ Route::get('/clear-cache', function() {
     return 'DONE'; //Return anything
 });
 
+Route::get('new-home', 'LandingController@index2');
+
 Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('corregir-comisiones-angelica-carrillo', 'ScriptController@corregir_comisiones_angelica_carrillo');
 	Route::get('asignar-comisiones-eventos-mentores', 'ScriptController@asignar_comisiones_eventos_mentores');
