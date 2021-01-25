@@ -373,6 +373,14 @@
 
     {{-- Menú de Opciones--}}
     <div class="uk-navbar-right header-large-right">
+        <div class="uk-navbar-item">
+            <form action="{{ route('landing.search') }}" method="GET" id="search-form-pc">
+                <div class="uk-inline">
+                    <a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search;" onclick="buscar('pc');"></a>
+                    <input class="uk-input" type="text" name="busqueda" placeholder="Buscar cursos..." style="border-radius: 25px;">
+                </div>
+            </form>
+        </div>
 
         <a href="#" class="header-link">
             <span class="font-h3">T-Cursos <i class="fa fa-chevron-down"></i></span>

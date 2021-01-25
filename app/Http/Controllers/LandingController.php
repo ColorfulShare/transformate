@@ -57,12 +57,16 @@ class LandingController extends Controller
                             ->orderBy('id', 'ASC')
                             ->get();
         
-
+        $cursosID = [];
         $cursosDestacados = Course::where('status', '=', 2)
                                 ->where('featured', '=', 1)
                                 ->orderBy('created_at', 'DESC')
                                 ->take(4)
                                 ->get();
+
+        foreach ($cursosDestacados as $cursoDestacado){
+            array_push($cursosID, $cursoDestacado->id);
+        }
 
         $cursosVendidos = PurchaseDetail::with('course', 'course.user')
                                 ->select('purchase_details.course_id', DB::raw('count(*) as total'))
@@ -71,11 +75,17 @@ class LandingController extends Controller
                                 ->orderBy('total', 'DESC')
                                 ->take(4)
                                 ->get();
+
+        foreach ($cursosVendidos as $cursoVendido){
+            array_push($cursosID, $cursoVendido->course_id);
+        }
         
         $cursosRecomendados = Course::where('status', '=', 2)
-                                ->orderBy('created_at', 'DESC')
+                                ->whereNotIn('id', $cursosID)
+                                ->orderByRaw('rand()')
                                 ->take(4)
                                 ->get();
+
         
         $cursosAgregados = NULL;
 
