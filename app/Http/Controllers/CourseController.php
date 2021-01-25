@@ -133,6 +133,8 @@ class CourseController extends Controller
         $leccion->title = 'Lección 1';
         $leccion->save();
 
+        $this->save_search_keys($curso->id);
+
         return redirect('instructors/t-courses/temary/'.$curso->slug.'/'.$curso->id)->with('msj-exitoso', 'El curso ha sido creado con éxito');
     }
 
@@ -326,6 +328,8 @@ class CourseController extends Controller
             }
             
             $curso->save();
+
+            $this->save_search_keys($curso->id);
 
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-courses/edit/'.$curso->slug.'/'.$request->course_id)->with('msj-exitoso', 'Los datos del T-Course han sido actualizados con éxito');
@@ -919,5 +923,16 @@ class CourseController extends Controller
                     ->get();
 
         return view('admins.reports.mostRecentCourses')->with(compact('cursos'));
+    }
+
+    public function save_search_keys($course){
+        $curso = Course::find($course);
+
+        $etiquetas = "";
+        foreach ($curso->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $curso->search_keys = $curso->title." ".$curso->subtitle." ".$curso->user->names." ".$curso->user->last_names." ".$curso->category->title." ".$curso->subcategory->title." ".$etiquetas;
+        $curso->save();
     }
 }

@@ -34,6 +34,7 @@ Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('desbloquear-lecciones', 'ScriptController@desbloquear_lecciones');
 	Route::get('reiniciar-billeteras', 'ScriptController@reiniciar_billeteras');
 	Route::get('corregir-comisiones', 'ScriptController@corregir_comisiones');
+	Route::get('llenar-claves-busqueda-cursos', 'ScriptController@llenar_claves_busqueda_cursos');
 });
 
 Route::group(['middleware' => ['https']], function () {

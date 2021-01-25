@@ -6,10 +6,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str as Str;
 use App\Models\Transaction; use App\Models\Commission; use App\Models\EventSubscription;
 use App\Models\Liquidation;
-use App\Models\User;
+use App\Models\User; use App\Models\Course; use App\Models\Podcast;
 use Auth; use DB; use Carbon\Carbon;
 
 class ScriptController extends Controller{
+
+   public function llenar_claves_busqueda_cursos(){
+      $cursos = Course::all();
+
+      foreach ($cursos as $curso){
+         $etiquetas = "";
+         foreach ($curso->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $curso->search_keys = $curso->title." ".$curso->subtitle." ".$curso->user->names." ".$curso->user->last_names." ".$curso->category->title." ".$curso->subcategory->title." ".$etiquetas;
+         $curso->save();
+      }
+
+      $libros = Podcast::all();
+
+      foreach ($libros as $libro){
+         $etiquetas = "";
+         foreach ($libro->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $libro->search_keys = $libro->title." ".$libro->subtitle." ".$libro->user->names." ".$libro->user->last_names." ".$libro->category->title." ".$libro->subcategory->title." ".$etiquetas;
+         $libro->save();
+      }
+
+      dd("Script Ejecutado");
+   }
    public function corregir_comisiones_angelica_carrillo(){
       $comisiones = Commission::where('user_id', '=', 658)->where('liquidation_id', '<>', NULL)->orderBy('id')->get();
 

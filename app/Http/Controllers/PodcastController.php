@@ -115,6 +115,8 @@ class PodcastController extends Controller
             }
         }
 
+        $this->save_search_keys($podcast->id);
+
         return redirect('instructors/t-books/edit/'.$podcast->slug.'/'.$podcast->id)->with('msj-exitoso', 'El T-Book ha sido creado con éxito. Por favor proceda a cargar el contenido multimedia.');
     }
 
@@ -316,6 +318,8 @@ class PodcastController extends Controller
             }
 
             $podcast->save();
+
+            $this->save_search_keys($podcast->id);
 
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-books/edit/'.$podcast->slug.'/'.$request->podcast_id)->with('msj-exitoso', 'Los datos del T-Book han sido actualizados con éxito');
@@ -663,5 +667,16 @@ class PodcastController extends Controller
                                     ->count();
 
         return view('admins.podcasts.showByInstructor')->with(compact('podcasts', 'totalPodcasts'));
+    }
+
+    public function save_search_keys($podcast){
+        $podcast = Podcast::find($podcast);
+
+        $etiquetas = "";
+        foreach ($podcast->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $podcast->search_keys = $podcast->title." ".$podcast->subtitle." ".$podcast->user->names." ".$podcast->user->last_names." ".$podcast->category->title." ".$podcast->subcategory->title." ".$etiquetas;
+        $podcast->save();
     }
 }
