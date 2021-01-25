@@ -1,7 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@font-face{
+  font-family: "Roboto";
+  src: local("../fonts/Roboto-BlackItalic.ttf");
+  font-weight: 700;
+}
 body {
     background: #F2F2F2;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto' !important;
+
 }
 a:link {
     text-decoration: none !important;

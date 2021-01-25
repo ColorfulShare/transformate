@@ -44,8 +44,8 @@
                             <div class="flex-container">
                                 <div class="flex-item-left" style="background-color: #3197BD;  display: flex; align-items: center;">
                                     <div class="contenflex" style="padding-left: 10%; padding-right: 10%;">
-                                        <div class="uk-text-bold title" style="color: white; line-height: 28px;">{{ $evento->title }}</div>
-                                        <p class="descrip">
+                                        <div class="uk-text-bold event-title" style="color: white; line-height: 28px;">{{ $evento->title }}</div>
+                                        <p class="small-title">
                                             <h5>{{ $evento->legend }}</h5><br>
                                         </p>
 
@@ -87,14 +87,14 @@
     <div>
         <ul class="uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s" uk-tab>
             <li class="uk-active"><a href="#">
-                    <h3>Destacados</h3>
-                </a></li>
+                <span class="tab-title">Destacados</span>
+            </a></li>
             <li><a href="#">
-                    <h3>Más vendidos</h3>
-                </a></li>
+                <span class="tab-title">Más vendidos</span>
+            </a></li>
             <li><a href="#">
-                    <h3>Recomendados</h3>
-                </a></li>
+                <span class="tab-title">Recomendados</span>
+            </a></li>
         </ul>
         <ul class="uk-switcher uk-margin">
             <!-- CURSOS DESTACADOS -->
@@ -301,8 +301,8 @@
     <div class="flex-container">
         <div class="flex-item-left" style="display: flex; align-items: center;">
             <div class="contenflex">
-                <div class="uk-text-bold title">Se parte de la transformación y expande tu ser</div>
-                <p class="descrip">Con acceso a la posibilidad de crear tus cursos y productos online, expande tu ser y haz parte de nuestra Comunidad de Transformadores.</p>
+                <div class="uk-text-bold event-title">Se parte de la transformación y expande tu ser</div>
+                <p class="small-title">Con acceso a la posibilidad de crear tus cursos y productos online, expande tu ser y haz parte de nuestra Comunidad de Transformadores.</p>
 
                 <a class="link-course" href="#modal-register" uk-toggle> <span class="btn-course2">Crear cuenta</span></a>
                 <br class="uk-hidden@s">

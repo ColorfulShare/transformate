@@ -1,5 +1,13 @@
 /**** Diseño Realizado por Luisanaelena Marín ***/
-
+@font-face{
+  font-family: "Roboto";
+  src: local("../fonts/Roboto-BlackItalic.ttf");
+  font-weight: 700;
+}
+body {
+    background: #F2F2F2;
+    font-family: 'Roboto' !important;
+}
 .background-ligth {
     background-color: white;
 }
@@ -269,7 +277,7 @@
 
 .course-title {
     color: #1B4965;
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 700;
     -moz-line-clamp: 2;
     -o-line-clamp: 2;
@@ -523,14 +531,20 @@
     font-weight: bold;
 }
 
+.event-title{
+    font-size: 28px;
+}
 .big-title {
-    font-size: 34px;
+    font-size: 30px;
     font-weight: bold;
 }
-
 .small-title {
-    font-size: 24px;
+    font-size: 20px;
 }
+.tab-title{
+    font-size: 26px;
+}
+
 
 .best-seller-image-div {
     position: relative;
@@ -895,6 +909,18 @@
 /*** Móvil ***/
 
 @media (min-width: 320px) and (max-width: 640px) {
+    .big-title{
+        font-size: 24px;
+    }
+    .small-title{
+        font-size: 16px;
+    }
+    .event-title{
+        font-size: 20px;
+    }
+    .tab-title{
+        font-size: 24px;
+    }
     .course-pro {
         text-align: left;
         position: absolute;
