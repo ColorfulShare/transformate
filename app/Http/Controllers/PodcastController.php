@@ -306,6 +306,15 @@ class PodcastController extends Controller
                 }
             }
 
+
+            if ($request->hasFile('cover')){
+                $file = $request->file('cover');
+                $name = $podcast->id.".".$file->getClientOriginalExtension();
+                $file->move(public_path().'/uploads/images/podcasts', $name);
+                $podcast->cover = $name;
+                $podcast->cover_name = $file->getClientOriginalName();
+            }
+
             $podcast->save();
 
             if (Auth::user()->role_id == 2){
