@@ -356,7 +356,7 @@ class PodcastController extends Controller
                     }
 
                     $file = $request->file('cover');
-                    $name = time().$file->getClientOriginalName();
+                    $name = $podcast->id.".".$file->getClientOriginalExtension();
                     $file->move(public_path().'/uploads/images/podcasts', $name);
                     $podcast->cover = $name;
                     $podcast->cover_name = $file->getClientOriginalName();
@@ -373,12 +373,12 @@ class PodcastController extends Controller
                     $podcast->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
                     $podcast->preview_name = $file->getClientOriginalName();
                 }else if ($request->hasFile('audio_file')){
-                    if (!is_null($podcast->audio_file)){
+                    /*if (!is_null($podcast->audio_file)){
                         $nombreArchivo = explode("podcasts/".$podcast->id."/", $podcast->audio_file);
                         if (Storage::disk('s3')->has('podcasts/'.$podcast->id."/".$nombreArchivo[1])){
                             Storage::disk('s3')->delete('podcasts/'.$podcast->id."/".$nombreArchivo[1]);
                         }
-                    }
+                    }*/
                     
                     $file = $request->file('audio_file');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id, $file, 'public');
