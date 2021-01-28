@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=gb18030"> 
-     
+        <meta http-equiv="Content-Type" content="text/html; charset=gb18030">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('template/images/favicon_transformate_01.png') }}">
         <meta name="description" content="">
-        <title>Transfórmate | Cursos de Transformación </title>         
+        <title>Transfórmate | Cursos de Transformación </title>
         <!-- Favicon -->
         <link href="{{ asset('template/images/favicon_transformate_01.png') }}" rel="icon" type="image/png">
         <!-- Your stylesheet-->
@@ -17,10 +17,10 @@
         <link rel="stylesheet" href="{{ asset('css/footer_uikit.css') }}">
         <link rel="stylesheet" href="{{ asset('css/modales_auth.css') }}">
         <link rel="stylesheet" href="{{ asset('css/modal_trailer.css') }}">
-        <link rel="stylesheet" href="{{  asset('template/css/uikit.css') }}"> 
+        <link rel="stylesheet" href="{{  asset('template/css/uikit.css') }}">
         <link rel="stylesheet" href="{{ asset('template/css/fontawesome.css') }}">
 
-        
+
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css'>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -50,7 +50,7 @@
                 });
               });
         </script>
-        
+
         <!-- Facebook Pixel Code -->
         <script>
           !function(f,b,e,v,n,t,s)
@@ -68,12 +68,12 @@
           src="https://www.facebook.com/tr?id=160074978728892&ev=PageView&noscript=1"
         /></noscript>
         <!-- End Facebook Pixel Code -->
-        
+
         {!! htmlScriptTagJsApi() !!}
 
         @stack('scripts')
         @stack('styles')
-    </head> 
+    </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBKTXRC"
@@ -86,7 +86,7 @@
     @include('auth.recoverModal')
     {{-- header y menu --}}
     @include('layouts.includes.header')
-    
+
     @if (!Auth::guest())
         <div class="modal" id="modal-code" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -247,7 +247,7 @@
 
     @stack('scripts')
     <script>
-    
+
 	    $('.carousel').carousel({
          interval: 5000
         });
@@ -271,7 +271,7 @@
             $('#search-icon').click(function(event) {
                 $("#navbar").hide();
                 $("#navbar-search").show();
-               // 
+               //
             });
             $('#close-search-icon').click(function(event) {
                 $("#navbar-search").hide();
@@ -414,7 +414,7 @@
                 $("#module-title-movil-6").css("color", "black");
             }
         }
-        
+
         // ------------------------------------------------------- //
         // Multi Level dropdowns
         // ------------------------------------------------------ //
@@ -435,14 +435,14 @@
             });
         });
 
-         $(function(){           
+         $(function(){
             $('body').on('click','.view-preview',function(){
                let path = $(this).data('viewpreview')
                $.ajax({
                   type:"GET",
                   url:path,
                   success:function(ans){
-                    $("#preview-video").html(ans);  
+                    $("#preview-video").html(ans);
                     if (document.getElementById("tema").value == 'dark'){
                         $(".header-ligth-trailer").each(function(index) {
                             $("#"+$(this).attr('id')).removeClass("header-ligth-trailer");
@@ -455,11 +455,11 @@
                         $(".background-ligth-trailer").each(function(index) {
                             $("#"+$(this).attr('id')).removeClass("background-ligth-trailer");
                             $("#"+$(this).attr('id')).addClass("background-dark-trailer");
-                        });    
-                    }              
+                        });
+                    }
                   }
                });
-            }); 
+            });
         });
     </script>
 </body>

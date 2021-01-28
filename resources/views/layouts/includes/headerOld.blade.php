@@ -84,7 +84,7 @@
                         @endif
                         <li>
                             <a href="{{ route('landing.t-member') }}">
-                                <span><i class="fa fa-user-tie"></i> T-Member</span>
+                                <span><i class="fa fa-user-tie"></i> T-Membresía</span>
                             </a>
                         </li>
                     </ul>
@@ -333,57 +333,8 @@
             @endif
         @endif
 
-        <div class="menu-links-reduced">
-            <a href="#" class="link-reduced">
-                <span class="font-h3">...</span>
-            </a>
-            <div uk-dropdown="pos: bottom" style="padding: 0 0;">
-                <div class="header-background-ligth" style="padding: 10px 15px;">
-                    <ul class="menu">
-                        @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
-                            <li>
-                                <a href="{{ route('students.my-content') }}">
-                                    <span><i class="fas fa-video"></i> Mis Cursos</span>
-                                </a>
-                            </li>
-                        @endif
-                        @if (Auth::guest())
-                            <li>
-                                <a href="{{ route('landing.t-mentor') }}">
-                                    <span><i class="fa fa-users"></i> T-Mentor</span>
-                                </a>
-                            </li>
-                        @elseif (Auth::user()->role_id == 2)
-                            <li>
-                                <a href="{{ route('landing.t-mentor') }}">
-                                    <span><i class="fa fa-users"></i> T-Mentor</span>
-                                </a>
-                            </li>
-                        @endif
-                        <li>
-                            <a href="{{ route('landing.t-member') }}">
-                                <span><i class="fa fa-user-tie"></i> T-Member</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Menú de Opciones--}}
-    <div class="uk-navbar-right header-large-right">
-        <div class="uk-navbar-item">
-            <form action="{{ route('landing.search') }}" method="GET" id="search-form-pc">
-                <div class="uk-inline">
-                    <a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search;" onclick="buscar('pc');"></a>
-                    <input class="uk-input" type="text" name="busqueda" placeholder="Buscar cursos..." style="border-radius: 25px;">
-                </div>
-            </form>
-        </div>
-
         <a href="#" class="header-link">
-            <span class="font-h3">T-Cursos <i class="fa fa-chevron-down"></i></span>
+            <span class="font-h3">Educación Online <i class="fa fa-chevron-down"></i></span>
         </a>
         <div uk-dropdown="pos: bottom" class="categories_dropdown">
             <div class="uk-grid uk-child-width-1-2 no-padding">
@@ -418,10 +369,72 @@
             </div>
         </div>
 
-        <div class="menu-links" style="border-right: 4px solid #fff;margin-right: 15px;">
-            <a href="{{ route('landing.events') }}" class="header-link">
-                <span class="font-h3">T-Eventos</span>
+        <div class="menu-links">
+            @if (Auth::guest())
+                <a href="{{ route('landing.t-mentor') }}" class="header-link">
+                    <span class="font-h3">T-Mentor</span>
+                </a>
+            @elseif (Auth::user()->role_id == 2)
+                <a href="{{ route('landing.t-mentor') }}" class="header-link">
+                    <span class="font-h3">T-Mentor</span>
+                </a>
+            @endif
+            <a href="{{ route('landing.t-member') }}" class="header-link">
+                <span class="font-h3">T-Membresía</span>
             </a>
+            @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
+                <a href="{{ route('students.my-content') }}" class="header-link">
+                    <span class="font-h3">Mis Cursos</span>
+                </a>
+            @endif
+        </div>
+        <div class="menu-links-reduced">
+            <a href="#" class="link-reduced">
+                <span class="font-h3">...</span>
+            </a>
+            <div uk-dropdown="pos: bottom" style="padding: 0 0;">
+                <div class="header-background-ligth" style="padding: 10px 15px;">
+                    <ul class="menu">
+                        @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
+                            <li>
+                                <a href="{{ route('students.my-content') }}">
+                                    <span><i class="fas fa-video"></i> Mis Cursos</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::guest())
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @elseif (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @endif
+                        <li>
+                            <a href="{{ route('landing.t-member') }}">
+                                <span><i class="fa fa-user-tie"></i> T-Membresía</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Menú de Opciones--}}
+    <div class="uk-navbar-right header-large-right">
+        <div class="uk-navbar-item">
+            <form action="{{ route('landing.search') }}" method="GET" id="search-form-pc">
+                <div class="uk-inline">
+                    <a class="uk-form-icon uk-form-icon-flip" href="#" uk-icon="icon: search;" onclick="buscar('pc');"></a>
+                    <input class="uk-input" type="text" name="busqueda" placeholder="Buscar cursos...">
+                </div>
+            </form>
         </div>
 
         @if ( (!Auth::guest()) && (Auth::user()->role_id < 3) )
