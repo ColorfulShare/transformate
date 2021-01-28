@@ -45,7 +45,7 @@ class LandingController extends Controller
         return redirect('/')->with('msj-exitoso', 'Tu mensaje ha sido enviado con éxito');
     }
     
-    public function index2(){
+    public function index(){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
             $www = 1;
@@ -87,17 +87,15 @@ class LandingController extends Controller
                                 ->get();
 
         
-        $cursosAgregados = NULL;
-
+        $misCursos = [];
         if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
-            $misCursos = DB::table('courses_students')
-                                ->where('user_id', '=', Auth::user()->id)
-                                ->get();
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
 
-            $cursosAgregados = array();
-            foreach ($misCursos as $miCurso){
-                array_push($cursosAgregados, $miCurso->course_id);
-            }  
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
         }
 
         $categoriaSeleccionada = 1;
@@ -117,11 +115,11 @@ class LandingController extends Controller
                                 ->where('status', '=', 2)
                                 ->count();
 
-        return view('landing.indexNew')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'cursosAgregados', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts'));
+        return view('landing.index')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts', 'misCursos'));
     }
     
     /** Landing / Home **/
-    public function index(){
+    public function indexOld(){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
             $www = 1;
@@ -172,7 +170,7 @@ class LandingController extends Controller
         
         $cantEventos = $eventos->count();
 
-        return view('landing.index')->with(compact('cursos', 'cursosMasVendidos', 'categorias', 'cursosAgregados', 'cantCursos', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
+        return view('landing.indexOld')->with(compact('cursos', 'cursosMasVendidos', 'categorias', 'cursosAgregados', 'cantCursos', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
     }
 
     /** Landing / T- Courses **/
@@ -227,6 +225,106 @@ class LandingController extends Controller
         }
 
         return view('landing.courses')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada', 'www', 'cursosRegalo'));
+    }
+
+     /** Landing / T- Courses **/
+    public function courses2($slug = NULL, $categoria = 'destacados'){
+        $url = explode("www", \Request::url());
+        if (count($url) > 1){
+            $www = 1;
+        }else{
+            $www = 0;
+        }
+
+        $totalCursos = Course::where('status', '=', 2)->count();
+
+        if ($categoria == 'destacados'){
+            $cursos = Course::where('status', '=', 2)
+                        ->where('featured', '=', 1)
+                        ->orderBy('created_at', 'DESC')
+                        ->paginate(9);
+            $tituloCategoriaSeleccionada = 'Destacados';
+        }else if ($categoria == 'vendidos'){
+            $cursosVendidos = PurchaseDetail::with('course', 'course.user')
+                                ->select('purchase_details.course_id', DB::raw('count(*) as total'))
+                                ->where('course_id', '<>', NULL)
+                                ->groupBy('course_id')
+                                ->orderBy('total', 'DESC')
+                                ->get();
+            $cursos = collect();        
+            foreach ($cursosVendidos as $cursoVendido){
+                $cursos->push($cursoVendido->course);
+            }
+            $cursos = $cursos->paginate(9);
+
+            $tituloCategoriaSeleccionada = 'Más Vendidos';
+        }else if ($categoria == 'recomendados'){
+            $cursos = Course::where('status', '=', 2)
+                            ->orderByRaw('rand()')
+                            ->paginate(9);
+
+            $tituloCategoriaSeleccionada = 'Recomendados';
+        }else if ($categoria == 'todos'){
+            $cursos = Course::where('status', '=', 2)
+                            ->orderBy('title', 'ASC')
+                            ->paginate(9);
+
+            $tituloCategoriaSeleccionada = 'Todos';
+        }else if ($categoria == 100){
+            $cursos = MasterClass::where('status', '=', 1)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(9);
+
+            $tituloCategoriaSeleccionada = 'T-Master Class';
+        }else if ($categoria == 'tbooks'){
+            $cursos = Podcast::where('status', '=', 2)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(9);
+
+            $tituloCategoriaSeleccionada = 'T-Books';
+        }else{
+            $cursos = Course::where('category_id', '=', $categoria)
+                        ->where('status', '=', 2)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(9);
+
+            $datosCategoria = DB::table('categories')
+                                ->select('title')
+                                ->where('id', '=', $categoria)
+                                ->first();
+
+            $tituloCategoriaSeleccionada = $datosCategoria->title; 
+        }
+
+        $categoriaSeleccionada = $categoria;
+        
+        $cursosRegalo = 0;
+        $misCursos = [];
+        $misLibros = [];
+        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
+            $cursosRegalo = DB::table('gifts')
+                                ->where('user_id', '=', Auth::user()->id)
+                                ->where('checked', '=', 0)
+                                ->count();
+
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
+
+            $miContenidoLibros = DB::table('podcasts_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoLibros as $contenidoLibro){
+                array_push($misLibros, $contenidoLibro->podcast_id);
+            }
+        }
+
+        return view('landing.coursesNew')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros'));
     }
 
     /** Landing / T-Mentor **/

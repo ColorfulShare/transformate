@@ -48,9 +48,222 @@ body {
     color: white;
 }
 
+/*** New Design ***/
+/* <li> de la card de cursos */
+.course {
+    padding: 0 15px !important;
+}
+/* Card de Curso */
+.course-card{
+    background-color: white;
+    box-shadow: 4px 6px 6px 0px gray;
+}
+/* Div de imagen Cards */
+.image-div {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    height: 220px;
+}
+/* Card imagen */
+.content-image {
+    height: 100% !important;
+}
+/* Card cuerpo */
+.card-body{
+    padding-top: 2%;
+}
+.card-body a:hover {
+    text-decoration: none;
+}
+/* Cards título*/
+.course-title {
+    height: 40px;
+    color: #1B4965;
+    font-size: 19px;
+    line-height: 21px;
+    font-weight: 700;
+    -moz-line-clamp: 2;
+    -o-line-clamp: 2;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -moz-line-clamp: 2;
+    -ms-line-clamp: 2;
+    -o-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    -o-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    -o-box-orient: vertical;
+}
+/*Cards subtítulo */
+.course-subtitle {
+    height: 60px;
+    color: #8A8A8A;
+    font-weight: 400;
+    line-height: 1.2;
+    font-size: 14px;
+    -moz-line-clamp: 4;
+    -o-line-clamp: 4;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 4;
+    -moz-line-clamp: 4;
+    -ms-line-clamp: 4;
+    -o-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    -o-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    -o-box-orient: vertical;
+}
+/*Cards Mentor*/
+.course-instructor {
+    font-size: 16px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: #5FA8D3;
+    font-weight: 700;
+}
+/* Cards categoría */
+.course-category {
+    font-size: 16px;
+    color: #8A8A8A;
+    font-weight: 700;
+}
+/* Card Ver Más Link */
+.show-more-link {
+    font-size: 16px;
+    color: #0877BB;
+    font-weight: 700;
+    text-decoration: underline;
+}
+/* Card Botones */
+.card-buttons{
+    margin-top: 6%;
+    margin-bottom:6%
+}
+/* Card button Agregar al Carrito */
+.btn-course2 {
+    padding: 8px 15px;
+    background-color: #034a91;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.link-course:hover .btn-course2 {
+    text-decoration: none;
+    background-color: white;
+    color: #034a91;
+    border: solid #034a91 1px;
+}
+/* Card button Continuar Curso */
+.btn-course3 {
+    padding: 8px 15px;
+    background-color: #5FA8D3;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.link-course:hover .btn-course3 {
+    text-decoration: none;
+    background-color: white;
+    color: #5FA8D3;
+    border: solid #5FA8D3 1px;
+}
+/* Card Footer Precio */
+.card-footer{
+    padding: 10px;
+    background-color: #1172A9 !important;
+}
+/* Cards precio */
+.course-price {
+    font-size: 16px;
+    color: white !important;
+    font-weight: 700;
+}
+/* Banner página T-Courses */
+.courses-banner {
+    width: 100%;
+    position: relative;
+    /*display: inline-block;*/
+    display: flex;
+    align-items: center;
+}
+/* Div del Texto banner T-Courses */
+.courses-banner-text {
+    width: 35%;
+    position: absolute;
+    left: 5%;
+}
+/* Título del texto banner T-Courses*/
+.courses-banner .title {
+    color: white;
+    font-size: 40px;
+}
+/* Descripción del texto banner T-Courses*/
+.courses-banner .description {
+    font-size: 25px;
+    font-weight: 500;
+    color: white;
+}
+/* Título Sección Categorías (T-Courses) */
+.courses-category-title{
+    font-size: 30px;
+    font-weight: 700;
+    color: #1B4965;
+    padding-bottom: 20px;
+}
+/* Listado de Categorías (T-Courses) */
+.categories-list li{
+    font-size: 22px; 
+    color: #8A8A8A; 
+    font-weight: 700;
+}
+/* Categoría Activa del Listado (T-Courses) */
+.category-list-item-active{
+   color: #0B132B !important;
+}
+.category-list-item-active:hover{
+   text-decoration: none;
+}
+/* Nombre de Categoría Seleccionada Sección Cards (T-Courses) */
+.courses-category-selected{
+    font-size: 26px;
+    font-weight: 700;
+    color: #0B132B;
+    padding-bottom: 20px;
+}
+/* Link de Categoría (T-Courses) */
+.category-link{
+    text-decoration: none;
+    color: #8A8A8A; 
+}
+.category-link:hover{
+    text-decoration: none;
+    color: #1B4965;
+}
+
+
+
+
 
 /*** Home ***/
-
 .course-pro {
     position: absolute;
     top: 25%;
@@ -221,28 +434,7 @@ body {
     padding: 5px 25px;
 }
 
-.course {
-    padding-left: 10px;
-}
 
-.card-background-ligth {
-    background-color: white;
-}
-
-.card-background-dark {
-    background-color: black;
-}
-
-.image-div {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    height: 220px;
-}
-
-.content-image {
-    height: 100% !important;
-}
 
 .image-category-div {
     position: absolute;
@@ -271,87 +463,12 @@ body {
     color: #2493B5;
 }
 
-.card-body a:hover {
-    text-decoration: none;
-}
 
-.course-title {
-    color: #1B4965;
-    font-size: 19px;
-    font-weight: 700;
-    -moz-line-clamp: 2;
-    -o-line-clamp: 2;
-    -moz-box-orient: vertical;
-    -ms-box-orient: vertical;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2;
-    -moz-line-clamp: 2;
-    -ms-line-clamp: 2;
-    -o-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    -ms-box-orient: vertical;
-    -o-box-orient: vertical;
-    box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    -o-box-orient: vertical;
-}
 
-.course-instructor {
-    font-size: 16px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    color: #5FA8D3;
-    font-weight: 700;
-}
 
-.course-category {
-    font-size: 16px;
-    color: #8A8A8A;
-    font-weight: 700;
-}
 
-.course-price {
-    font-size: 16px;
-    color: white !important;
-    font-weight: 700;
-}
 
-.show-more-link {
-    font-size: 16px;
-    color: #0877BB;
-    font-weight: 700;
-    text-decoration: underline;
-}
 
-.course-subtitle {
-    color: #8A8A8A;
-    font-weight: 400;
-    line-height: 1.2;
-    font-size: 14px;
-    -moz-line-clamp: 2;
-    -o-line-clamp: 2;
-    -moz-box-orient: vertical;
-    -ms-box-orient: vertical;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2;
-    -moz-line-clamp: 2;
-    -ms-line-clamp: 2;
-    -o-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    -ms-box-orient: vertical;
-    -o-box-orient: vertical;
-    box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    -o-box-orient: vertical;
-}
 
 .btn-course {
     width: 100%;
@@ -363,14 +480,7 @@ body {
     font-size: 18px;
 }
 
-.btn-course2 {
-    padding: 8px 15px;
-    background-color: #034a91;
-    color: white;
-    font-weight: 600;
-    font-size: 18px;
-    border-radius: 10px;
-}
+
 
 .link-course:hover {
     text-decoration: none;
@@ -382,14 +492,6 @@ body {
     color: #034a91;
     border: solid #034a91 1px;
 }
-
-.link-course:hover .btn-course2 {
-    text-decoration: none;
-    background-color: white;
-    color: #034a91;
-    border: solid #034a91 1px;
-}
-
 .btn-resume {
     width: 100%;
     display: block;

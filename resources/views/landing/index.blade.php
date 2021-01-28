@@ -101,54 +101,58 @@
             <li>
                 <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
                     @foreach ($cursosDestacados as $cursoDestacado)
-                    <li class="course uk-transition-toggle" tabindex="0">
-                        <div class="uk-card uk-card-small card-background-ligth" id="curso-destacado-{{$cursoDestacado->id}}">
-                            <div class="uk-card-media-top image-div">
-                                @if (!is_null($cursoDestacado->preview))
-                                    <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}">
-                                        <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoDestacado->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}">
+                                            <img src="{{ asset('uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                    <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
+                                        <img src="{{ asset('uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
                                     </a>
-                                @else
-                                <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
-                                </a>
-                                @endif
-                            </div>
-                            <div class="uk-card-body card-body" style="padding-top: 2%; ">
-                                <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
-                                    <div style="min-height: 215px;">
-                                        <div class="course-title">{{ $cursoDestacado->title }}</div>
-                                        <div class="course-instructor">Por: {{ $cursoDestacado->user->names.' '.$cursoDestacado->user->last_names }}</div>
-                                        <div class="course-category"><strong>{{ $cursoDestacado->category->title }}</strong></div>
-                                        <div class="course-subtitle">{{ ucfirst($cursoDestacado->subtitle) }}</div>
-
-                                        <br>
-                                        <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">Ver más</a>
-                                    </div>
-                                </a>
-                                <div style="margin-top: 6%;margin-bottom:6%">
-                                    @if (Auth::guest())
-                                        <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
-                                    @elseif (Auth::user()->role_id == 1)
-                                        @if (!is_null(Auth::user()->membership_id))
-                                            @if (Auth::user()->membership_courses < 3)
-                                                <a class="link-course" href="{{ route('students.courses.add', [$cursoDestacado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
-                                            @else
-                                                <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                            @endif
-                                        @else
-                                            <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                        @endif
                                     @endif
                                 </div>
-                            </div>
-                            <div class="uk-card-footer" style="padding:0px">
-                                <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoDestacado->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoDestacado->user->names.' '.$cursoDestacado->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoDestacado->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoDestacado->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoDestacado->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoDestacado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                    @else
+                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    @endif
+                                                @else
+                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                @endif
+                                            @else
+                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoDestacado->slug, $cursoDestacado->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-card-footer" style="padding:0px">
+                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
+                                        <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     @endforeach
                 </ul>
             </li>
@@ -156,54 +160,58 @@
             <li>
                 <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
                     @foreach ($cursosVendidos as $cursoVendido)
-                    <li class="course uk-transition-toggle" tabindex="0">
-                        <div class="uk-card uk-card-small card-background-ligth" id="curso-vendido-{{$cursoVendido->course_id}}">
-                            <div class="uk-card-media-top image-div">
-                                @if (!is_null($cursoVendido->course->preview))
-                                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoVendido->course_id, 'curso']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course->cover) }}" class="content-image">
-                                </a>
-                                @else
-                                <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course_cover) }}" class="content-image">
-                                </a>
-                                @endif
-                            </div>
-                            <div class="uk-card-body card-body" style="padding-top: 2%; ">
-                                <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
-                                    <div style="min-height: 215px;">
-                                        <div class="course-title">{{ $cursoVendido->course->title }}</div>
-                                        <div class="course-instructor">Por: {{ $cursoVendido->course->user->names.' '.$cursoVendido->course->user->last_names }}</div>
-                                        <div class="course-category"><strong>{{ $cursoVendido->course->category->title }}</strong></div>
-                                        <div class="course-subtitle">{{ ucfirst($cursoVendido->course->subtitle) }}</div>
-
-                                        <br>
-                                        <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">Ver más</a>
-                                    </div>
-                                </a>
-                                <div style="margin-top: 6%;margin-bottom:6%">
-                                    @if (Auth::guest())
-                                        <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
-                                    @elseif (Auth::user()->role_id == 1)
-                                        @if (!is_null(Auth::user()->membership_id))
-                                            @if (Auth::user()->membership_courses < 3)
-                                                <a class="link-course" href="{{ route('students.courses.add', [$cursoVendido->course_id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
-                                            @else
-                                                <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                            @endif
-                                        @else
-                                            <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                        @endif
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoVendido->course->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoVendido->course_id, 'curso']) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                        <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course_cover) }}" class="content-image">
+                                        </a>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="uk-card-footer" style="padding:0px">
-                                <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoVendido->course->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoVendido->course->user->names.' '.$cursoVendido->course->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoVendido->course->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoVendido->course->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoVendido->course->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoVendido->course->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                    @else
+                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    @endif
+                                                @else
+                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                @endif
+                                            @else
+                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-card-footer" style="padding:0px">
+                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
+                                        <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     @endforeach
                 </ul>
             </li>
@@ -211,54 +219,58 @@
             <li>
                 <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
                     @foreach ($cursosRecomendados as $cursoRecomendado)
-                    <li class="course uk-transition-toggle" tabindex="0">
-                        <div class="uk-card uk-card-small card-background-ligth" id="curso-recomendado-{{$cursoRecomendado->id}}">
-                            <div class="uk-card-media-top image-div">
-                                @if (!is_null($cursoRecomendado->preview))
-                                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
-                                </a>
-                                @else
-                                <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
-                                </a>
-                                @endif
-                            </div>
-                            <div class="uk-card-body card-body" style="padding-top: 2%; ">
-                                <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
-                                    <div style="min-height: 215px;">
-                                        <div class="course-title">{{ $cursoRecomendado->title }}</div>
-                                        <div class="course-instructor">Por: {{ $cursoRecomendado->user->names.' '.$cursoRecomendado->user->last_names }}</div>
-                                        <div class="course-category"><strong>{{ $cursoRecomendado->category->title }}</strong></div>
-                                        <div class="course-subtitle">{{ ucfirst($cursoRecomendado->subtitle) }}</div>
-
-                                        <br>
-                                        <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Ver más</a>
-                                    </div>
-                                </a>
-                                <div style="margin-top: 6%;margin-bottom:6%">
-                                    @if (Auth::guest())
-                                        <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
-                                    @elseif (Auth::user()->role_id == 1)
-                                        @if (!is_null(Auth::user()->membership_id))
-                                            @if (Auth::user()->membership_courses < 3)
-                                                <a class="link-course" href="{{ route('students.courses.add', [$cursoRecomendado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
-                                            @else
-                                                <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                            @endif
-                                        @else
-                                            <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
-                                        @endif
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small card-background-ligth course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoRecomendado->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                        <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
+                                        </a>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="uk-card-footer" style="padding:0px">
-                                <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                    <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoRecomendado->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoRecomendado->user->names.' '.$cursoRecomendado->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoRecomendado->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoRecomendado->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoRecomendado->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoRecomendado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                    @else
+                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    @endif
+                                                @else
+                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                @endif
+                                            @else
+                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-card-footer" style="padding:0px">
+                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
+                                        <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     @endforeach
                 </ul>
             </li>

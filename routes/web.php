@@ -19,7 +19,7 @@ Route::get('/clear-cache', function() {
     return 'DONE'; //Return anything
 });
 
-Route::get('new-home', 'LandingController@index2');
+Route::get('old-home', 'LandingController@indexOld');
 
 Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('corregir-comisiones-angelica-carrillo', 'ScriptController@corregir_comisiones_angelica_carrillo');
@@ -57,6 +57,8 @@ Route::group(['middleware' => ['https']], function () {
 		Route::get('/{slug?}/{categoria?}', 'LandingController@courses')->name('landing.courses');
 		Route::get('show/{slug}/{id}', 'CourseController@show')->name('landing.courses.show');
 	});
+
+	Route::get('t-courses-new/{slug?}/{categoria?}', 'LandingController@courses2')->name('landing.new-courses');
 
 	Route::group(['prefix' => 't-books'], function() {
 		Route::get('/', 'LandingController@podcasts')->name('landing.podcasts');

@@ -10,7 +10,7 @@
         @endif
 
         @if (Session::has('msj-exitoso'))
-            <div class="uk-alert-danger uk-text-center" uk-alert>
+            <div class="uk-alert-success uk-text-center" uk-alert>
                 <a class="uk-alert-close" uk-close></a>
                 <strong>{{ Session::get('msj-exitoso') }}</strong>
             </div>

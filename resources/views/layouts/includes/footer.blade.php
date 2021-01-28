@@ -18,7 +18,7 @@
          <ul class="uk-list network-list">
             <li><a href="https://www.facebook.com/TransformatePro/" target="_blank">Facebook</a></li>
             <li><a href="https://www.instagram.com/transformatepro/?hl=es-la" target="_blank">Instagram</a></li>
-            <li><a href="https://www.facebook.com/TransformatePro/" target="_blank">Linkedin</a></li>
+            <li><a href="https://www.linkedin.com/in/transformate-pro-4225941a3" target="_blank">Linkedin</a></li>
             <li><a href="https://www.youtube.com/channel/UCdr-Ig698cKvfiKtRTfxf0A" target="_blank">Youtube</a></li>
          </ul>
       </div>
