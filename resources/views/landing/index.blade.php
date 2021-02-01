@@ -289,11 +289,11 @@
     </div>
 
     {{-- Versión Móvil (8 Cards Verticales en dos columnas) --}}
-    <div class="best-sellers-cards">
+    <div class="best-sellers-cards" style="padding-left: 5%; padding-right: 5%;">
         <div class="uk-child-width-1-4@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1@xs" uk-grid>
             <div>
                 <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
-                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
                                 <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
@@ -308,7 +308,7 @@
             </div>
             <div>
                 <a href="{{ route('landing.courses', ['t-books', 0]) }}">
-                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
                                 <img src="{{ asset('/images/icon12.png') }}" style="width:40px;">
@@ -324,7 +324,7 @@
             @foreach ($categoriasHome as $categoriaH)
                 <div>
                     <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
-                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
+                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
                             <div class="uk-grid-small uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
                                     <img src="{{ asset('/images/'.$categoriaH->image) }}" style="width:40px;">
