@@ -11,6 +11,21 @@ use Auth; use DB; use Carbon\Carbon;
 
 class ScriptController extends Controller{
 
+   public function restaurar_liquidaciones(){
+      $liquidaciones = Liquidation::where('date', '=', '2021-02-01')
+                           ->get();
+
+      foreach ($liquidaciones as $liquidacion){
+         $comisiones = DB::table('commissions')
+                           ->where('liquidation_id', '=', $liquidacion->id)
+                           ->update(['status' => 0,
+                                     'liquidation_id' => NULL,
+                                     'updated_at' => date('Y-m-d H:i:s')]);
+
+         $liquidacion->delete();
+      }
+   }
+
    public function llenar_claves_busqueda_cursos(){
       $cursos = Course::all();
 

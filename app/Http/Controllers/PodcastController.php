@@ -361,12 +361,12 @@ class PodcastController extends Controller
                     $podcast->cover = $name;
                     $podcast->cover_name = $file->getClientOriginalName();
                 }else if ($request->hasFile('preview')){
-                    if (!is_null($podcast->preview)){
+                    /*if (!is_null($podcast->preview)){
                         $nombreArchivo = explode("podcasts/".$podcast->id."/preview/", $podcast->preview);
                         if (Storage::disk('s3')->has('podcasts/'.$podcast->id."/preview/".$nombreArchivo[1])){
                             Storage::disk('s3')->delete('podcasts/'.$podcast->id."/preview/".$nombreArchivo[1]);
                         }
-                    }
+                    }*/
 
                     $file = $request->file('preview');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id.'/preview', $file, 'public');
