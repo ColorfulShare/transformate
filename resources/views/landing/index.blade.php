@@ -75,16 +75,12 @@
 
 {{-- Contenido Principal --}}
 <div class="content background-ligth" id="main-content" style="padding-left: 5%; padding-right: 5%;">
-    <div class="uk-text-center" id="wait" style="display: none;">
-        <span uk-spinner="ratio: 4"></span>
-    </div>
-
     <div class="uk-text-center" style="padding: 2%;">
         <span class="big-title color-black">Nuestros T-Cursos</span>
         <p class="small-title color-black">Encuentra todo para tu Crecimiento Personal, Social y Profesional, con Propósito y Consciencia.</p>
     </div>
 
-    <div>
+    <div style="padding-left: 5%; padding-right: 5%;">
         <ul class="uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s" uk-tab>
             <li class="uk-active"><a href="#">
                 <span class="tab-title">Destacados</span>
@@ -99,7 +95,7 @@
         <ul class="uk-switcher uk-margin">
             <!-- CURSOS DESTACADOS -->
             <li>
-                <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
+                <ul class="uk-child-width-1-1@xs uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
                     @foreach ($cursosDestacados as $cursoDestacado)
                         <li class="course uk-transition-toggle" tabindex="0">
                             <div class="uk-card uk-card-small course-card">

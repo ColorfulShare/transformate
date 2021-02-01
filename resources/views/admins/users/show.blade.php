@@ -139,16 +139,14 @@
 	                            <input class="uk-input" type="url" name="youtube" placeholder="Canal de Youtube" value="{{ $usuario->youtube }}"> 
 	                        </div> 
 	                          
-	                       	@if ($usuario->role_id == 2)
-	                       		<div class="uk-width-1-2"> 
-	                            	<div class="uk-form-label">Código de Afiliación</div>
-	                            	<input class="uk-input" type="text" value="{{ $usuario->afiliate_code }}" disabled> 
-	                        	</div>     
-	                        	<div class="uk-width-1-2"> 
-		                            <div class="uk-form-label">Patrocinador</div>
-		                            <input class="uk-input" type="text" @if (is_null($usuario->sponsor_id)) value="Sin Patrocinador" @else value="{{ $usuario->sponsor->names }} {{ $usuario->sponsor->last_names }} (Id = {{ $usuario->sponsor_id }})" @endif disabled> 
-		                        </div> 
-		                    @endif
+	                       	<div class="uk-width-1-2"> 
+	                            <div class="uk-form-label">Código de Afiliación</div>
+	                            <input class="uk-input" type="text" value="{{ $usuario->afiliate_code }}" disabled> 
+	                        </div>     
+	                        <div class="uk-width-1-2"> 
+		                        <div class="uk-form-label">Mentor y/o Partner que lo refirió</div>
+		                        <input class="uk-input" type="text" @if (is_null($usuario->sponsor_id)) value="No Posee" @else value="{{ $usuario->sponsor->names }} {{ $usuario->sponsor->last_names }} (Id = {{ $usuario->sponsor_id }})" @endif disabled> 
+		                    </div> 
 		                    @if ($usuario->role_id == 3)
 		                    	<div class="uk-width-1-1">
 		                            Perfil Administrativo (*):

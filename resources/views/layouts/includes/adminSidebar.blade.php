@@ -117,7 +117,7 @@
       @if (Auth::user()->profile->events != 0)
          <li class="uk-margin-remove-top">
             <a href="javascript():;" class="uk-accordion-title">
-               <i class="fas fa-microphone"></i>T-Events
+               <i class="fas fa-glass-cheers"></i>T-Events
             </a>
 
             <div class="uk-accordion-content uk-margin-remove-top d" hidden="" aria-hidden="true">

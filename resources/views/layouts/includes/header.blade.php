@@ -69,6 +69,12 @@
                                 </div>
                             </div>
                         </li>
+                        <li>
+                            <a href="{{ route('landing.events') }}">
+                                <span><i class="fas fa-glass-cheers"></i> T-Eventos</span>
+                            </a>
+                        </li>
+                       
                         @if (Auth::guest())
                             <li>
                                 <a href="{{ route('landing.t-mentor') }}">
@@ -332,43 +338,6 @@
                 </a>
             @endif
         @endif
-
-        <div class="menu-links-reduced">
-            <a href="#" class="link-reduced">
-                <span class="font-h3">...</span>
-            </a>
-            <div uk-dropdown="pos: bottom" style="padding: 0 0;">
-                <div class="header-background-ligth" style="padding: 10px 15px;">
-                    <ul class="menu">
-                        @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
-                            <li>
-                                <a href="{{ route('students.my-content') }}">
-                                    <span><i class="fas fa-video"></i> Mis Cursos</span>
-                                </a>
-                            </li>
-                        @endif
-                        @if (Auth::guest())
-                            <li>
-                                <a href="{{ route('landing.t-mentor') }}">
-                                    <span><i class="fa fa-users"></i> T-Mentor</span>
-                                </a>
-                            </li>
-                        @elseif (Auth::user()->role_id == 2)
-                            <li>
-                                <a href="{{ route('landing.t-mentor') }}">
-                                    <span><i class="fa fa-users"></i> T-Mentor</span>
-                                </a>
-                            </li>
-                        @endif
-                        <li>
-                            <a href="{{ route('landing.t-member') }}">
-                                <span><i class="fa fa-user-tie"></i> T-Membresía</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 
     {{-- Menú de Opciones--}}
@@ -418,10 +387,56 @@
             </div>
         </div>
 
-        <div class="menu-links" style="border-right: 4px solid #fff;margin-right: 15px;">
-            <a href="{{ route('landing.events') }}" class="header-link">
-                <span class="font-h3">T-Eventos</span>
+        <a href="{{ route('landing.events') }}" class="header-link">
+            <span class="font-h3">T-Eventos</span>
+        </a>
+
+        <div class="menu-links" style="margin-right: 5px;">
+            <a href="{{ route('landing.t-mentor') }}" class="header-link">
+                <span class="font-h3"> T-Mentor</span>
             </a>
+        </div>
+        <div class="menu-links" style="margin-right: 5px;">
+            <a href="{{ route('landing.t-member') }}" class="header-link">
+                <span class="font-h3"> T-Membresía</span>
+            </a>
+        </div>
+
+        <div class="menu-links-reduced" style="margin-right: 15px;">
+            <a href="#" class="link-reduced">
+                <span class="font-h3">...</span>
+            </a>
+            <div uk-dropdown="pos: bottom" style="padding: 0 0;">
+                <div class="header-background-ligth" style="padding: 10px 15px;">
+                    <ul class="menu">
+                        @if ( (!Auth::guest()) && (Auth::user()->role_id == 1) )
+                            <li>
+                                <a href="{{ route('students.my-content') }}">
+                                    <span><i class="fas fa-video"></i> Mis Cursos</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::guest())
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @elseif (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{ route('landing.t-mentor') }}">
+                                    <span><i class="fa fa-users"></i> T-Mentor</span>
+                                </a>
+                            </li>
+                        @endif
+                        <li>
+                            <a href="{{ route('landing.t-member') }}">
+                                <span><i class="fa fa-user-tie"></i> T-Membresía</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         @if ( (!Auth::guest()) && (Auth::user()->role_id < 3) )
