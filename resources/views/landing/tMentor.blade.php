@@ -23,7 +23,7 @@
 @section('content')
 	{{-- Sección T-Mentor --}}
    <div>
-      <img class="t-mentor-banner" src="https://www.transformatepro.com/template/images/banner_principal_t_mentor.png" />
+      <img class="t-mentor-banner" src="{{ asset('images/t_mentor_banner.jpg') }}" />
       <div class="uk-width-1-1 t-mentor-text-banner uk-text-center">
          <h1 class="uk-text-bold title">SÉ PARTE DEL EQUIPO TRANSFORMADOR</h1>
          <span class="description uk-visible@s"><br> Sé parte del Equipo Transformador.<br> Si tienes una  pasión y quieres contribuir con ella a la transformación de esta humanidad, aquí encontrarás la Ruta para hacerlo.</span>
@@ -35,7 +35,7 @@
    </div>
 
    <div class="t-mentor-imagen-info background-ligth2" id="t-mentor-imagen-info">
-   	<img src="https://www.transformatepro.com/template/images/transformate.png">
+   	<img src="{{ asset('images/t_mentor_banner2.jpg') }}">
    </div>
 
    <div class="t-mentor-info">
