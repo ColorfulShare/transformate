@@ -11,27 +11,21 @@ body {
 .background-ligth {
     background-color: white;
 }
-
 .background-dark {
     background-color: black;
 }
-
 .background-ligth2 {
     background-color: #f2f2f2;
 }
-
 .background-dark2 {
     background-color: #302F2F;
 }
-
 .color-black {
     color: black;
 }
-
 .color-ligth {
     color: gray;
 }
-
 .color-dark {
     color: white;
 }
@@ -49,6 +43,23 @@ body {
 }
 
 /*** New Design ***/
+/*Título del Evento Banner Home */
+.event-title{
+    font-size: 28px;
+}
+/* Títulos del Home */
+.big-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+/* Subtítulos del Home */
+.small-title {
+    font-size: 20px;
+}
+/* Título de las Tbas del Home */
+.tab-title{
+    font-size: 26px;
+}
 /* <li> de la card de cursos */
 .course {
     padding: 0 15px !important;
@@ -56,18 +67,14 @@ body {
 /* Card de Curso */
 .course-card{
     background-color: white;
-    box-shadow: 4px 6px 6px 0px gray;
+    box-shadow: 4px 6px 6px 0px rgba(11, 19, 43, 0.2);
 }
 /* Div de imagen Cards */
 .image-div {
     position: relative;
     display: inline-block;
     text-align: center;
-    height: 220px;
-}
-/* Card imagen */
-.content-image {
-    height: 100% !important;
+    height: 170px;
 }
 /* Card cuerpo */
 .card-body{
@@ -105,7 +112,7 @@ body {
 }
 /*Cards subtítulo */
 .course-subtitle {
-    height: 60px;
+    height: 70px;
     color: #8A8A8A;
     font-weight: 400;
     line-height: 1.2;
@@ -132,17 +139,21 @@ body {
 }
 /*Cards Mentor*/
 .course-instructor {
+    height: 40px;
     font-size: 16px;
     padding-bottom: 5px;
     padding-top: 5px;
     color: #5FA8D3;
     font-weight: 700;
+    line-height: 18px;
 }
 /* Cards categoría */
 .course-category {
+    height: 40px;
     font-size: 16px;
     color: #8A8A8A;
     font-weight: 700;
+    line-height: 18px;
 }
 /* Card Ver Más Link */
 .show-more-link {
@@ -186,13 +197,10 @@ body {
     color: #5FA8D3;
     border: solid #5FA8D3 1px;
 }
-/* Card Footer Precio */
-.card-footer{
-    padding: 10px;
-    background-color: #1172A9 !important;
-}
 /* Cards precio */
 .course-price {
+    padding: 10px;
+    background-color: #1172A9 !important;
     font-size: 16px;
     color: white !important;
     font-weight: 700;
@@ -242,6 +250,10 @@ body {
 .category-list-item-active:hover{
    text-decoration: none;
 }
+/* Sección Cards (T-Courses) */
+.cards-section{
+    padding-left: 80px;
+}
 /* Nombre de Categoría Seleccionada Sección Cards (T-Courses) */
 .courses-category-selected{
     font-size: 26px;
@@ -258,6 +270,261 @@ body {
     text-decoration: none;
     color: #1B4965;
 }
+.banner-transforma-title{
+    color: #3A506B;
+    font-size: 28px;
+    font-weight: 700;
+
+}
+/* Sección Izquierda Detalles de Curso */
+.course-details-div{
+    padding: 4% 5% !important; 
+    font-weight: 700; 
+    background-color: white; 
+}
+/* Botón Azul "Agregar al Carrito" */ 
+.courses-button-blue {
+    padding: 6px 20px;
+    background-color: #014991;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.link-back-to-courses{
+    color: #1B4965; 
+    font-size: 18px;
+}
+/* Título del Curso (Detalles de Curso) */
+.course-details-title{
+    padding-top: 20px; 
+    color: #034A91; 
+    font-size: 24px;
+}
+.course-details-category{
+    color: #1B4965; 
+    font-size: 20px;
+}
+.course-details-lessons{
+    color: #1B4965; 
+    font-size: 20px;
+}
+.course-details-instructor{
+    color: #515151; 
+    font-size: 20px;
+}
+.course-details-price{
+    color: #1B4965; 
+    font-size: 20px; 
+    padding-bottom: 20px;
+}
+.course-details-buttons{
+    padding-top: 10px;
+    text-align: center;
+}
+/* Sección Derecha Detalles de Curso */
+.course-preview-div{
+    display: flex; 
+    align-items: center;
+    padding-left: 5% !important; 
+}
+.course-preview-video{
+    width: 500px; 
+    height: 250px;
+}
+/* Sección Izquierda Contenido Detalles de Curso */
+.course-content-div{
+    padding: 3% 5% !important;
+}
+.course-content-subtitle{
+    color: #1B4965; 
+    font-size: 21px; 
+    font-weight: 700;
+}
+.course-accordion{
+    padding: 20px 20px;
+}
+.course-accordion-title{
+    color: #034A91 !important; 
+    font-size: 21px !important;
+}
+.course-accordion-content{
+    color: #515151 !important; 
+    margin-top: 0px !important;
+    padding: 5px 10px;
+    font-weight:  400;
+}
+.module-accordion-title{
+    color: #0B132B !important; 
+    font-size: 18px !important;
+    font-weight:  700;
+}
+.lesson-link{
+    color: #0B132B !important;
+}
+.lesson-link:hover{
+    text-decoration: none;
+    color: #034A91 !important;
+}
+/* Sección Derecha Detalles de Curso */
+.course-content-ratings{
+    padding: 4% 5% 4% 12% !important; 
+}
+.ratings-card{
+    box-shadow: 4px 6px 6px 0px rgba(11, 19, 43, 0.2);
+    border-radius: 5px;
+}
+.ratings-card-title{
+    color: #515151;
+    font-size: 22px;
+    font-weight: 700;
+}
+.ratings-card-content{
+    padding-top: 15px;
+    color: #8A8A8A;
+    font-size: 18px;
+    font-weight: 400;
+}
+/* Página Eventos */
+.events-content{
+    padding: 20px 5% 20px 5%; 
+    background-color: #E5E5E5;
+}
+.events-text-info{
+    padding-right: 20%; 
+    font-size: 18px; 
+    font-weight: 400; 
+    color: #8A8A8A;
+}
+.event-info{
+    padding-top: 15px; 
+    padding-left: 15px;
+}
+.event-left-side{
+    padding-right: 0px !important; 
+    padding-bottom: 0px !important;
+}
+.event-right-side{
+    background-color: white; 
+    padding-left: 0px !important; 
+    margin-top: 0px !important;
+}
+.event-title{
+    color: #1B4965; 
+    font-size: 20px; 
+    font-weight: 700; 
+    line-height: 21px;
+}
+.event-instructor{
+    color: #5FA8D3; 
+    font-size: 18px;
+    font-weight: 700;
+}
+.event-datetime{
+    color: #8A8A8A; 
+    font-size: 18px; 
+    font-weight: 700; 
+    line-height: 20px;
+}
+.event-legend{
+    padding-top: 5px; 
+    color: #8A8A8A; 
+    font-size: 14px; 
+    font-weight: 400; 
+    line-height: 15px;
+}
+.event-price{
+    padding-top: 5px; 
+    color: #1B4965; 
+    font-size: 18px; 
+    font-weight: 700; 
+    line-height: 20px;
+}
+.event-buttons{
+    padding-top: 20px; 
+    padding-bottom: 20px;
+}
+/* Detalles de Evento */
+/* Sección Izquierda Detalles de Evento */
+.event-details-div{
+    padding: 4% 5% 0 5% !important; 
+    font-weight: 700; 
+    background-color: white; 
+}
+/* Título del Curso (Detalles de Curso) */
+.event-details-title{
+    padding-top: 20px; 
+    color: #034A91; 
+    font-size: 24px;
+}
+.event-details-legend{
+    color: #1B4965; 
+    font-size: 18px;
+    line-height: 19px;
+    font-weight: 700;
+}
+.event-details-instructor{
+    padding-top: 15px;
+    color: #515151; 
+    font-size: 20px;
+}
+.event-details-price{
+    padding-top: 10px;
+    color: #1B4965; 
+    font-size: 20px; 
+    padding-bottom: 30px;
+    line-height: 21px;
+}
+.event-details-presale-time{
+    color: #515151;
+    font-size: 18px; 
+    font-weight: 700;
+}
+.event-content-legend{
+    color: #1B4965; 
+    font-size: 20px; 
+    font-weight: 700;
+    line-height: 21px;
+}
+.event-content-about-title{
+    padding-top: 10px;
+    color: #034A91;
+    font-size: 20px; 
+    font-weight: 700;
+}
+.event-content-about-text{
+    padding: 10px 20px;
+    color: #515151;
+    font-size: 16px; 
+    font-weight: 400;
+}
+.event-content-inscription{
+    padding: 4% 5% 4% 12% !important; 
+}
+.event-inscription-card{
+    padding: 0 0 !important;
+    box-shadow: 4px 6px 6px 0px rgba(11, 19, 43, 0.2);
+    border-radius: 5px;
+}
+.event-inscription-div{
+    background-color: white;
+    padding: 10px 25px;
+}
+.event-inscription-title{
+    font-size: 22px; 
+    color: #515151; 
+    font-weight: 700;
+}
+.event-inscription-subtitle{
+    font-size: 16px; 
+    color: #8A8A8A; 
+    font-weight: 400;
+}
+.event-inscription-tab{
+    color: #034A91 !important; 
+    font-size: 16px !important; 
+    font-weight: 700 !important;
+}
+
 
 
 
@@ -316,28 +583,6 @@ body {
     border: solid #2493B5 1px;
     text-decoration: none;
 }
-
-
-/*.courses-button {
-    padding: 6px;
-    display: block;
-    font-size: 18px;
-    line-height: 38px;
-    text-align: center;
-    transition: 0.1s ease-in-out;
-    font-weight: 700;
-    color: white;
-    background-color: #034a91;
-    width: 100%;
-    border-radius: 10px;
-}
-
-.courses-button:hover {
-    background-color: white;
-    color: #034a91;
-    border: solid #034a91 1px;
-    text-decoration: none;
-}*/
 
 .courses-button-white {
     padding: 15px 45px;
@@ -582,11 +827,6 @@ body {
     text-align: center;
 }
 
-
-/*.t-mentor img{
-    height: 30em;
-}*/
-
 .t-mentor-text {
     position: absolute;
     top: 30%;
@@ -632,22 +872,6 @@ body {
     font-size: 24px;
     font-weight: bold;
 }
-
-.event-title{
-    font-size: 28px;
-}
-.big-title {
-    font-size: 30px;
-    font-weight: bold;
-}
-.small-title {
-    font-size: 20px;
-}
-.tab-title{
-    font-size: 26px;
-}
-
-
 .best-seller-image-div {
     position: relative;
     display: inline-block;
@@ -871,25 +1095,14 @@ body {
     padding: 20px 20px 45px 35px;
 }
 
-.t-mentor-imagen-info img {
-    height: 350px !important;
-}
-
 .t-mentor-info {
     background-color: #41a8c4;
-    padding: 50px 200px;
+    padding-left: 10%;
+    padding-right: 10%;
     color: white;
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: 700;
     text-align: center;
-}
-
-.t-mentor-info-line {
-    border-bottom: solid white 2.5px;
-    width: 300px;
-    padding-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .t-mentor-route {
@@ -913,7 +1126,7 @@ body {
 
 .t-mentor-route-icon {
     width: 150px;
-    height: 150px;
+    /*height: 150px;*/
 }
 
 .t-mentor-route-lineamientos {
@@ -1009,8 +1222,8 @@ body {
 
 
 /*** Móvil ***/
-
 @media (min-width: 320px) and (max-width: 640px) {
+    /*NEW DESIGN*/
     .big-title{
         font-size: 24px;
     }
@@ -1023,6 +1236,36 @@ body {
     .tab-title{
         font-size: 24px;
     }
+    .courses-banner-text {
+        width: 50%;
+    }
+    .courses-banner .title {
+        font-size: 22px;
+    }
+    .courses-banner .description {
+        font-size: 16px;
+    }
+    .courses-category-title{
+        text-align: center;
+    }
+    .categories-list{
+        margin-left: 20px;
+    }
+    .categories-list li{
+        font-size: 18px; 
+    }
+    .cards-section{
+        padding-left: 0px;
+    }
+    .courses-category-selected{
+        text-align: center;
+    }
+    .events-text-info{
+        padding-right: 0; 
+        text-align: center;
+    }
+
+
     .course-pro {
         text-align: left;
         position: absolute;
@@ -1086,7 +1329,7 @@ body {
         font-size: 12px;
     }
     .image-div {
-        height: 220px;
+        height: 170px;
     }
     .course-title {
         font-size: 16px;
@@ -1176,16 +1419,6 @@ body {
     .t-mentor-imagen-info {
         padding: 20px 5px 35px 5px;
     }
-    .t-mentor-imagen-info img {
-        height: 150px !important;
-    }
-    .t-mentor-info {
-        padding: 40px 40px;
-        color: white;
-        font-size: 16px;
-        font-weight: 500;
-        text-align: justify;
-    }
     .t-mentor-route {
         padding: 30px 10px;
     }
@@ -1255,9 +1488,7 @@ body {
     }
 }
 
-
 /* Responsive layout - makes a one column-layout instead of two-column layout */
-
 @media (max-width: 800px) {
     .flex-container {
         flex-direction: column;
@@ -1270,10 +1501,21 @@ body {
     }
 }
 
-
 /*** Tablet ***/
-
 @media (min-width: 641px) and (max-width: 960px) {
+    /*NEW DESIGN */
+    .courses-banner-text {
+        width: 40%;
+    }
+    .courses-banner .title {
+        font-size: 30px;
+    }
+    .courses-banner .description {
+        font-size: 20px;
+    }
+
+
+
     .course-pro {
         text-align: left;
         position: absolute;

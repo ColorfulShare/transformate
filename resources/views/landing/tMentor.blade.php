@@ -34,20 +34,12 @@
       </div>
    </div>
 
-   <div class="t-mentor-imagen-info background-ligth2" id="t-mentor-imagen-info">
-   	<img src="{{ asset('images/t_mentor_banner2.jpg') }}">
-   </div>
-
-   <div class="t-mentor-info">
-      <div class="uk-visible@s">
-         Como MENTOR podrás crear video cursos o audio cursos en diferentes temáticas y <br>
-         categorías, sobre todo en aquellas donde está tu pasión, identifícala y luego podrás elegir en Transfórmate PRO la categoría de cursos de tu preferencia.
-
-         <div class="t-mentor-info-line"></div>
-      </div>
-
-      <div class="uk-hidden@s">
-         Como MENTOR podrás crear video cursos o audio cursos en diferentes temáticas y categorías, sobre todo en aquellas donde está tu pasión, identifícala y luego podrás elegir en Transfórmate PRO la categoría de cursos de tu preferencia.
+   <div class="t-mentor-imagen-info">
+      <div class="t-mentor-info" style="background-image: url('http://localhost:8000/images/t_mentor_banner2.jpg');background-repeat: no-repeat;background-size: cover; height: 500px; display: flex; align-items: center;">
+         <div>
+            Como MENTOR podrás crear video cursos o audio cursos en diferentes temáticas y <br>
+            categorías, sobre todo en aquellas donde está tu pasión, identifícala y luego podrás elegir en Transfórmate PRO la categoría de cursos de tu preferencia.
+         </div>
       </div>
    </div>
 
@@ -57,25 +49,25 @@
    			<div>
                <a href="javascript:;" onclick="loadStep(1);">
    				  <span class="t-mentor-route-number color-ligth2" id="t-mentor-route-number1">1.</span> <span class="t-mentor-route-text color-ligth2" id="t-mentor-route-text1">Crea tu curso</span><br>
-   				  <img src="https://www.transformatepro.com/template/images/crea_tu_curso.png" class="t-mentor-route-icon">
+   				  <img src="{{ asset('images/step1.png') }}" class="t-mentor-route-icon">
                </a>
    			</div>
    			<div>
                <a href="javascript:;" onclick="loadStep(2);">
    				  <span class="t-mentor-route-number color-ligth2" id="t-mentor-route-number2">2.</span> <span class="t-mentor-route-text color-ligth2" id="t-mentor-route-text2">Graba tu curso</span><br>
-   				  <img src="https://www.transformatepro.com/template/images/graba_tu_curso.png" class="t-mentor-route-icon">
+   				  <img src="{{ asset('images/step2.png') }}" class="t-mentor-route-icon">
                </a>
    			</div>
    			<div>
                <a href="javascript:;" onclick="loadStep(3);">
    				  <span class="t-mentor-route-number color-ligth2" id="t-mentor-route-number3">3.</span> <span class="t-mentor-route-text color-ligth2" id="t-mentor-route-text3">Dale valor a tu comunidad</span><br>
-   				  <img src="https://www.transformatepro.com/template/images/dale_valor_a_tu_comunidad.png" class="t-mentor-route-icon">
+   				  <img src="{{ asset('images/step3.png') }}" class="t-mentor-route-icon">
                </a>
    			</div>
    			<div>
                <a href="javascript:;" onclick="loadStep(4);">
    				  <span class="t-mentor-route-number color-ligth2" id="t-mentor-route-number4">4.</span> <span class="t-mentor-route-text color-ligth2" id="t-mentor-route-text4">Lineamientos y acuerdos</span><br>
-   				  <img src="https://www.transformatepro.com/template/images/lineamientos_y_acuerdos.png" class="t-mentor-route-icon">
+   				  <img src="{{ asset('images/step4.png') }}" class="t-mentor-route-icon">
                </a>
    			</div>
    		</div>

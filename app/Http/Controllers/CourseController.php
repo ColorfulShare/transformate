@@ -234,6 +234,77 @@ class CourseController extends Controller
         }
     }
 
+    public function show2(){
+        $id = 63;
+        $curso = Course::where('id', '=', $id)
+                        ->with('modules', 'modules.lessons', 'tags')
+                        ->withCount(['students', 'modules', 
+                                'ratings' => function($query){
+                                     $query->orderBy('created_at', 'DESC');
+                                }, 
+                                'ratings as promedio' => function ($query2){
+                                    $query2->select(DB::raw('avg(points)'));
+                                }
+                            ])->first();
+
+        $curso->avg = explode('.', $curso->promedio);
+
+        $cantLecciones = 0;
+        foreach ($curso->modules as $modulo) {
+            $leccionesMod = DB::table('lessons')
+                                ->where('module_id', '=', $modulo->id)
+                                ->select('id')
+                                ->get();
+
+            foreach ($leccionesMod as $leccion){
+                $cantLecciones++;
+            }
+        }
+
+        $curso->lessons_count = $cantLecciones;
+
+        $misCursos = [];
+
+        if (Auth::guest()){
+            return view('landing.showCourseNew')->with(compact('curso')); 
+        }else if (Auth::user()->role_id == 1){
+            //Vista de Estudiantes  
+            $agregado = Auth::user()->courses_students()->where('course_id', '=', $id)->count();
+
+            if ($agregado == 0){
+                return view('landing.showCourseNew')->with(compact('curso'));
+            }else{
+               return redirect('students/t-courses/resume/'.$slug.'/'.$id);
+            } 
+        }else if (Auth::user()->role_id == 2){
+            return view('landing.showCourse')->with(compact('curso'));
+        }else if (Auth::user()->role_id == 3){
+            $curso = Course::find($id);
+
+            $etiquetasActivas = [];
+            foreach ($curso->tags as $etiq){
+                array_push($etiquetasActivas, $etiq->id);
+            }
+
+            $etiquetas = DB::table('tags')
+                            ->orderBy('tag', 'ASC')
+                            ->get();
+
+            $categorias = DB::table('categories')
+                            ->select('id', 'title')
+                            ->orderBy('id', 'ASC')
+                            ->get();
+
+            $subcategorias = DB::table('subcategories')
+                                ->select('id', 'title')
+                                ->where('category_id', '=', $curso->category_id)
+                                ->orderBy('id', 'ASC')
+                                ->get();
+
+            return view('admins.courses.show')->with(compact('curso', 'categorias', 'subcategorias', 'etiquetas', 'etiquetasActivas'));
+        }
+    }
+
     //**** Estudiante / Ver Curso / Tomar Curso (Guatuito) ****//
     public function add($curso, $membresia = NULL){
         DB::table('courses_students')
@@ -511,6 +582,71 @@ class CourseController extends Controller
             return view('students.courses.resume')->with(compact('curso', 'primeraLeccion', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));     
         }else{
             return view('admins.courses.resume')->with(compact('curso', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));
+        }
+        
+    }
+
+    public function resume2(){
+        $id = 63;
+        $curso = Course::where('id', '=', $id)
+                    ->with(['modules' => function ($query){
+                            $query->orderBy('priority_order', 'ASC');
+                        },
+                        'modules.lessons',
+                        'tags'
+                    ])->withCount(['ratings' => function ($query3){
+                            $query3->orderBy('created_at', 'DESC');
+                        },
+                        'ratings as promedio' => function ($query4){
+                            $query4->select(DB::raw('avg(points)'));
+                        }
+                    ])->first();
+
+        $primerModulo = DB::table('modules')
+                            ->select('id')
+                            ->where('course_id', '=', $id)
+                            ->where('priority_order', '=', 1)
+                            ->first();
+
+        $primeraLeccion = DB::table('lessons')
+                            ->select('id')
+                            ->where('module_id', '=', $primerModulo->id)
+                            ->where('priority_order', '=', 1)
+                            ->first();
+        
+        $promedio = explode('.', $curso->promedio);
+
+        $progreso = DB::table('courses_students')
+                        ->select('progress')
+                        ->where('user_id', '=', Auth::user()->id)
+                        ->where('course_id', '=', $id)
+                        ->first();
+
+        $miValoracion = DB::table('ratings')
+                            ->where('user_id', '=', Auth::user()->id)
+                            ->where('course_id', '=', $id)
+                            ->first();
+
+        $cantLecciones = 0;
+        foreach ($curso->modules as $modulo) {
+            foreach ($modulo->lessons as $leccion){
+                $cantLecciones++;
+                if ($leccion->duration > 0){
+                    $tiempo = explode(".", $leccion->duration);
+                    $segundos = $tiempo[0]*60 + $tiempo[1]; 
+                    $leccion->hours = floor($segundos/ 3600);
+                    $leccion->minutes = floor(($segundos - ($leccion->hours * 3600)) / 60);
+                    $leccion->seconds = $segundos - ($leccion->hours * 3600) - ($leccion->minutes * 60);
+                }
+            }
+        }
+
+        $curso->lessons_count = $cantLecciones;
+
+        if (Auth::user()->role_id == 1){
+            return view('students.courses.resumeNew')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'miValoracion'));     
+        }else{
+            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'progreso', 'miValoracion'));
         }
         
     }

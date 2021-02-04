@@ -39,7 +39,116 @@ class EventController extends Controller{
 			return view('admins.events.index')->with(compact('eventos', 'cantEventos', 'mentores'));
 		}
 	}
+
+	public function index2(){
+		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
+			$eventos = Event::where('status', '=', 1)
+						->with('images')
+						->orderBy('date', 'ASC')
+						->get();
+
+			foreach ($eventos as $evento){
+				$dia = $this->getDay(date('N', strtotime($evento->date)));
+				$mes = $this->getMonth(date('n', strtotime($evento->date)));
+
+				$fecha = $dia." ".date('d', strtotime($evento->date))." de ".$mes;
+				$evento->date = $fecha;
+			}
+
+			$cantEventos = $eventos->count();
+
+			return view('landing.eventsNew')->with(compact('eventos', 'cantEventos'));
+		}else{
+			$eventos = Event::where('status', '=', 1)
+						->withCount(['subscriptions' => function ($query){
+							$query->where('disabled', '=', 0);
+						}])->orderBy('date', 'ASC')
+						->get();
+
+			$cantEventos = $eventos->count();
+
+			$mentores = DB::table('users')
+							->select('id', 'names', 'last_names', 'email')
+							->where('role_id', '=', 2)
+							->where('status', '=', 1)
+							->orderBy('names', 'ASC')
+							->get();
+
+			return view('admins.events.index')->with(compact('eventos', 'cantEventos', 'mentores'));
+		}
+	}
 	
+	public function getDay($day){
+		switch ($day) {
+			case 1:
+				$dia = 'Lunes';
+			break;
+			case 2:
+				$dia = 'Martes';
+			break;
+			case 3:
+				$dia = 'Miércoles';
+			break;
+			case 4:
+				$dia = 'Jueves';
+			break;
+			case 5:
+				$dia = 'Viernes';
+			break;
+			case 6:
+				$dia = 'Sábado';
+			break;
+			case 7:
+				$dia = 'Domingo';
+			break;
+		}
+
+		return $dia;
+	}
+
+	public function getMonth($month){
+		switch ($month) {
+			case 1:
+				$mes = 'Enero';
+			break;
+			case 2:
+				$mes = 'Febrero';
+			break;
+			case 3:
+				$mes = 'Marzo';
+			break;
+			case 4:
+				$mes = 'Abril';
+			break;
+			case 5:
+				$mes = 'Mayo';
+			break;
+			case 6:
+				$mes = 'Junio';
+			break;
+			case 7:
+				$mes = 'Julio';
+			break;
+			case 8:
+				$mes = 'Agosto';
+			break;
+			case 9:
+				$mes = 'Septiembre';
+			break;
+			case 10:
+				$mes = 'Octubre';
+			break;
+			case 11:
+				$mes = 'Noviembre';
+			break;
+			case 12:
+				$mes = 'Diciembre';
+			break;
+		}
+
+		return $mes;
+	}
+
 	public function subscribe(Request $request){
 		$check = DB::table('event_subscriptions')
 					->where('event_id', '=', $request->event_id)
@@ -647,6 +756,36 @@ class EventController extends Controller{
 			}
 
 			return view('landing.showEvent')->with(compact('evento', 'countdown_limit', 'cantImagenesMentores'));
+		}else{
+			$evento = Event::where('id', '=', $id)
+						->withCount('images')
+						->first();
+
+			$imagenes = $evento->images;
+			$imagenes = $imagenes->sortBy('id');
+
+			$mentores = DB::table('users')
+							->select('id', 'names', 'last_names', 'email')
+							->where('role_id', '=', 2)
+							->where('status', '=', 1)
+							->orderBy('names', 'ASC')
+							->get();
+
+			return view('admins.events.show')->with(compact('evento', 'imagenes', 'mentores'));
+		}
+	}
+
+	public function show2(){
+		$id = 38;
+		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
+			$evento = Event::find($id);
+
+			$countdown_limit = NULL;
+			if ($evento->presale == 1){
+				$countdown_limit = date('M j\, Y H:i:s', strtotime($evento->presale_datetime));
+			}
+
+			return view('landing.showEventNew')->with(compact('evento', 'countdown_limit'));
 		}else{
 			$evento = Event::where('id', '=', $id)
 						->withCount('images')

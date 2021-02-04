@@ -35,6 +35,7 @@ Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('reiniciar-billeteras', 'ScriptController@reiniciar_billeteras');
 	Route::get('corregir-comisiones', 'ScriptController@corregir_comisiones');
 	Route::get('llenar-claves-busqueda-cursos', 'ScriptController@llenar_claves_busqueda_cursos');
+	Route::get('restaurar-liquidaciones', 'ScriptController@restaurar_liquidaciones');
 });
 
 Route::group(['middleware' => ['https']], function () {
@@ -59,6 +60,7 @@ Route::group(['middleware' => ['https']], function () {
 	});
 
 	Route::get('t-courses-new/{slug?}/{categoria?}', 'LandingController@courses2')->name('landing.new-courses');
+	Route::get('show-course-new', 'CourseController@show2')->name('landing.courses.showNew');
 
 	Route::group(['prefix' => 't-books'], function() {
 		Route::get('/', 'LandingController@podcasts')->name('landing.podcasts');
@@ -102,6 +104,7 @@ Route::group(['middleware' => ['https']], function () {
 		
 	});
 
+	Route::get('show-event-new', 'EventController@show2')->name('landing.events.show-new');
 	Route::group(['prefix' => 't-events'], function(){
 		Route::get('/', 'EventController@index')->name('landing.events');
 		Route::get('show/{slug}/{id}', 'EventController@show')->name('landing.events.show');
@@ -119,6 +122,7 @@ Route::group(['middleware' => ['https']], function () {
 		Route::post('redeem-gift', 'EventController@redeem_gift')->name('landing.events.redeem-gift');
 		Route::get('add-video-view-counter/{evento_id}', 'EventController@add_video_view_counter')->name('landing.events.add-video-view-counter');
 	});
+	Route::get('t-events-new', 'EventController@index2')->name('landing.events-new');
 
 	Route::group(['prefix' => 'instructors'], function() {
 		Route::get('profile/{slug}/{id}', 'LandingController@show_instructor_profile')->name('landing.instructor.show-profile');
@@ -177,12 +181,14 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 	});
 
 	Route::get('/my-content', 'StudentController@my_content')->name('students.my-content');
+	Route::get('/my-content-new', 'StudentController@my_content2')->name('students.my-content-new');
 	Route::get('/my-gifts', 'GiftController@index')->name('students.my-gifts');
 	Route::post('redeem-gift-code', 'GiftController@redeem_gift_code')->name('students.redeem-gift-code');
 
 	Route::group(['prefix' => 't-courses'], function() {
 		Route::get('/', 'LandingController@courses')->name('students.courses');
 		Route::get('resume/{slug}/{id}', 'CourseController@resume')->name('students.courses.resume')->middleware('course_student');
+		Route::get('resume-new', 'CourseController@resume2')->name('students.courses.resume-new');
 		Route::get('lessons/{slug}/{id}/{lesson_id}', 'CourseController@lessons')->name('students.courses.lessons');
 		Route::get('add/{id}/{membresia?}', 'CourseController@add')->name('students.courses.add');
 		Route::get('load-video-duration/{leccion}/{duracion?}', 'LessonController@load_video_duration')->name('students.courses.lessons.load-video-duration');

@@ -80,6 +80,52 @@ class StudentController extends Controller
         return view('students.myContent')->with(compact('cantCursos', 'cursos', 'cantCertificaciones', 'certificaciones', 'cantPodcasts', 'podcasts'));  
     }
 
+    public function my_content2(){
+        $infoCursos = DB::table('courses_students')
+                        ->where('user_id', '=', Auth::user()->id)
+                        ->orderBy('start_date', 'DESC')
+                        ->get();
+
+        $cantCursos = $infoCursos->count();
+
+        $cursos = collect();
+        if ($cantCursos > 0){
+            foreach ($infoCursos as $infoCurso) {
+                $curso = Course::where('id', '=', $infoCurso->course_id)
+                            ->first();
+
+                $curso->progress = $infoCurso->progress;
+                $curso->start_date = $infoCurso->start_date;
+                $curso->ending_date = $infoCurso->ending_date;
+
+                $cursos->push($curso);
+            }
+        }
+
+        $infoPodcasts = DB::table('podcasts_students')
+                            ->where('user_id', '=', Auth::user()->id)
+                            ->get();
+
+        $cantPodcasts = $infoPodcasts->count();
+
+        $podcasts = collect();
+        if ($cantPodcasts > 0){
+            foreach ($infoPodcasts as $infoPodcast) {
+                $podcast = Podcast::where('id', '=', $infoPodcast->podcast_id)
+                            ->first();
+
+                $podcasts->push($podcast);
+            }
+        }
+
+        DB::table('gifts')
+            ->where('user_id', '=', Auth::user()->id)
+            ->where('checked', '=', 0)
+            ->update(['checked' => 1]);
+       
+        return view('students.myContentNew')->with(compact('cantCursos', 'cursos', 'cantPodcasts', 'podcasts'));  
+    }
+
     //Estudiante / Actualizar Datos de Perfil
     public function update_profile(Request $request){
         $usuario = User::find(Auth::user()->id);

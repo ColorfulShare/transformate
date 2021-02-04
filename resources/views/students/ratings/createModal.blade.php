@@ -30,7 +30,7 @@
 	        </div>
 	        <div class="uk-modal-footer uk-text-right">
 	            <button class="uk-button uk-button-default uk-modal-close" type="button">Recordármelo Después</button>
-	            <input type="submit" class="uk-button uk-button-primary" value="Publicar Valoración" />
+	            <input type="submit" class="uk-button courses-button-blue" value="Publicar Valoración" />
 	        </div>
 	    </form>
     </div>

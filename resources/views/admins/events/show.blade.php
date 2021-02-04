@@ -44,7 +44,7 @@
 	        	<form action="{{ route('admins.events.update') }}" method="POST" class="uk-grid-small" uk-grid id="form-principal"> 
 	                @csrf
 	                <input type="hidden" name="event_id" value="{{ $evento->id }}">
-	                <div class="uk-width-2-3"> 
+	                <div class="uk-width-1-1"> 
 	                    <div class="uk-form-label">Título (*)</div>        
 	                    <input class="uk-input" type="text" name="title" value="{{ $evento->title }}" required> 
 	                </div>    
@@ -61,6 +61,10 @@
 	                    <div class="uk-form-label">Fecha (*)</div>        
 	                    <input class="uk-input" type="date" name="date" value="{{ $evento->date }}" required> 
 	                </div>
+	                <div class="uk-width-1-3">
+                        <div class="uk-form-label">Horario (*):</div>
+                        <input class="uk-input" type="text" name="time" value="{{ $evento->time }}" required>
+                    </div>
 	                <div class="uk-width-1-3"> 
 	                    <div class="uk-form-label">Tipo (*)</div>        
 	                    <select class="uk-select" name="type" id="type" onchange="checkOption();">

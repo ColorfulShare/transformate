@@ -26,7 +26,8 @@
     @endif
 
     <div class="courses-banner">
-    	<img src="{{ asset('images/courses_banner.png') }}" alt="">
+    	<img src="{{ asset('images/courses_banner.jpg') }}" alt="" class="uk-visible@s">
+    	<img src="{{ asset('images/courses_banner_movil.jpg') }}" alt="" class="uk-hidden@s">
     	<div class="courses-banner-text">
          	<h1 class="uk-text-bold title">Más que cursos, son una guía de transformación</h1>
          	<span class="description">Son más de <strong>{{ $totalCursos }}</strong> cursos, en los que te ayudamos a crecer como profesional y persona</span>
@@ -35,10 +36,10 @@
 
     <div class="content" style="padding: 20px 5% 20px 5%; background-color: #E5E5E5;">
     	<div uk-grid>
-    		<div class="uk-width-auto">
+    		<div class="uk-width-auto@xl uk-width-auto@l uk-width-1-3@m uk-width-1-3@s ">
     			<div class="courses-category-title">Nuestros Cursos</div>
 
-    			<div>
+    			<div class="uk-visible@s">
     				<ul class="uk-list categories-list">
     					<li>
     						<a @if ($categoriaSeleccionada == 'destacados') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['destacados', 'destacados']) }}">
@@ -79,8 +80,63 @@
     					</li>
     				</ul>
     			</div>
+
+    			<div class="uk-child-width-1-2 uk-hidden@s" uk-grid>
+    				<div>
+    					<ul class="uk-list categories-list">
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 'destacados') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['destacados', 'destacados']) }}">
+	    							<i class="far fa-star"></i> Destacados
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 'vendidos') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['mas-vendidos', 'vendidos']) }}">
+	    							<i class="fas fa-fire"></i> Más Vendidos
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 'recomendados') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['recomendados', 'recomendados']) }}">
+	    							<i class="far fa-heart"></i> Recomendados
+	    						</a>
+	    					</li>
+	    					@for ($i = 1; $i <= 5; $i++)
+	    						<li>
+	    							<a @if ($categoriaSeleccionada == $categoriaLista->id) class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', [$categorias[$i]->slug, $categorias[$i]->id]) }}">
+	    								<i class="{{ $categorias[$i]->icon }}"></i> {{ $categorias[$i]->title }}
+	    							</a>
+	    						</li>
+	    					@endfor
+	    				</ul>
+    				</div>
+    				<div>
+    					<ul class="uk-list categories-list">
+	    					@for ($j = 6; $j < 10; $j++)
+	    						<li>
+	    							<a @if ($categoriaSeleccionada == $categoriaLista->id) class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', [$categorias[$j]->slug, $categorias[$j]->id]) }}">
+	    								<i class="{{ $categorias[$j]->icon }}"></i> {{ $categorias[$j]->title }}
+	    							</a>
+	    						</li>
+	    					@endfor
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 'tbooks') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['t-books', 'tbooks']) }}">
+	    							<i class="fas fa-book"></i> T-Books
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 100) class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['t-master-class', 100]) }}">
+	    							<i class="fab fa-tumblr"></i> T-Master Class
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a @if ($categoriaSeleccionada == 'todos') class="category-list-item-active" @else class="category-link" @endif href="{{ route('landing.new-courses', ['todos', 'todos']) }}">
+	    							<i class="fa fa-list"></i> Todos los cursos
+	    						</a>
+	    					</li>
+	    				</ul>
+    				</div>
+    			</div>
     		</div>
-    		<div class="uk-width-expand" style="padding-left: 80px;">
+    		<div class="uk-width-expand@xl uk-width-expand@l uk-width-2-3@m uk-width-2-3@s cards-section">
     			<div class="courses-category-selected">{{ $tituloCategoriaSeleccionada }}</div>
 
     			<div>
@@ -176,11 +232,7 @@
 			                                    </div>
 			                                @endif
 		                                </div>
-		                                <div class="uk-card-footer" style="padding:0px">
-		                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
-		                                        <div class="uk-text-center course-price">COP {{ number_format($curso->price, 0, ',', '.') }}</div>
-		                                    </div>
-		                                </div>
+		                                <div class="uk-text-center course-price">COP {{ number_format($curso->price, 0, ',', '.') }}</div>
 		                            </div>
 		                        </li>
 		                    @endforeach

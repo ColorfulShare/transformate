@@ -142,11 +142,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="uk-card-footer" style="padding:0px">
-                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
-                                        <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
-                                    </div>
-                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
                             </div>
                         </li>
                     @endforeach
@@ -201,11 +197,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="uk-card-footer" style="padding:0px">
-                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
-                                        <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
-                                    </div>
-                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
                             </div>
                         </li>
                     @endforeach
@@ -216,7 +208,7 @@
                 <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
                     @foreach ($cursosRecomendados as $cursoRecomendado)
                         <li class="course uk-transition-toggle" tabindex="0">
-                            <div class="uk-card uk-card-small card-background-ligth course-card">
+                            <div class="uk-card uk-card-small course-card">
                                 <div class="uk-card-media-top image-div">
                                     @if (!is_null($cursoRecomendado->preview))
                                         <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}">
@@ -260,11 +252,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="uk-card-footer" style="padding:0px">
-                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
-                                        <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
-                                    </div>
-                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
                             </div>
                         </li>
                     @endforeach
@@ -290,16 +278,16 @@
 
     {{-- Versión Móvil (8 Cards Verticales en dos columnas) --}}
     <div class="best-sellers-cards" style="padding-left: 5%; padding-right: 5%;">
-        <div class="uk-child-width-1-4@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1@xs" uk-grid>
+        <div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1@xs" uk-grid>
             <div>
                 <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
-                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
                                 <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
                             </div>
                             <div class="uk-width-expand" style="text-align:left;line-height:20px">
-                                <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">T-Master Class</h3>
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Master Class</h3>
                                 <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantMasterClass }} cursos</p>
                             </div>
                         </div>
@@ -308,13 +296,13 @@
             </div>
             <div>
                 <a href="{{ route('landing.courses', ['t-books', 0]) }}">
-                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
                                 <img src="{{ asset('/images/icon12.png') }}" style="width:40px;">
                             </div>
                             <div class="uk-width-expand" style="text-align:left;line-height:20px">
-                                <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">T-Books</h3>
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Books</h3>
                                 <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantPodcasts }} cursos</p>
                             </div>
                         </div>
@@ -324,13 +312,13 @@
             @foreach ($categoriasHome as $categoriaH)
                 <div>
                     <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
-                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 20px 20px !important;">
+                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
                             <div class="uk-grid-small uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
                                     <img src="{{ asset('/images/'.$categoriaH->image) }}" style="width:40px;">
                                 </div>
                                 <div class="uk-width-expand" style="text-align:left;line-height:20px">
-                                    <h3 class="uk-card-title uk-margin-remove-bottom" style="height:50px;font-weight:bold;font-size:18px;color:#3A506B;">{{ $categoriaH->title }}</h3>
+                                    <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px; line-height: 19px;color:#3A506B;">{{ $categoriaH->title }}</h3>
                                     <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $categoriaH->courses_count }} cursos</p>
                                 </div>
                             </div>
@@ -345,13 +333,13 @@
     <div class="flex-container">
         <div class="flex-item-left" style="display: flex; align-items: center;">
             <div class="contenflex">
-                <div class="uk-text-bold event-title">Se parte de la transformación y expande tu ser</div>
+                <div class="uk-text-bold banner-transforma-title">Se parte de la transformación y expande tu ser</div>
                 <p class="small-title">Con acceso a la posibilidad de crear tus cursos y productos online, expande tu ser y haz parte de nuestra Comunidad de Transformadores.</p>
 
-                <a class="link-course" href="#modal-register" uk-toggle> <span class="btn-course2">Crear cuenta</span></a>
+                <a class="link-course" href="#modal-register" uk-toggle style="box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.25);"> <span class="btn-course2">Crear cuenta</span></a>
                 <br class="uk-hidden@s">
 
-                <a class="link-course" href="#modal-register-instructor" uk-toggle> <span class="btn-course2">Volverme mentor de cursos</span></a>
+                <a class="link-course" href="#modal-register-instructor" uk-toggle style="box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.25);"> <span class="btn-course2">Volverme mentor de cursos</span></a>
             </div>
 
         </div>

@@ -67,9 +67,8 @@ input:checked+.slider2:before {
 }
 
 .footer-section {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9em;
-    color: #f1f1f1;
+    background-color: #034a91;
+    color: white;
     padding: 40px 40px;
 }
 
