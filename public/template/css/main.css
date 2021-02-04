@@ -1,8 +1,4 @@
-@font-face{
-  font-family: "Roboto";
-  src: local("../fonts/Roboto-BlackItalic.ttf");
-  font-weight: 700;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 body {
     background: #F2F2F2;
     font-family: 'Roboto' !important;
