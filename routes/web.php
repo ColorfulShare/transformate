@@ -221,6 +221,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 	Route::group(['prefix' => 'ratings'], function() {
 		Route::post('store', 'RatingController@store')->name('students.ratings.store');
 		Route::post('update', 'RatingController@update')->name('students.ratings.update');
+		Route::get('show-more/{curso}/{cant}', 'RatingController@show_more')->name('students.ratings.show-more');
 	});
 
 	Route::group(['prefix' => 'instructors'], function() {

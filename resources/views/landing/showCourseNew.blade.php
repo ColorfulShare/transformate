@@ -27,7 +27,7 @@
          <a href="{{ route('landing.courses') }}" class="link-back-to-courses">Volver a T-Cursos</a>
          <div class="course-details-title">{{ $curso->title }}</div>
          <div class="course-details-category"><i class="{{ $curso->category->icon }}"></i> {{ $curso->category->title }}</div>
-         <div class="course-details-lessons">{{ $curso->lessons_count }} Lecciones en Español</div>
+         <div class="course-details-lessons"><i class="fas fa-info-circle"></i> {{ $curso->lessons_count }} Lecciones en Español</div>
          <div class="course-details-instructor">Por: {{ $curso->user->names }} {{ $curso->user->last_names }}</div>
          <div class="course-details-price">COP {{ number_format($curso->price, 0, '.', ',') }}</div>
 
@@ -63,7 +63,7 @@
 
          <div class="course-accordion">
             <ul uk-accordion>
-               <li>
+               <li class="uk-open">
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Objetivos</b></a>
                   <div class="uk-accordion-content course-accordion-content">
                      <p>{!! $curso->objectives !!}</p>

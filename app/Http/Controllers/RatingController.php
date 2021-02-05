@@ -80,4 +80,23 @@ class RatingController extends Controller
             return redirect('students/t-books/resume/'.$valoracion->podcast_id)->with('msj-exitoso-rating', 'Su valoración ha sido modificada con éxito.');
         }
     }
+
+    public function show_more($curso, $cant){
+        $curso_id = $curso;
+        $newCant = $cant + 2;
+
+        $valoraciones = Rating::where('course_id', '=', $curso)
+                            ->orderBy('id', 'DESC')
+                            ->take($newCant)
+                            ->get();
+
+        $totalValoraciones = Rating::where('course_id', '=', $curso)->count();
+
+        $check = 0;
+        if ($totalValoraciones > $newCant){
+            $check = 1;
+        }
+
+        return view('students.ratings.showMore')->with(compact('valoraciones', 'newCant', 'curso_id', 'check'));
+    }
 }

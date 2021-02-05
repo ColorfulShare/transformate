@@ -41,6 +41,17 @@
       $(function(){    
          $('.video-responsive').bind('contextmenu',function() { return false; });
       });
+
+      function showMoreRatings(){
+         var route = $("#link-show-more").attr('data-route');
+         $.ajax({
+            url:route,
+            type:'GET',
+            success:function(ans){
+               $("#ratings-content").html(ans);  
+            }
+         });
+      }
    </script>
 @endpush
 
@@ -82,7 +93,7 @@
          <a href="{{ route('students.my-content') }}" class="link-back-to-courses">Volver a Mis Cursos</a>
          <div class="course-details-title">{{ $curso->title }}</div>
          <div class="course-details-category"><i class="{{ $curso->category->icon }}"></i> {{ $curso->category->title }}</div>
-         <div class="course-details-lessons">{{ $curso->lessons_count }} Lecciones en Español</div>
+         <div class="course-details-lessons"><i class="fas fa-info-circle"></i> {{ $curso->lessons_count }} Lecciones en Español</div>
          <div class="course-details-instructor">Por: {{ $curso->user->names }} {{ $curso->user->last_names }}</div>
          
          <div class="link-back-to-courses uk-text-center">Mi Progreso ({{ $progreso->progress }}%)</div>
@@ -118,7 +129,7 @@
 
          <div class="course-accordion">
             <ul uk-accordion>
-               <li>
+               <li class="uk-open">
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Objetivos</b></a>
                   <div class="uk-accordion-content course-accordion-content">
                      <p>{!! $curso->objectives !!}</p>
@@ -188,25 +199,33 @@
                   <hr style="border: none; height: 1px; color: black; background-color: black;">
                </div>
 
-               <div>
-                  @foreach ($curso->ratings as $valoracion)
-                     <div style="color: #1B4965; font-weight: 700; font-size: 18px;">
-                        @if ($valoracion->user_id != 0)
-                           {{ $valoracion->user->names }} {{ $valoracion->user->last_names }}
-                        @else
-                           {{ $valoracion->name }}
-                        @endif
-                     </div>
-                     <div style="color: #5FA8D3; font-weight: 700; font-size: 16px;">{{ date('d-m-Y H:i A', strtotime("$valoracion->created_at -5 Hours")) }}</div>
-                     <div>
-                        @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
-                        @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
-                        @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
-                        @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
-                        @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
-                     </div>
-                     <div style="color: #8A8A8A; font-weight: 400; font-size: 14px; padding-bottom: 10px;">{{ $valoracion->comment }}</div>
-                  @endforeach
+               <div id="ratings-content" uk-scrollspy="target: > div; cls: uk-animation-slide-bottom; delay: 500" style="height: 500px; overflow-y: scroll;">
+                  <div style="height: auto;">
+                     @foreach ($valoraciones as $valoracion)
+                        <div>
+                           <div class="rating-title">
+                              @if ($valoracion->user_id != 0)
+                                 {{ $valoracion->user->names }} {{ $valoracion->user->last_names }}
+                              @else
+                                 {{ $valoracion->name }}
+                              @endif
+                           </div>
+                           <div class="rating-date">{{ date('d-m-Y H:i A', strtotime("$valoracion->created_at -5 Hours")) }}</div>
+                           <div>
+                              @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
+                              @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
+                              @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
+                              @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
+                              @if ($valoracion->points >= 1) <i class="fas fa-star icon-star-rating icon-star-small"></i> @else <i class="far fa-star icon-star-rating icon-star-small"></i> @endif
+                           </div>
+                           <div class="rating-comment">{{ $valoracion->comment }}</div>
+                        </div>
+                     @endforeach
+
+                     @if ($totalValoraciones > 2)
+                        <div class="uk-text-center" style="padding-top: 10px;"><a href="javascript:;" class="link-back-to-courses" id="link-show-more" onclick="showMoreRatings();" data-route="{{ route('students.ratings.show-more', [$curso->id, 2]) }}"><b><i class="fas fa-search-plus"></i> Ver más...</b></a></div>
+                     @endif
+                  </div>
               </div>
 
             </div>

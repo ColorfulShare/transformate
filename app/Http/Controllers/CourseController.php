@@ -594,11 +594,8 @@ class CourseController extends Controller
                         },
                         'modules.lessons',
                         'tags'
-                    ])->withCount(['ratings' => function ($query3){
-                            $query3->orderBy('created_at', 'DESC');
-                        },
-                        'ratings as promedio' => function ($query4){
-                            $query4->select(DB::raw('avg(points)'));
+                    ])->withCount(['ratings as promedio' => function ($query2){
+                            $query2->select(DB::raw('avg(points)'));
                         }
                     ])->first();
 
@@ -615,6 +612,13 @@ class CourseController extends Controller
                             ->first();
         
         $promedio = explode('.', $curso->promedio);
+
+        $valoraciones = Rating::where('course_id', '=', $id)
+                            ->orderBy('id', 'DESC')
+                            ->take(2)
+                            ->get();
+
+        $totalValoraciones = Rating::where('course_id', '=', $id)->count();
 
         $progreso = DB::table('courses_students')
                         ->select('progress')
@@ -644,11 +648,10 @@ class CourseController extends Controller
         $curso->lessons_count = $cantLecciones;
 
         if (Auth::user()->role_id == 1){
-            return view('students.courses.resumeNew')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'miValoracion'));     
+            return view('students.courses.resumeNew')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'valoraciones', 'totalValoraciones', 'miValoracion'));     
         }else{
             return view('admins.courses.resume')->with(compact('curso', 'promedio', 'progreso', 'miValoracion'));
         }
-        
     }
 
     //*** Estudiante / T-Courses / Continuar T-Course / Lecciones ****//

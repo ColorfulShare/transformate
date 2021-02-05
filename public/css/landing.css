@@ -70,7 +70,7 @@ body {
     position: relative;
     display: inline-block;
     text-align: center;
-    height: 170px;
+    height: 190px;
 }
 /* Card cuerpo */
 .card-body{
@@ -290,11 +290,14 @@ body {
     color: #1B4965; 
     font-size: 18px;
 }
+.link-back-to-courses:hover{
+    text-decoration: none;
+}
 /* Título del Curso (Detalles de Curso) */
 .course-details-title{
     padding-top: 20px; 
     color: #034A91; 
-    font-size: 24px;
+    font-size: 32px;
 }
 .course-details-category{
     color: #1B4965; 
@@ -368,6 +371,7 @@ body {
 .ratings-card{
     box-shadow: 4px 6px 6px 0px rgba(11, 19, 43, 0.2);
     border-radius: 5px;
+    padding: 15px 25px !important;
 }
 .ratings-card-title{
     color: #515151;
@@ -375,10 +379,51 @@ body {
     font-weight: 700;
 }
 .ratings-card-content{
-    padding-top: 15px;
+    padding-top: 5px;
     color: #8A8A8A;
     font-size: 18px;
     font-weight: 400;
+}
+.rating-title{
+    color: #1B4965; 
+    font-weight: 700; 
+    font-size: 18px;
+}
+.rating-date{
+    color: #5FA8D3; 
+    font-weight: 700; 
+    font-size: 16px;
+}
+.rating-comment{
+    color: #8A8A8A; 
+    font-weight: 400; 
+    font-size: 14px; 
+    padding-bottom: 10px;
+}
+/* Tamaño del scroll */
+#ratings-content::-webkit-scrollbar {
+  width: 8px;
+}
+ /* Estilos barra (thumb) de scroll */
+#ratings-content::-webkit-scrollbar-thumb {
+  background: #1B4965;
+  border-radius: 4px;
+}
+#ratings-content::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+#ratings-content::-webkit-scrollbar-thumb:hover {
+  background: #1B4965;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+ /* Estilos track de scroll */
+#ratings-content::-webkit-scrollbar-track {
+  background: #e1e1e1;
+  border-radius: 4px;
+}
+#ratings-content::-webkit-scrollbar-track:hover, 
+#ratings-content::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
 }
 /* Página Eventos */
 .events-content{
@@ -411,29 +456,31 @@ body {
     line-height: 21px;
 }
 .event-instructor{
+    padding-top: 5px;
     color: #5FA8D3; 
     font-size: 18px;
     font-weight: 700;
 }
 .event-datetime{
+    padding-top: 5px;
     color: #8A8A8A; 
     font-size: 18px; 
     font-weight: 700; 
     line-height: 20px;
 }
 .event-legend{
-    padding-top: 5px; 
+    padding-top: 15px; 
     color: #8A8A8A; 
     font-size: 14px; 
     font-weight: 400; 
-    line-height: 15px;
+    line-height: 20px;
 }
 .event-price{
-    padding-top: 5px; 
+    padding-top: 15px; 
     color: #1B4965; 
     font-size: 18px; 
     font-weight: 700; 
-    line-height: 20px;
+    line-height: 22px;
 }
 .event-buttons{
     padding-top: 20px; 
@@ -516,9 +563,22 @@ body {
     font-weight: 400;
 }
 .event-inscription-tab{
-    color: #034A91 !important; 
-    font-size: 16px !important; 
+    padding-left: 0 !important; 
+    padding-right: 0 !important; 
+    margin-top: 0 !important;
+    background-color: #CDD0DE;
+}
+.event-inscription-link{
+    color: #515151 !important;
+    font-size: 14px !important; 
     font-weight: 700 !important;
+}
+.event-inscription-tabs .uk-active{
+    background-color: white !important;
+    box-shadow: 4px 6px 6px 0px rgba(11, 19, 43, 0.2);
+}
+.event-inscription-tabs .uk-active a{
+    color: #034A91 !important; 
 }
 
 
@@ -1325,7 +1385,7 @@ body {
         font-size: 12px;
     }
     .image-div {
-        height: 170px;
+        height: 260px;
     }
     .course-title {
         font-size: 16px;
@@ -1508,6 +1568,9 @@ body {
     }
     .courses-banner .description {
         font-size: 20px;
+    }
+    .image-div{
+       height: 180px;
     }
 
 
