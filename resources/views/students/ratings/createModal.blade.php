@@ -7,7 +7,6 @@
         <form action="{{ route('students.ratings.store') }}" method="POST">
             @csrf
             <input type="hidden" name="course_id" id="course_id">
-            <input type="hidden" name="certification_id" id="certification_id">
             <input type="hidden" name="podcast_id" id="podcast_id">
 	        <div class="uk-modal-body">
 	            <div class="uk-margin">

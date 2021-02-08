@@ -36,21 +36,6 @@
 
 @section('content')
 	<div class="admin-content-inner"> 
-        <nav class="uk-navbar-container uk-margin-medium-bottom" uk-navbar style="padding-top: 20px; padding-bottom: 40px;">
-            <div class="uk-navbar-left">
-                <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="javascript:;">Configuraciones</a></li></ul>
-            </div>
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li style="border-right: 1px solid #000;"><a href="{{ route('admins.courses.home-cover') }}">Portada del Home</a></li>
-                    <li style="border-right: 1px solid #000;"><a href="{{ route('admin.courses.home-sliders') }}">Carruseles del Home</a></li>
-                    <li class="uk-active"><a href="{{ route('admins.courses.featured') }}">Gestionar Destacados</a></li>
-                </ul>
-
-            </div>
-        </nav> 
-
         @if (Session::has('msj-exitoso'))
             <div class="uk-alert-success" uk-alert>
                 <a class="uk-alert-close" uk-close></a>
@@ -60,7 +45,7 @@
 
         <div class="uk-flex-inline uk-flex-middle uk-margin-small-bottom"> 
             <i class="fas fa-video icon-large uk-margin-right"></i> 
-            <h4 class="uk-margin-remove"> T-Courses Disponibles </h4> 
+            <h4 class="uk-margin-remove"> T-Courses Destacados </h4> 
         </div>       
 
         <div class="uk-background-default uk-margin-top uk-padding"> 

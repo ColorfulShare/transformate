@@ -14,6 +14,7 @@
       <link rel="stylesheet" href="{{ asset('css/footer_uikit.css') }}">
       <link rel="stylesheet" href="{{ asset('css/header.css') }}">
       <link rel="stylesheet" href="{{ asset('css/modales_auth.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/landing.css') }}"> 
       <!-- font awesome -->
       <link rel="stylesheet" href="{{  asset('template/css/fontawesome.css') }}">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">

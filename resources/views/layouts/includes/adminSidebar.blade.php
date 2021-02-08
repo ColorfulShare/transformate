@@ -41,29 +41,10 @@
                <a href="{{ route('admins.courses.published') }}">Publicados</a>
                <a href="{{ route('admins.courses.featured') }}">Destacados</a>
                <a href="{{ route('admins.courses.disabled-record') }}">Deshabilitados</a>
-               <a href="{{ route('admins.courses.home-cover') }}">Configuraciones</a>
                <a href="{{ route('admins.courses.reports.sales') }}">Reportes</a>
             </div>
          </li>
       @endif
-
-      {{-- Certificaciones 
-      @if (Auth::user()->profile->certifications != 0)
-         <li class="uk-margin-remove-top ">
-            <a href="javascript():;" class="uk-accordion-title">
-               <i class="fas fa-landmark"></i>T-Mentorings
-            </a>
-
-            <div class="uk-accordion-content uk-margin-remove-top d" hidden="" aria-hidden="true">
-               <a href="{{ route('admins.certifications.index') }}">Creadas</a>
-               <a href="{{ route('admins.certifications.pending-for-publication') }}">Pendientes Para Publicación</a>
-               <a href="{{ route('admins.certifications.published') }}">Publicadas</a>
-               <a href="{{ route('admins.certifications.disabled-record') }}">Deshabilitadas</a>
-               <a href="{{ route('admins.certifications.home-cover') }}">Configuraciones</a>
-               <a href="{{ route('admins.certifications.reports.sales') }}">Reportes</a>
-            </div>
-         </li>
-      @endif--}}
 
       {{-- Podcasts --}}
       @if (Auth::user()->profile->podcasts != 0)
@@ -77,7 +58,7 @@
                <a href="{{ route('admins.podcasts.pending-for-publication') }}">Pendientes Para Publicación</a>
                <a href="{{ route('admins.podcasts.published') }}">Publicados</a>
                <a href="{{ route('admins.podcasts.disabled-record') }}">Deshabilitados</a>
-               <a href="{{ route('admins.podcasts.featured') }}">Gestionar Destacados</a>
+               <a href="{{ route('admins.podcasts.featured') }}">Destacados</a>
                <a href="{{ route('admins.podcasts.reports.sales') }}">Reportes</a>
             </div>
          </li>

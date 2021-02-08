@@ -10,7 +10,7 @@ use DB; use Auth; use Mail; use MercadoPago;
 
 class EventController extends Controller{
 
-	public function index(){
+	public function indexOld(){
 		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
 			$eventos = Event::where('status', '=', 1)
 						->with('images')
@@ -19,7 +19,7 @@ class EventController extends Controller{
 
 			$cantEventos = $eventos->count();
 
-			return view('landing.events')->with(compact('eventos', 'cantEventos'));
+			return view('landing.eventsOld')->with(compact('eventos', 'cantEventos'));
 		}else{
 			$eventos = Event::where('status', '=', 1)
 						->withCount(['subscriptions' => function ($query){
@@ -40,7 +40,7 @@ class EventController extends Controller{
 		}
 	}
 
-	public function index2(){
+	public function index(){
 		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
 			$eventos = Event::where('status', '=', 1)
 						->with('images')
@@ -57,7 +57,7 @@ class EventController extends Controller{
 
 			$cantEventos = $eventos->count();
 
-			return view('landing.eventsNew')->with(compact('eventos', 'cantEventos'));
+			return view('landing.events')->with(compact('eventos', 'cantEventos'));
 		}else{
 			$eventos = Event::where('status', '=', 1)
 						->withCount(['subscriptions' => function ($query){
@@ -739,7 +739,7 @@ class EventController extends Controller{
         return redirect("admins/t-events")->with('msj-exitoso', 'El evento ha sido creado con éxito.');
 	}
 
-	public function show($slug, $id){
+	public function showOld($slug, $id){
 		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
 			$evento = Event::where('id', '=', $id)
 						->withCount('images', 'testimonies', 'subscriptions')
@@ -755,7 +755,7 @@ class EventController extends Controller{
 				$countdown_limit = date('M j\, Y H:i:s', strtotime($evento->presale_datetime));
 			}
 
-			return view('landing.showEvent')->with(compact('evento', 'countdown_limit', 'cantImagenesMentores'));
+			return view('landing.showEventOld')->with(compact('evento', 'countdown_limit', 'cantImagenesMentores'));
 		}else{
 			$evento = Event::where('id', '=', $id)
 						->withCount('images')
@@ -775,8 +775,7 @@ class EventController extends Controller{
 		}
 	}
 
-	public function show2(){
-		$id = 38;
+	public function show($slug, $id){
 		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
 			$evento = Event::find($id);
 
@@ -785,7 +784,7 @@ class EventController extends Controller{
 				$countdown_limit = date('M j\, Y H:i:s', strtotime($evento->presale_datetime));
 			}
 
-			return view('landing.showEventNew')->with(compact('evento', 'countdown_limit'));
+			return view('landing.showEvent')->with(compact('evento', 'countdown_limit'));
 		}else{
 			$evento = Event::where('id', '=', $id)
 						->withCount('images')

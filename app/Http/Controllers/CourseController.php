@@ -153,89 +153,7 @@ class CourseController extends Controller
         return view('instructors.courses.temary')->with(compact('curso'));
     }
 
-    //**** Invitado - Estudiante - Instructor /  T-Courses / Ver T-Course ***//
-    //**** Admin /  T-Courses / Ver - Editar T-Course ***//
     public function show($slug, $id){
-        $curso = Course::where('id', '=', $id)
-                        ->with('modules', 'modules.lessons', 'tags')
-                        ->withCount(['students', 'modules', 
-                                'ratings' => function($query){
-                                     $query->orderBy('created_at', 'DESC');
-                                }, 
-                                'ratings as promedio' => function ($query2){
-                                    $query2->select(DB::raw('avg(points)'));
-                                }
-                            ])->first();
-
-        $curso->avg = explode('.', $curso->promedio);
-
-        $cantLecciones = 0;
-        $cantRecursos = 0;
-        foreach ($curso->modules as $modulo) {
-            $leccionesMod = DB::table('lessons')
-                                ->where('module_id', '=', $modulo->id)
-                                ->select('id')
-                                ->get();
-
-            foreach ($leccionesMod as $leccion){
-                $cantLecciones++;
-
-                $recursosLeccion = DB::table('resource_files')
-                                    ->where('lesson_id', '=', $leccion->id)
-                                    ->count();
-
-                $cantRecursos += $recursosLeccion;
-            }
-        }
-
-        $curso->lessons_count = $cantLecciones;
-        $curso->resource_files_count = $cantRecursos;
-
-        $instructor = User::where('id', '=', $curso->user_id)
-                        ->first();
-
-        if (Auth::guest()){
-            return view('landing.showCourse')->with(compact('curso', 'instructor')); 
-        }else if (Auth::user()->role_id == 1){
-            //Vista de Estudiantes  
-            $agregado = Auth::user()->courses_students()->where('course_id', '=', $id)->count();
-
-            if ($agregado == 0){
-                return view('landing.showCourse')->with(compact('curso', 'instructor'));
-            }else{
-               return redirect('students/t-courses/resume/'.$slug.'/'.$id);
-            } 
-        }else if (Auth::user()->role_id == 2){
-            return view('landing.showCourse')->with(compact('curso', 'instructor'));
-        }else if (Auth::user()->role_id == 3){
-            $curso = Course::find($id);
-
-            $etiquetasActivas = [];
-            foreach ($curso->tags as $etiq){
-                array_push($etiquetasActivas, $etiq->id);
-            }
-
-            $etiquetas = DB::table('tags')
-                            ->orderBy('tag', 'ASC')
-                            ->get();
-
-            $categorias = DB::table('categories')
-                            ->select('id', 'title')
-                            ->orderBy('id', 'ASC')
-                            ->get();
-
-            $subcategorias = DB::table('subcategories')
-                                ->select('id', 'title')
-                                ->where('category_id', '=', $curso->category_id)
-                                ->orderBy('id', 'ASC')
-                                ->get();
-
-            return view('admins.courses.show')->with(compact('curso', 'categorias', 'subcategorias', 'etiquetas', 'etiquetasActivas'));
-        }
-    }
-
-    public function show2(){
-        $id = 63;
         $curso = Course::where('id', '=', $id)
                         ->with('modules', 'modules.lessons', 'tags')
                         ->withCount(['students', 'modules', 
@@ -266,13 +184,13 @@ class CourseController extends Controller
         $misCursos = [];
 
         if (Auth::guest()){
-            return view('landing.showCourseNew')->with(compact('curso')); 
+            return view('landing.showCourse')->with(compact('curso')); 
         }else if (Auth::user()->role_id == 1){
             //Vista de Estudiantes  
             $agregado = Auth::user()->courses_students()->where('course_id', '=', $id)->count();
 
             if ($agregado == 0){
-                return view('landing.showCourseNew')->with(compact('curso'));
+                return view('landing.showCourse')->with(compact('curso'));
             }else{
                return redirect('students/t-courses/resume/'.$slug.'/'.$id);
             } 
@@ -494,7 +412,7 @@ class CourseController extends Controller
 
     //*** Estudiante / T-Courses / Continuar T-Course ***//
     //*** Admin / T-Courses / Resumen T-Course ***//
-    public function resume($slug, $id){
+    public function resumeOld($slug, $id){
         $curso = Course::where('id', '=', $id)
                     ->with(['modules' => function ($query){
                             $query->orderBy('priority_order', 'ASC');
@@ -579,15 +497,16 @@ class CourseController extends Controller
         $curso->lessons_count = $cantLecciones;
 
         if (Auth::user()->role_id == 1){
-            return view('students.courses.resume')->with(compact('curso', 'primeraLeccion', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));     
+            return view('students.courses.resumeOld')->with(compact('curso', 'primeraLeccion', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));     
         }else{
-            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));
+            return view('admins.courses.resumeOld')->with(compact('curso', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));
         }
         
     }
 
-    public function resume2(){
-        $id = 63;
+    //*** Estudiante / T-Courses / Continuar T-Course ***//
+    //*** Admin / T-Courses / Resumen T-Course ***//
+    public function resume($slug, $id){
         $curso = Course::where('id', '=', $id)
                     ->with(['modules' => function ($query){
                             $query->orderBy('priority_order', 'ASC');
@@ -620,16 +539,19 @@ class CourseController extends Controller
 
         $totalValoraciones = Rating::where('course_id', '=', $id)->count();
 
-        $progreso = DB::table('courses_students')
+        if (Auth::user()->role_id == 1){
+            $progreso = DB::table('courses_students')
                         ->select('progress')
                         ->where('user_id', '=', Auth::user()->id)
                         ->where('course_id', '=', $id)
                         ->first();
 
-        $miValoracion = DB::table('ratings')
+            $miValoracion = DB::table('ratings')
                             ->where('user_id', '=', Auth::user()->id)
                             ->where('course_id', '=', $id)
                             ->first();
+        }
+       
 
         $cantLecciones = 0;
         foreach ($curso->modules as $modulo) {
@@ -648,9 +570,9 @@ class CourseController extends Controller
         $curso->lessons_count = $cantLecciones;
 
         if (Auth::user()->role_id == 1){
-            return view('students.courses.resumeNew')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'valoraciones', 'totalValoraciones', 'miValoracion'));     
+            return view('students.courses.resume')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'valoraciones', 'totalValoraciones', 'miValoracion'));     
         }else{
-            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'progreso', 'miValoracion'));
+            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'valoraciones', 'totalValoraciones'));
         }
     }
 

@@ -295,7 +295,7 @@
                 </a>
             </div>
             <div>
-                <a href="{{ route('landing.courses', ['t-books', 0]) }}">
+                <a href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
                     <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">

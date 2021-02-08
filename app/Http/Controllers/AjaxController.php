@@ -9,71 +9,15 @@ use DB; use Auth;
 
 class AjaxController extends Controller
 {
-    //** Landing / Actualizar sección de cursos (Por categoría)
-    public function load_courses_by_category($id_categoria){
-        $categorias = DB::table('categories')
-                        ->select('id', 'title', 'slug')
-                        ->orderBy('id', 'ASC')
-                        ->get();
-        
-        if ($id_categoria == 0){
-            $cursos = Podcast::where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-        }else if($id_categoria == 100){
-            $cursos = MasterClass::where('status', '=', 1)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-        }else{
-            $cursos = Course::where('status', '=', 2)
-                        ->where('category_id', '=', $id_categoria)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-        }
-       
-        $cantCursos = $cursos->count();
+    //Cargar credenciales de S3
+    public function load(Request $request){
+        $c1 = base64_decode($request->c1);
+        $c2 = base64_decode($request->c2);
+        $c3 = 'us-east-2';
 
-        $categoriaSeleccionada = $id_categoria;
-
-        return view('landing.coursesCategorySection')->with(compact('categorias', 'cursos', 'cantCursos', 'categoriaSeleccionada'));
-    }
-
-    //** T-Cursos / Actualizar sección de cursos por categoría (T-Courses)
-    public function change_category($id_categoria){
-        $categoriaSeleccionada = $id_categoria;
-
-        if ($categoriaSeleccionada == 100){
-            $cursos = MasterClass::where('status', '=', 1)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-            
-            $cantCursos = $cursos->count();
-            $libros = NULL;
-            $cantLibros = 0;
-        }elseif ($categoriaSeleccionada == 0){
-            $libros = Podcast::where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $cursos = NULL;
-            $cantCursos = 0;
-            $cantLibros = $libros->count();
-        }else{
-            $cursos = Course::where('status', '=', 2)
-                        ->where('category_id', '=', $id_categoria)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $libros = Podcast::where('status', '=', 2)
-                        ->where('category_id', '=', $id_categoria)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $cantCursos = $cursos->count();
-            $cantLibros = $libros->count();
-        }
-
-        return view('landing.coursesSection')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada'));
+        return response()->json(
+            ['c1' => $c1, 'c2' => $c2, 'c3' => $c3]
+        );
     }
 
     //** Instructor / Actualizar archivos multimedia de un producto. (portada o archivo)
@@ -103,30 +47,6 @@ class AjaxController extends Controller
 
         return view('landing.showPreview')->with(compact('preview', 'type'));
     }
-
-    public function cargar_curso_original($curso){
-        $primerCursoOriginal = Course::where('id', '=', $curso)
-                                    ->first();
-
-        if (Auth::guest()){
-            $cursosAgregados = NULL;
-        }else{
-            if (Auth::user()->role_id == 1){
-                $misCursos = DB::table('courses_students')
-                                ->where('user_id', '=', Auth::user()->id)
-                                ->get();
-
-                $cursosAgregados = array();
-                foreach ($misCursos as $miCurso){
-                    array_push($cursosAgregados, $miCurso->course_id);
-                } 
-            }else{
-                $cursosAgregados = NULL;
-            }
-        }
-
-        return view('landing.originalCourse')->with(compact('primerCursoOriginal', 'cursosAgregados'));
-    }
     
     public function datos_cobro_mentor($mentor){
         $usuario = DB::table('users')
@@ -142,17 +62,6 @@ class AjaxController extends Controller
                         ->get();
 
         return view('students.purchases.purchaseDetails')->with(compact('detalles'));
-    }
-
-    //Cargar credenciales de S3
-    public function load(Request $request){
-        $c1 = base64_decode($request->c1);
-        $c2 = base64_decode($request->c2);
-        $c3 = 'us-east-2';
-
-        return response()->json(
-            ['c1' => $c1, 'c2' => $c2, 'c3' => $c3]
-        );
     }
 
     public function verificar_etiqueta($etiqueta){
@@ -188,12 +97,6 @@ class AjaxController extends Controller
                         ->first();
 
             return view('instructors.courses.multimediaResources')->with(compact('curso'));
-        }else if ($tipo_contenido == 'certificacion'){
-            $certificacion = Certification::where('id', '=', $id_contenido)
-                                ->select('cover', 'cover_name', 'preview', 'preview_name', 'preview_cover', 'preview_cover_name')
-                                ->first();
-
-            return view('instructors.certifications.multimediaResources')->with(compact('certificacion'));
         }else if ($tipo_contenido == 'podcast'){
             $podcast = Podcast::where('id', '=', $id_contenido)
                             ->select('audio_file', 'audio_filename', 'cover', 'cover_name', 'preview', 'preview_name')
@@ -217,29 +120,10 @@ class AjaxController extends Controller
                         ->where('course_id', '=', $id)
                         ->orderBy('priority_order', 'ASC')
                         ->get();
-        }else{
-            $modulos = DB::table('modules')
-                        ->select('id', 'title')
-                        ->where('certification_id', '=', $id)
-                        ->orderBy('priority_order', 'ASC')
-                        ->get();
         }
 
         return response()->json(
             $modulos
-        );
-    }
-
-    //Admin / Cambiar Portada de un Curso
-    //Carga la imagen de la portada actual de un curso seleccionado
-    public function portada_actual_curso($curso){
-        $portada = DB::table('courses')
-        			->select('cover')
-        			->where('id', '=', $curso)
-        			->first();
-
-        return response()->json(
-            $portada
         );
     }
 

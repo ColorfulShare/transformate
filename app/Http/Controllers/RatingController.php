@@ -81,17 +81,26 @@ class RatingController extends Controller
         }
     }
 
-    public function show_more($curso, $cant){
+    public function show_more($curso, $cant, $tipo = NULL){
         $curso_id = $curso;
         $newCant = $cant + 2;
 
-        $valoraciones = Rating::where('course_id', '=', $curso)
-                            ->orderBy('id', 'DESC')
-                            ->take($newCant)
-                            ->get();
+        if ($tipo == NULL){
+            $valoraciones = Rating::where('course_id', '=', $curso)
+                                ->orderBy('id', 'DESC')
+                                ->take($newCant)
+                                ->get();
 
-        $totalValoraciones = Rating::where('course_id', '=', $curso)->count();
+            $totalValoraciones = Rating::where('course_id', '=', $curso)->count();
+        }else{
+            $valoraciones = Rating::where('podcast_id', '=', $curso)
+                                ->orderBy('id', 'DESC')
+                                ->take($newCant)
+                                ->get();
 
+            $totalValoraciones = Rating::where('podcast_id', '=', $curso)->count();
+        }
+        
         $check = 0;
         if ($totalValoraciones > $newCant){
             $check = 1;

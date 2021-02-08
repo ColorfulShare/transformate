@@ -176,23 +176,14 @@ class PodcastController extends Controller
     //**** Admin /  T-Books / Ver - Editar T-Book ***//
     public function show($slug, $id){
         $podcast = Podcast::where('id', '=', $id)
-                        ->with('tags')
-                        ->withCount(['students', 'resources', 
-                            'ratings' => function($query){
-                                $query->orderBy('created_at', 'DESC');
-                            }, 
-                            'ratings as promedio' => function ($query2){
-                                $query2->select(DB::raw('avg(points)'));
-                            }
-                        ])->first();
+                        ->withCount(['ratings as promedio' => function ($query){
+                            $query->select(DB::raw('avg(points)'));
+                        }])->first();
 
         $podcast->avg = explode('.', $podcast->promedio);
 
-        $instructor = User::where('id', '=', $podcast->user_id)
-                            ->first();
-
         if (Auth::guest()){
-            return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+            return view('landing.showPodcast')->with(compact('podcast'));
         }else{
             if (Auth::user()->role_id == 1){
 
@@ -200,12 +191,12 @@ class PodcastController extends Controller
                 $agregado = Auth::user()->podcasts_students()->where('podcast_id', '=', $id)->count();
 
                 if ($agregado == 0){
-                    return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+                    return view('landing.showPodcast')->with(compact('podcast'));
                 }else{
                    return redirect('students/t-books/resume/'.$slug.'/'.$id);
                 } 
             }else if (Auth::user()->role_id == 2){
-                return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+                return view('landing.showPodcast')->with(compact('podcast'));
             }else if (Auth::user()->role_id == 3){
                 $podcast = Podcast::find($id);
 
@@ -454,32 +445,18 @@ class PodcastController extends Controller
     //*** Admin / T-Books / Resumen T-Book ***//
     public function resume($slug, $id){
        $podcast = Podcast::where('id', '=', $id)
-                    ->with(['students' => function ($query2){
-                            $query2->where('user_id', '=', Auth::user()->id);
-                        },
-                        'tags'
-                    ])->withCount(['students',
-                        'ratings' => function ($query3){
-                            $query3->orderBy('created_at', 'DESC');
-                        },
-                        'ratings as promedio' => function ($query4){
-                            $query4->select(DB::raw('avg(points)'));
-                        }
-                    ])->first();
+                    ->withCount(['ratings as promedio' => function ($query){
+                        $query->select(DB::raw('avg(points)'));
+                    }])->first();
         
         $promedio = explode('.', $podcast->promedio);
 
-        $instructor = User::where('id', '=', $podcast->user_id)
-                        ->withCount('podcasts')
-                        ->first(); 
+        $valoraciones = Rating::where('podcast_id', '=', $id)
+                            ->orderBy('id', 'DESC')
+                            ->take(2)
+                            ->get();
 
-        $podcastsRelacionados = DB::table('podcasts')
-                                ->where('category_id', '=', $podcast->category_id)
-                                ->where('id', '<>', $id)
-                                ->orderBy('created_at', 'DESC')
-                                ->take(2)
-                                ->get();
-
+        $totalValoraciones = Rating::where('podcast_id', '=', $id)->count();
 
         if (Auth::user()->role_id == 1){
             $miValoracion = DB::table('ratings')
@@ -487,9 +464,9 @@ class PodcastController extends Controller
                                 ->where('podcast_id', '=', $id)
                                 ->first(); 
 
-            return view('students.podcasts.resume')->with(compact('podcast', 'promedio', 'instructor', 'miValoracion', 'podcastsRelacionados'));
+            return view('students.podcasts.resume')->with(compact('podcast', 'promedio', 'valoraciones', 'totalValoraciones', 'miValoracion'));
         }else{
-            return view('admins.podcasts.resume')->with(compact('podcast', 'promedio', 'instructor', 'podcastsRelacionados'));
+            return view('admins.podcasts.resume')->with(compact('podcast', 'promedio', 'valoraciones', 'totalValoraciones'));
         }
     }
 

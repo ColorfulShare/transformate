@@ -35,14 +35,6 @@
             <span><i class="fas fa-gift"></i> Mis T-Gifts</span>
         </a>
     </li>
-    {{--  <li>
-        <a href="{{ route('students.marketplace.my-products') }}">
-            <i class="fas fa-store"></i>
-            <span>
-                Mis Productos
-            </span>
-        </a>
-    </li>--}}
     <li>
         <a href="{{ route('students.purchases.index') }}">
             <span><i class="fas fa-shopping-cart"></i> Historial de Compra </span>
@@ -77,11 +69,6 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('instructors.certifications.index') }}">
-            <span><i class="fas fa-landmark"></i> T-Mentoring</span>
-        </a>
-    </li>
-    <li>
         <a href="{{ route('instructors.podcasts.index') }}">
             <span><i class="fas fa-microphone"></i> T-Books</span>
         </a>
@@ -101,22 +88,6 @@
             <span><i class="fas fa-arrow-alt-circle-right"></i> Cobros</span>
         </a>
     </li>
-    {{--  <li>
-        <a href="{{ route('instructors.products.index') }}">
-            <i class="fas fa-store"></i>
-            <span>
-                Marketplace
-            </span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('instructors.products.my-purchased-products') }}">
-            <i class="fas fa-shopping-bag"></i>
-            <span>
-                Mis Productos
-            </span>
-        </a>
-    </li>--}}
     <li>
         <a href="{{ route('instructors.tickets.index') }}">
             <span><i class="fas fa-ticket-alt"></i> Tickets</span>
