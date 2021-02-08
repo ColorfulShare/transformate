@@ -57,6 +57,16 @@
                                         </div>
 
                                         <ul class="menu">
+                                            <li>
+                                                <a href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
+                                                    <span><i class="fas fa-book"></i> T-Books</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+                                                    <span><i class="fab fa-tumblr"></i> T-Master Class</span>
+                                                </a>
+                                            </li>
                                             @foreach ($categorias as $cat)
                                                 <li>
                                                     <a href="{{ route('landing.courses', [$cat->slug, $cat->id]) }}">
@@ -361,13 +371,13 @@
                     <ul class="categories_menu">
                         <span class="t-cursos">T-Cursos<hr class="hr"></span>
                         <li style="font-size:14px">
-                            <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
-                                <span><i class="fab fa-tumblr"></i> T-Master Class</span>
+                            <a href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
+                                <span><i class="fas fa-book"></i> T-Books</span>
                             </a>
                         </li>
                         <li style="font-size:14px">
-                            <a href="{{ route('landing.courses', ['t-books', 0]) }}">
-                                <span><i class="fas fa-book"></i> T-Books</span>
+                            <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+                                <span><i class="fab fa-tumblr"></i> T-Master Class</span>
                             </a>
                         </li>
                         @foreach ($categorias as $categoria)

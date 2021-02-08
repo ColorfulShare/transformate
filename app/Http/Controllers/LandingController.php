@@ -117,64 +117,9 @@ class LandingController extends Controller
 
         return view('landing.index')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts', 'misCursos'));
     }
-    
-    /** Landing / Home **/
-    public function indexOld(){
-        $url = explode("www", \Request::url());
-        if (count($url) > 1){
-            $www = 1;
-        }else{
-            $www = 0;
-        }
-
-        $categorias = DB::table('categories')
-                        ->select('id', 'title', 'slug')
-                        ->orderBy('id', 'ASC')
-                        ->get();
-
-        $cursos = Course::withCount('students')
-                    ->where('status', '=', 2)
-                    ->where('category_id', '=', 1)
-                    ->orderBy('created_at', 'DESC')
-                    ->get();
-
-        $cantCursos = $cursos->count();
-
-        $cursosMasVendidos = PurchaseDetail::with('course')
-                                ->select('purchase_details.course_id', DB::raw('count(*) as total'))
-                                ->where('course_id', '<>', NULL)
-                                ->groupBy('course_id')
-                                ->orderBy('total', 'DESC')
-                                ->take(8)
-                                ->get();
-        
-        $cursosAgregados = NULL;
-
-        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
-            $misCursos = DB::table('courses_students')
-                                ->where('user_id', '=', Auth::user()->id)
-                                ->get();
-
-            $cursosAgregados = array();
-            foreach ($misCursos as $miCurso){
-                array_push($cursosAgregados, $miCurso->course_id);
-            }  
-        }
-
-        $categoriaSeleccionada = 1;
-
-        $eventos = DB::table('events')
-                    ->where('status', '=', 1)
-                    ->orderBy('date', 'ASC')
-                    ->get();
-        
-        $cantEventos = $eventos->count();
-
-        return view('landing.indexOld')->with(compact('cursos', 'cursosMasVendidos', 'categorias', 'cursosAgregados', 'cantCursos', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
-    }
 
     /** Landing / T- Courses **/
-    public function courses($slug = NULL, $categoria = 1){
+    public function coursesOld($slug = NULL, $categoria = 1){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
             $www = 1;
@@ -224,11 +169,11 @@ class LandingController extends Controller
                                 ->count();
         }
 
-        return view('landing.courses')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada', 'www', 'cursosRegalo'));
+        return view('landing.coursesOld')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada', 'www', 'cursosRegalo'));
     }
 
      /** Landing / T- Courses **/
-    public function courses2($slug = NULL, $categoria = 'destacados'){
+    public function courses($slug = NULL, $categoria = 'destacados'){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
             $www = 1;
@@ -324,7 +269,7 @@ class LandingController extends Controller
             }
         }
 
-        return view('landing.coursesNew')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros'));
+        return view('landing.courses')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros'));
     }
 
     /** Landing / T-Mentor **/
@@ -347,8 +292,29 @@ class LandingController extends Controller
                                     ->where('status', '=', 2)
                                     ->get();
         
+        $totalCursos = Course::where('status', '=', 2)->count();
 
-        return view('landing.search')->with(compact('cursosRelacionados', 'librosRelacionados'));
+        $misCursos = [];
+        $misLibros = [];
+        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
+
+            $miContenidoLibros = DB::table('podcasts_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoLibros as $contenidoLibro){
+                array_push($misLibros, $contenidoLibro->podcast_id);
+            }
+        }
+
+        return view('landing.search')->with(compact('cursosRelacionados', 'librosRelacionados', 'totalCursos', 'misCursos', 'misLibros'));
     }
 
     public function search_certifications_by_category($slug, $categoria){

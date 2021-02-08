@@ -1,259 +1,239 @@
 @extends('layouts.landing')
 
 @section('content')
-    <div class="background-ligth2" id="search-content" style="padding-bottom: 40px;">
-    	{{-- Sección de Categorías --}}
-		<div class="categories" style="padding-bottom: 15px;">
-			<div uk-slider="autoplay: true; autoplay-interval: 3000;">
-				<div class="uk-position-relative">
-					<div class="uk-slider-container uk-light">
-					    <ul class="uk-slider-items uk-child-width-1-4 uk-child-width-1-4@s uk-child-width-1-6@m uk-grid">
-					        <li class="category">
-					            <a href="{{ route('landing.courses', ['t-libros', 0]) }}">
-					                <div class="uk-card uk-card-default uk-card-small uk-text-center category-card" style="background-color: #006B9B;">
-					                    <div class="category-icon"><i class="fas fa-book"></i></div>
-					                    <div class="category-title">T-Libros</div>
-					                </div>
-					            </a>
-					        </li>
-					        @foreach ($categorias as $categoria)
-					            <li class="category">
-					                <a href="{{ route('landing.courses', [$categoria->slug, $categoria->id]) }}">
-					                    <div class="uk-card uk-card-default uk-card-small uk-text-center category-card" style="background-color: {{ $categoria->color }};">
-					                        <div class="category-icon"><i class="{{ $categoria->icon }}"></i></div>
-					                        <div class="category-title">{{ $categoria->title}}</div>
-					                    </div>
-					                </a>
-					            </li>
-					        @endforeach
-					    </ul>
-					</div>
-				</div>
-			</div>
-		</div>
+	@if (Session::has('msj-informativo'))
+      	<div class="row">
+         	<div class="col-md-12 alert alert-info uk-text-center" style="margin-bottom: 0 !important;">
+            	<strong>{{ Session::get('msj-informativo') }}</strong>
+         	</div>
+      	</div>
+    @endif
 
-    	<div class="uk-text-center" id="wait" style="display: none;"> 
-		    <span uk-spinner="ratio: 4"></span>
-		</div>
-    	
-    	<div id="cursos">
-	    	@if ( ($cursosRelacionados->count() == 0) && ($librosRelacionados->count() == 0) )
-	    		<div class="uk-clearfix boundary-align"> 
-				    <div class="section-heading none-border uk-text-center">
-					    <h3>No se encontraron resultados relacionados con su búsqueda...</h3>
-						<hr>
-						<h5>Realiza otra búsqueda...</h5>
-					    <form action="{{ route('landing.search') }}" method="GET">
-	                        <div class="uk-margin">
-		                		<div class="uk-inline uk-width-1-3">
-		                    		<span class="uk-form-icon"><i class="fas fa-search  uk-margin-small-left"></i></span><input class="uk-input uk-form-large" type="text" name="busqueda">
-		                		</div>
-		            		</div>
-		            		<input type="submit" class="uk-button uk-button-success uk-width-1-3 uk-margin-small-bottom" value="Buscar" />
-	                    </form>
-	                    <hr>
+    <div class="courses-banner">
+    	<img src="{{ asset('images/courses_banner.jpg') }}" alt="" class="uk-visible@s">
+    	<img src="{{ asset('images/courses_banner_movil.jpg') }}" alt="" class="uk-hidden@s">
+    	<div class="courses-banner-text">
+         	<h1 class="uk-text-bold title">Más que cursos, son una guía de transformación</h1>
+         	<span class="description">Son más de <strong>{{ $totalCursos }}</strong> cursos, en los que te ayudamos a crecer como profesional y persona</span>
+        </div>
+    </div>
+
+    <div class="content" style="padding: 20px 5% 20px 5%; background-color: #E5E5E5;">
+    	<div uk-grid>
+    		<div class="uk-width-auto@xl uk-width-auto@l uk-width-1-3@m uk-width-1-3@s ">
+    			<div class="courses-category-title">Nuestros Cursos</div>
+
+    			<div class="uk-visible@s">
+    				<ul class="uk-list categories-list">
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['destacados', 'destacados']) }}">
+    							<i class="far fa-star"></i> Destacados
+    						</a>
+    					</li>
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['mas-vendidos', 'vendidos']) }}">
+    							<i class="fas fa-fire"></i> Más Vendidos
+    						</a>
+    					</li>
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['recomendados', 'recomendados']) }}">
+    							<i class="far fa-heart"></i> Recomendados
+    						</a>
+    					</li>
+    					@foreach ($categorias as $categoriaLista)
+    						<li>
+    							<a class="category-link" href="{{ route('landing.courses', [$categoriaLista->slug, $categoriaLista->id]) }}">
+    								<i class="{{ $categoriaLista->icon }}"></i> {{ $categoriaLista->title }}
+    							</a>
+    						</li>
+    					@endforeach
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
+    							<i class="fas fa-book"></i> T-Books
+    						</a>
+    					</li>
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+    							<i class="fab fa-tumblr"></i> T-Master Class
+    						</a>
+    					</li>
+    					<li>
+    						<a class="category-link" href="{{ route('landing.courses', ['todos', 'todos']) }}">
+    							<i class="fa fa-list"></i> Todos los cursos
+    						</a>
+    					</li>
+    				</ul>
+    			</div>
+
+    			<div class="uk-child-width-1-2 uk-hidden@s" uk-grid>
+    				<div>
+    					<ul class="uk-list categories-list">
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['destacados', 'destacados']) }}">
+	    							<i class="far fa-star"></i> Destacados
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['mas-vendidos', 'vendidos']) }}">
+	    							<i class="fas fa-fire"></i> Más Vendidos
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['recomendados', 'recomendados']) }}">
+	    							<i class="far fa-heart"></i> Recomendados
+	    						</a>
+	    					</li>
+	    					@for ($i = 1; $i <= 5; $i++)
+	    						<li>
+	    							<a class="category-link" href="{{ route('landing.courses', [$categorias[$i]->slug, $categorias[$i]->id]) }}">
+	    								<i class="{{ $categorias[$i]->icon }}"></i> {{ $categorias[$i]->title }}
+	    							</a>
+	    						</li>
+	    					@endfor
+	    				</ul>
+    				</div>
+    				<div>
+    					<ul class="uk-list categories-list">
+	    					@for ($j = 6; $j < 10; $j++)
+	    						<li>
+	    							<a class="category-link" href="{{ route('landing.courses', [$categorias[$j]->slug, $categorias[$j]->id]) }}">
+	    								<i class="{{ $categorias[$j]->icon }}"></i> {{ $categorias[$j]->title }}
+	    							</a>
+	    						</li>
+	    					@endfor
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
+	    							<i class="fas fa-book"></i> T-Books
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+	    							<i class="fab fa-tumblr"></i> T-Master Class
+	    						</a>
+	    					</li>
+	    					<li>
+	    						<a class="category-link" href="{{ route('landing.courses', ['todos', 'todos']) }}">
+	    							<i class="fa fa-list"></i> Todos los cursos
+	    						</a>
+	    					</li>
+	    				</ul>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="uk-width-expand@xl uk-width-expand@l uk-width-2-3@m uk-width-2-3@s cards-section">
+    			<div class="courses-category-selected">Resultados de la búsqueda <span style="color: red;">{{ app('request')->input('busqueda') }}</span></div>
+
+    			@if ( ($cursosRelacionados->count() > 0) || ($librosRelacionados->count() > 0) )
+	    			<div>
+	    				<div class="courses-category-title">T-Cursos</div>
+	    				<ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-child-width-1-3@xl" uk-grid>
+			                @foreach ($cursosRelacionados as $curso)
+				                <li class="course uk-transition-toggle" tabindex="0">
+			                        <div class="uk-card uk-card-small course-card">
+			                            <div class="uk-card-media-top image-div">
+			                                @if (!is_null($curso->preview))
+				                                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'curso']) }}">
+				                                    <img src="{{ asset('uploads/images/courses/'.$curso->cover) }}" class="content-image">
+			                                    </a>
+			                                @else
+			                                   	<a href="{{ route('landing.courses.show', [$curso->slug, $curso->id]) }}">
+				                                    <img src="{{ asset('uploads/images/courses/'.$curso->cover) }}" class="content-image">
+				                                </a>
+			                                @endif
+			                            </div>
+			                            <div class="uk-card-body card-body">
+			                                <a href="{{ route('landing.courses.show', [$curso->slug, $curso->id]) }}">
+			                                    <div>
+			                                        <div class="course-title">{{ $curso->title }}</div>
+				                                    <div class="course-instructor">Por: {{ $curso->user->names.' '.$curso->user->last_names }}</div>
+				                                    <div class="course-category"><strong>{{ $curso->category->title }}</strong></div>
+			                                        <div class="course-subtitle">{{ ucfirst($curso->subtitle) }}</div>
+
+			                                        <br>
+			                                            
+			                                        <a class="show-more-link" href="{{ route('landing.courses.show', [$curso->slug, $curso->id]) }}">Ver más</a>
+			                                    </div>
+			                                </a>
+				                            <div class="card-buttons">
+				                                @if (Auth::guest())
+				                                    <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+				                                @elseif (Auth::user()->role_id == 1)
+				                                    @if (!in_array($curso->id, $misCursos))
+						                                @if (!is_null(Auth::user()->membership_id))
+						                                    @if (Auth::user()->membership_courses < 3)
+						                                        <a class="link-course" href="{{ route('students.courses.add', [$curso->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+						                                    @else
+						                                       	<a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+						                                    @endif
+						                                @else
+						                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+						                                @endif
+						                            @else
+						                                <a class="link-course" href="{{ route('students.courses.resume', [$curso->slug, $curso->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+				                                    @endif
+				                                @endif
+				                            </div>
+			                            </div>
+			                            <div class="uk-text-center course-price">COP {{ number_format($curso->price, 0, ',', '.') }}</div>
+			                        </div>
+			                    </li>
+			                @endforeach
+		               	</ul>
 	    			</div>
-	    		</div>
-	    	@else
-	    		<div class="uk-hidden@s">
-					<div class="courses">
-				    	@if ($cursosRelacionados->count() > 0)
-			                <div class="category-title-s color-ligth2" id="cursos-relacionados">
-			                    <span>Cursos Relacionados<span>
-			                </div>
 
-			                @foreach ($cursosRelacionados as $cursoRelacionado)
-						        <div class="uk-card uk-card-small card-background-ligth" id="curso-relacionado-{{$cursoRelacionado->id}}">
-						            <div class="uk-card-media-top image-div">
-						                @if (!is_null($cursoRelacionado->preview))
-							                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRelacionado->id, 'curso']) }}">
-							                    <img src="{{ asset('uploads/images/courses/'.$cursoRelacionado->cover) }}" class="content-image">  
-							                    <div class="uk-overlay uk-position-center">
-							                        <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRelacionado->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-							                    </div>
-							                </a>
-						                @else
-						                    <a href="{{ route('landing.courses.show', [$cursoRelacionado->slug, $cursoRelacionado->id]) }}">
-						                        <img src="{{ asset('uploads/images/courses/'.$cursoRelacionado->cover) }}" class="content-image"> 
-						                    </a>
-						                @endif
-						                <div class="image-category-div">{{ $cursoRelacionado->category->title }}</div>  
-						            </div>
-						            <div class="uk-card-body card-body" style="padding-top: 2%;">
-							            <a href="{{ route('landing.courses.show', [$cursoRelacionado->slug, $cursoRelacionado->id]) }}">
-								            <div style="min-height: 100px;">
-								                <div class="course-title color-ligth2" id="course-title-{{$cursoRelacionado->id}}">{{ $cursoRelacionado->title }}</div>
-								                <div class="course-instructor color-ligth2" id="course-instructor-{{$cursoRelacionado->id}}">{{ $cursoRelacionado->user->names.' '.$cursoRelacionado->user->last_names }}</div>
-								                <div class="course-subtitle color-ligth2" id="course-subtitle-{{$cursoRelacionado->id}}">{{ strtolower($cursoRelacionado->subtitle) }}</div>
-								            </div>                    
-						                </a>    
-						                <div class="uk-text-center" style="padding-top: 15px;">
-							                <div class="uk-child-width-1-1" uk-grid> 
-							                    <div>
-							                        <a class="link-course" href="{{ route('landing.courses.show', [$cursoRelacionado->slug, $cursoRelacionado->id]) }}"> <span class="btn-show"><i class="fa fa-plus"></i>  Más Información</span></a>
-							                    </div>
-							                    @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-								                    <div style="margin-top: 10px;">
-								                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRelacionado->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-								                    </div>
-								                @endif
-							                </div>
-						               	</div>
-						            </div>
-						        </div><br>
-						    @endforeach
-				    	@endif
+	    			<div style="padding-top: 20px;">
+	    				<div class="courses-category-title">T-Libros</div>
+		    			<ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-child-width-1-3@xl" uk-grid>
+			                @foreach ($librosRelacionados as $libro)
+				                <li class="course uk-transition-toggle" tabindex="0">
+			                        <div class="uk-card uk-card-small course-card">
+			                            <div class="uk-card-media-top image-div">
+			                                @if (!is_null($libro->preview))
+			                                    <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$libro->id, 'podcast']) }}">
+				                                    <img src="{{ asset('uploads/images/podcasts/'.$libro->cover) }}" class="content-image">
+				                                </a>
+			                                @else
+			                                    <a href="{{ route('landing.podcasts.show', [$libro->slug, $libro->id]) }}">
+				                                    <img src="{{ asset('uploads/images/podcasts/'.$libro->cover) }}" class="content-image">
+				                                </a>
+			                                @endif
+			                            </div>
+			                            <div class="uk-card-body card-body">
+			                               	<a href="{{ route('landing.podcasts.show', [$libro->slug, $libro->id]) }}">
+			                                    <div>
+			                                        <div class="course-title">{{ $libro->title }}</div>
+				                                    <div class="course-instructor">Por: {{ $libro->user->names.' '.$libro->user->last_names }}</div>
+				                                    <div class="course-category"><strong>{{ $libro->category->title }}</strong></div>
+			                                        <div class="course-subtitle">{{ ucfirst($libro->subtitle) }}</div>
 
-				    	@if ($librosRelacionados->count() > 0)
-			                <div class="category-title-s color-ligth2" id="libros-relacionados">
-			                    <span>Libros Relacionados<span>
-			                </div>
-
-			                @foreach ($librosRelacionados as $libroRelacionado)
-						        <div class="uk-card uk-card-small card-background-ligth" id="libro-relacionado-{{$libroRelacionado->id}}">
-						            <div class="uk-card-media-top image-div">
-						                @if (!is_null($libroRelacionado->preview))
-							                <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$libroRelacionado->id, 'podcast']) }}">
-							                    <img src="{{ asset('uploads/images/podcasts/'.$libroRelacionado->cover) }}" class="content-image">  
-							                    <div class="uk-overlay uk-position-center">
-							                        <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$libroRelacionado->id, 'podcast']) }}"><i class="fas fa-play icon-play-card"></i></a>
-							                    </div>
-							                </a>
-						                @else
-						                    <a href="{{ route('landing.podcasts.show', [$libroRelacionado->slug, $libroRelacionado->id]) }}">
-						                        <img src="{{ asset('uploads/images/podcasts/'.$libroRelacionado->cover) }}" class="content-image"> 
-						                    </a>
-						                @endif
-						                <div class="image-category-div">{{ $libroRelacionado->category->title }}</div>  
-						            </div>
-						            <div class="uk-card-body card-body" style="padding-top: 2%;">
-							            <a href="{{ route('landing.podcasts.show', [$libroRelacionado->slug, $libroRelacionado->id]) }}">
-								            <div style="min-height: 100px;">
-								                <div class="course-title color-ligth2" id="book-title-{{$libroRelacionado->id}}">{{ $libroRelacionado->title }}</div>
-								                <div class="course-instructor color-ligth2" id="book-instructor-{{$libroRelacionado->id}}">{{ $libroRelacionado->user->names.' '.$libroRelacionado->user->last_names }}</div>
-								                <div class="course-subtitle color-ligth2" id="book-subtitle-{{$libroRelacionado->id}}">{{ strtolower($libroRelacionado->subtitle) }}</div>
-								            </div>                    
-						                </a>    
-						                <div class="uk-text-center" style="padding-top: 15px;">
-							                <div class="uk-child-width-1-1" uk-grid> 
-							                    <div>
-							                        <a class="link-course" href="{{ route('landing.podcasts.show', [$libroRelacionado->slug, $libroRelacionado->id]) }}"> <span class="btn-show"><i class="fa fa-plus"></i>  Más Información</span></a>
-							                    </div>
-							                    @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-								                    <div style="margin-top: 10px;">
-								                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$libroRelacionado->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Libro</span></a>
-								                    </div>
-								                @endif
-							                </div>
-						               	</div>
-						            </div>
-						        </div><br>
-						    @endforeach
-				    	@endif
-					</div>
-				</div>
-
-				{{-- Versión PC --}}
-	   			<div class="uk-visible@s" style="padding: 0 20px;">
-			   		@if ($cursosRelacionados->count() > 0)
-			   			<div class="t-courses-category color-ligth2" id="t-books" style="padding: 30px 0px 15px 10px;">T-Cursos Relacionados</div>
-
-			   			<div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-3" uk-grid>
-				   			@foreach ($cursosRelacionados as $cursoRelacionadoPC)
-				   				<div>
-					   				<div class="uk-card uk-card-small card-background-ligth" id="curso-pc-{{$cursoRelacionadoPC->id}}">
-							           	<div class="uk-card-media-top image-div">
-						                    @if (!is_null($cursoRelacionadoPC->preview))
-							                    <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRelacionadoPC->id, 'curso']) }}">
-							                        <img src="{{ asset('uploads/images/courses/'.$cursoRelacionadoPC->cover) }}" class="content-image">  
-								                    <div class="uk-overlay uk-position-center">
-									                    <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRelacionadoPC->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-									                </div>
-									            </a>
-								            @else
-									            <a href="{{ route('landing.courses.show', [$cursoRelacionadoPC->slug, $cursoRelacionadoPC->id]) }}">
-									                <img src="{{ asset('uploads/images/courses/'.$cursoRelacionadoPC->cover) }}" class="content-image"> 
-									            </a>
-								            @endif
-								            <div class="image-category-div">{{ $cursoRelacionadoPC->category->title }}</div>  
-								        </div>
-								        <div class="uk-card-body card-body" style="padding-top: 2%;">
-									        <a href="{{ route('landing.courses.show', [$cursoRelacionadoPC->slug, $cursoRelacionadoPC->id]) }}">
-										        <div style="min-height: 100px;">
-										            <div class="course-title color-ligth2" id="course-pc-title-{{$cursoRelacionadoPC->id}}">{{ $cursoRelacionadoPC->title }}</div>
-										            <div class="course-instructor color-ligth2" id="course-pc-instructor-{{$cursoRelacionadoPC->id}}">{{ $cursoRelacionadoPC->user->names.' '.$cursoRelacionadoPC->user->last_names }}</div>
-										            <div class="course-subtitle color-ligth2" id="course-pc-subtitle-{{$cursoRelacionadoPC->id}}">{{ strtolower($cursoRelacionadoPC->subtitle) }}</div>
-										        </div>                    
-								            </a>    
-							                <div class="uk-text-center" style="padding-top: 15px;">
-								                <div class="uk-child-width-1-1" uk-grid>
-										            <div>
-										                <a class="link-course" href="{{ route('landing.courses.show', [$cursoRelacionadoPC->slug, $cursoRelacionadoPC->id]) }}"> <span class="btn-show"><i class="fa fa-plus"></i>  Más Información</span></a>
-										            </div>
-										            @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-											            <div style="margin-top: 10px;">
-										                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRelacionadoPC->id, 'curso']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Curso</span></a>
-										                </div>
-										            @endif
-								                </div>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
-			   				@endforeach
-			   			</div>	
-		   			@endif
-
-			   		@if ($librosRelacionados->count() > 0)
-			   			<div class="t-courses-category color-ligth2" id="t-books" style="padding: 30px 0px 15px 10px;">T-Libros Relacionados</div>
-			   					
-			   			<div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-3" uk-grid>
-				   			@foreach ($librosRelacionados as $libroRelacionadoPC)
-				   				<div>
-					   				<div class="uk-card uk-card-small card-background-ligth" id="libro-pc-{{$libroRelacionadoPC->id}}">
-								        <div class="uk-card-media-top image-div">
-								            @if (!is_null($libroRelacionadoPC->preview))
-								               	<a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$libroRelacionadoPC->id, 'podcast']) }}">
-							                        <img src="{{ asset('uploads/images/podcasts/'.$libroRelacionadoPC->cover) }}" class="content-image">  
-						                            <div class="uk-overlay uk-position-center">
-						                                <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$libroRelacionadoPC->id, 'podcast']) }}"><i class="fas fa-play icon-play-card"></i></a>
-						                            </div>
-							                    </a>
-							               	@else
-								             <a href="{{ route('landing.podcasts.show', [$libroRelacionadoPC->slug, $libroRelacionadoPC->id]) }}">
-							                        <img src="{{ asset('uploads/images/podcasts/'.$libroRelacionadoPC->cover) }}" class="content-image"> 
-									                    </a>
-						                    @endif
-						                   	<div class="image-category-div">{{ $libroRelacionadoPC->category->title }}</div>  
-						                </div>
-								        <div class="uk-card-body card-body" style="padding-top: 2%;">
-								            <a href="{{ route('landing.podcasts.show', [$libroRelacionadoPC->slug, $libroRelacionadoPC->id]) }}">
-								                <div style="min-height: 100px;">
-								                    <div class="course-title color-ligth2" id="book-pc-title-{{$libroRelacionadoPC->id}}">{{ $libroRelacionadoPC->title }}</div>
-								                    <div class="course-instructor color-ligth2" id="book-pc-instructor-{{$libroRelacionadoPC->id}}">{{ $libroRelacionadoPC->user->names.' '.$libroRelacionadoPC->user->last_names }}</div>
-								                    <div class="course-subtitle color-ligth2" id="book-pc-subtitle-{{$libroRelacionadoPC->id}}">{{ strtolower($libroRelacionadoPC->subtitle) }}</div>
-										        </div>                    
-								           	</a>    
-							           		<div class="uk-text-center" style="padding-top: 15px;">
-						                    	<div class="uk-child-width-1-1" uk-grid>
-							                        <div>
-							                            <a class="link-course" href="{{ route('landing.podcasts.show', [$libroRelacionadoPC->slug, $libroRelacionadoPC->id]) }}"> <span class="btn-show"><i class="fa fa-plus"></i>  Más Información</span></a>
-								                    </div>
-										            @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-											            <div style="margin-top: 10px;">
-									                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$libroRelacionadoPC->id, 'podcast']) }}"> <span class="btn-course"><i class="fas fa-cart-plus"></i>  Comprar T-Libro</span></a>
-									                    </div>
-								                    @endif
-							                   	</div>
-						               		</div>
-							           	</div>
-							       	</div>
-						    	</div>
-				   			@endforeach
-						</div>	
-	   				@endif
-		   		</div>
-		    @endif
-		</div>
+			                                        <br>
+			                                        <a class="show-more-link" href="{{ route('landing.podcasts.show', [$libro->slug, $libro->id]) }}">Ver más</a>
+			                                    </div>
+			                                </a>
+				                            <div class="card-buttons">
+				                                @if (Auth::guest())
+				                                    <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+				                                @elseif (Auth::user()->role_id == 1)
+				                                   	@if (!in_array($libro->id, $misLibros))
+					                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$libro->id, 'podcast']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+					                                @else
+					                                    <a class="link-course" href="{{ route('students.podcasts.resume', [$libro->slug, $libro->id]) }}"> <span class="btn-course3">Continuar T-Book</span></a>
+				                                    @endif
+				                                @endif
+				                            </div>
+			                            </div>
+			                            <div class="uk-text-center course-price">COP {{ number_format($libro->price, 0, ',', '.') }}</div>
+			                        </div>
+			                    </li>
+			                @endforeach
+		               	</ul>
+	    			</div>
+	    		@else
+	    			<div style="padding-top: 10px; font-size: 21px;">
+		                No existen cursos ni libros relacionados con esta búsqueda...
+		            </div>
+	    		@endif
+    		</div>
+    	</div>
     </div>
 @endsection
