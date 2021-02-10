@@ -169,7 +169,6 @@
                                     <div class="uk-grid">
                                         <div class="uk-width-1-1">
                                             Pago seguro en línea a través de cuenta corriente o ahorros. Recuerda tener habilitada tu cuenta corriente/ahorros para realizar compras vía internet.
-                                            <br> <strong style="color: red">Importante:</strong> Debes enviarnos el comprobante de pago a nuestro whatsapp: +573123270857 o al correo: pagos@transformatepro.com, una vez hecha la transacción para aprobar tu compra. </br><br>
                                         </div>
                                         <div class="uk-width-1-1 required">
                                             Banco PSE: 
