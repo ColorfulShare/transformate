@@ -539,6 +539,8 @@ class EventController extends Controller{
 	        $payment->payment_method_id = "pse";
 	        $payment->save();
 
+
+
 	        if ($payment->status == 'pending'){
 	            $suscripcion->payment_method = 'Transferencia Bancaria';
 	            $suscripcion->payment_id = $payment->id;

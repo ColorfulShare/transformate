@@ -564,11 +564,11 @@ class ShoppingCartController extends Controller
                 $totalItems = (($totalItems * 90) / 100);
             }
 
-            \MercadoPago\SDK::setAccessToken("APP_USR-1902410051285318-043020-57263f6c7aa781de7dba01fd37458c14-515837620");
+            /*\MercadoPago\SDK::setAccessToken("APP_USR-1902410051285318-043020-57263f6c7aa781de7dba01fd37458c14-515837620");
             $payment_methods = \MercadoPago\SDK::get("/v1/payment_methods");
-            $bancosDisponibles = $payment_methods['body'][9]['financial_institutions'];
+            $bancosDisponibles = $payment_methods['body'][9]['financial_institutions'];*/
 
-            return view('landing.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior', 'bancosDisponibles'));
+            return view('landing.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior'));
         }
     }
 
