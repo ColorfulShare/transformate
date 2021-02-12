@@ -70,7 +70,7 @@ body {
     position: relative;
     display: inline-block;
     text-align: center;
-    height: 190px;
+    /*height: 190px;*/
 }
 /* Card cuerpo */
 .card-body{
@@ -1384,9 +1384,9 @@ body {
     .category-title {
         font-size: 12px;
     }
-    .image-div {
+    /*.image-div {
         height: 260px;
-    }
+    }*/
     .course-title {
         font-size: 16px;
     }
@@ -1569,9 +1569,9 @@ body {
     .courses-banner .description {
         font-size: 20px;
     }
-    .image-div{
+    /*.image-div{
        height: 180px;
-    }
+    }*/
 
 
 

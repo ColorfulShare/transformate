@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="content" style="padding: 20px 5% 20px 5%; background-color: #E5E5E5;">
+    <div class="content" style="padding: 20px 10% 20px 10%; background-color: #E5E5E5;">
     	<div uk-grid>
     		<div class="uk-width-auto@xl uk-width-auto@l uk-width-1-3@m uk-width-1-3@s ">
     			<div class="courses-category-title">Nuestros Cursos</div>
