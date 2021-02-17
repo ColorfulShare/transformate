@@ -46,6 +46,23 @@
          </li>
       @endif
 
+      {{-- Certificaciones --}}
+      @if (Auth::user()->profile->certifications != 0)
+         <li class="uk-margin-remove-top ">
+            <a href="javascript():;" class="uk-accordion-title">
+               <i class="fas fa-landmark"></i>T-Mentorings
+            </a>
+            <div class="uk-accordion-content uk-margin-remove-top d" hidden="" aria-hidden="true">
+               <a href="{{ route('admins.certifications.index') }}">Creadas</a>
+               <a href="{{ route('admins.certifications.pending-for-publication') }}">Pendientes Para Publicación</a>
+               <a href="{{ route('admins.certifications.published') }}">Publicadas</a>
+               <a href="{{ route('admins.certifications.featured') }}">Destacadas</a>
+               <a href="{{ route('admins.certifications.disabled-record') }}">Deshabilitadas</a>
+               <a href="{{ route('admins.certifications.reports.sales') }}">Reportes</a>
+            </div>
+         </li>
+      @endif
+
       {{-- Podcasts --}}
       @if (Auth::user()->profile->podcasts != 0)
          <li class="uk-margin-remove-top">

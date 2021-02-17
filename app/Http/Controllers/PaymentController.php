@@ -73,6 +73,23 @@ class PaymentController extends Controller
                                 $productoPendiente->amount = (($item->course->price * 70) / 100);
                             }
                         }
+                    }else if (!is_null($item->certification_id)){
+                        $productoPendiente->certification_id = $item->certification_id;
+                        $productoPendiente->original_amount = $item->certification->price;
+                        if (!is_null($cuponAplicado)){
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                            }else{
+                                $precioConMembresia = (($item->certification->price * 70) / 100);
+                                $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                            }
+                        }else{
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = $item->certification->price;
+                            }else{
+                                $productoPendiente->amount = (($item->certification->price * 70) / 100);
+                            }
+                        }
                     }else if (!is_null($item->podcast_id)){
                         $productoPendiente->podcast_id = $item->podcast_id;
                         $productoPendiente->original_amount = $item->podcast->price;
@@ -351,6 +368,23 @@ class PaymentController extends Controller
                                 $productoPendiente->amount = $item->course->price;
                             }else{
                                 $productoPendiente->amount = (($item->course->price * 70) / 100);
+                            }
+                        }
+                    }else if (!is_null($item->certification_id)){
+                        $productoPendiente->certification_id = $item->certification_id;
+                        $productoPendiente->original_amount = $item->certification->price;
+                        if (!is_null($cuponAplicado)){
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                            }else{
+                                $precioConMembresia = (($item->certification->price * 70) / 100);
+                                $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                            }
+                        }else{
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = $item->certification->price;
+                            }else{
+                                $productoPendiente->amount = (($item->certification->price * 70) / 100);
                             }
                         }
                     }else if (!is_null($item->podcast_id)){

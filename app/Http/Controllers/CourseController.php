@@ -181,8 +181,6 @@ class CourseController extends Controller
 
         $curso->lessons_count = $cantLecciones;
 
-        $misCursos = [];
-
         if (Auth::guest()){
             return view('landing.showCourse')->with(compact('curso')); 
         }else if (Auth::user()->role_id == 1){

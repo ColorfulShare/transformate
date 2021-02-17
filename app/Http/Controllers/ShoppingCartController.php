@@ -65,25 +65,6 @@ class ShoppingCartController extends Controller
                 $cuponAplicado = null;
             }
 
-            /*$ultCompra = DB::table('purchases')
-                            ->select('id')
-                            ->where('user_id', '=', Auth::user()->id)
-                            ->where('status', '=', 1)
-                            ->orderBy('id', 'DESC')
-                            ->first();
-                            
-            $descuentoCodigo = 0;
-            if (!is_null($ultCompra)){
-                $detallesUltCompra = DB::table('purchase_details')
-                                        ->where('purchase_id', '=', $ultCompra->id)
-                                        ->where('instructor_code', '=', 1)
-                                        ->count();
-
-                if ($detallesUltCompra > 0){
-                    $descuentoCodigo = 1;
-                }
-            }*/
-
             $cantItems = 0;
             $cantItemsInstructorCode = 0;
             $cantItemsPartnerCode = 0;
@@ -439,6 +420,11 @@ class ShoppingCartController extends Controller
                                     ->select('price')
                                     ->where('id', '=', $tipoItem[1])
                                     ->first();
+                else if ($tipoItem[0] == 'certificacion'){
+                    $precioItem = DB::table('certifications')
+                                    ->select('price')
+                                    ->where('id', '=', $tipoItem[1])
+                                    ->first();
                 }else if ($tipoItem[0] == 'membresia'){
                     $precioItem = DB::table('membership')
                                     ->select('price')
@@ -470,25 +456,6 @@ class ShoppingCartController extends Controller
             }else{
                 $cuponAplicado = null;
             }
-
-            /*$ultCompra = DB::table('purchases')
-                            ->select('id')
-                            ->where('user_id', '=', Auth::user()->id)
-                            ->where('status', '=', 1)
-                            ->orderBy('id', 'DESC')
-                            ->first();
-
-            $descuentoCodigo = 0;
-            if (!is_null($ultCompra)){
-                $detallesUltCompra = DB::table('purchase_details')
-                                        ->where('purchase_id', '=', $ultCompra->id)
-                                        ->where('instructor_code', '=', 1)
-                                        ->count();
-
-                if ($detallesUltCompra > 0){
-                    $descuentoCodigo = 1;
-                }
-            }*/
 
             $cantItems = 0;
             $cantItemsInstructorCode = 0;
@@ -541,6 +508,25 @@ class ShoppingCartController extends Controller
                             $totalItems += $precioConMembresia;
                         }
                     }
+                }else if (!is_null($item->certification_id)){
+                    $totalAnterior += $item->certification->price;
+                    if (!is_null($cuponAplicado)){
+                        if (is_null(Auth::user()->membership_id)){
+                            $item->new_price = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                        }else{
+                            $precioConMembresia = (($item->certification->price * 50) / 100);
+                            $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                        }
+                        
+                        $totalItems += $item->new_price;
+                    }else{
+                        if (is_null(Auth::user()->membership_id)){
+                            $totalItems += $item->certification->price;
+                        }else{
+                            $precioConMembresia = (($item->certification->price * 50) / 100);
+                            $totalItems += $precioConMembresia;
+                        }
+                    }
                 }else if (!is_null($item->membership_id)){
                     $totalAnterior += $item->membership->price;
                     if (!is_null($cuponAplicado)){
@@ -590,26 +576,6 @@ class ShoppingCartController extends Controller
                                 ->where('id', '=', $cuponAbierto->coupon_id)
                                 ->first();
         }
-
-        /*$ultCompra = DB::table('purchases')
-                        ->select('id')
-                        ->where('user_id', '=', Auth::user()->id)
-                        ->where('status', '=', 1)
-                        ->orderBy('id', 'DESC')
-                        ->first();
-
-        $descuentoCodigo = 0;
-        if (!is_null($ultCompra)){
-            $detallesUltCompra = DB::table('purchase_details')
-                                    ->where('purchase_id', '=', $ultCompra->id)
-                                    ->where('instructor_code', '=', 1)
-                                    ->orWhere('partner_code', '<>', NULL)
-                                    ->count();
-
-            if ($detallesUltCompra > 0){
-                $descuentoCodigo = 1;
-            }
-        }*/
 
         $compra = new Purchase();
         $compra->user_id = Auth::user()->id;
@@ -678,6 +644,48 @@ class ShoppingCartController extends Controller
 
                     //*** Notificar al Instructor ***//
                     $notificacion->store($item->course->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Course <b>'.$item->course->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-courses/purchases-record/'.$item->course->slug.'/'.$item->course_id);
+                }else if (!is_null($item->certification_id)){
+                    $detalle->certification_id = $item->certification_id;
+                    $detalle->original_amount = $item->certification->price;
+                    if (!is_null($cuponAbierto)){
+                        if (is_null(Auth::user()->membership_id)){
+                            $detalle->amount = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                        }else{
+                            $precioConMembresia = (($item->certification->price * 70) / 100);
+                            $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                        }
+                    }else{
+                        if (is_null(Auth::user()->membership_id)){
+                            $detalle->amount = $item->certification->price;
+                        }else{
+                            $detalle->amount = (($item->certification->price * 70) / 100);
+                        }
+                    }
+
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
+                        $detalle->amount = (($detalle->amount * 90) / 100);
+                    }
+
+                    $detalle->save();
+
+                    if ($item->gift == 0){
+                        Auth::user()->certifications_students()->attach($item->course_id, ['start_date' => date('Y-m-d')]);
+                    }else{
+                        $regalo = new Gift();
+                        $regalo->buyer_id = Auth::user()->id;
+                        $regalo->certification_id = $item->certification_id;
+                        $regalo->code = 'T-Gift-'.$detalle->id;
+                        $regalo->purchase_detail_id = $detalle->id;
+                        $regalo->status = 0; 
+                        $regalo->save();
+                    }
+                    
+                    if ($item->certification->price > 0){
+                        $comisiones->store($item->certification_id, 'certificacion', $item->instructor_code, $item->partner_code, $detalle->id);
+                    }
+
+                    //*** Notificar al Instructor ***//
+                    $notificacion->store($item->certification->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Mentoring <b>'.$item->certification->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-mentorings/purchases-record/'.$item->certification->slug.'/'.$item->certification_id);
                 }else if (!is_null($item->podcast_id)){
                     $detalle->podcast_id = $item->podcast_id;
                     $detalle->original_amount = $item->podcast->price;
@@ -929,6 +937,32 @@ class ShoppingCartController extends Controller
 
                     //*** Notificar al Instructor ***//
                     $notificacion->store($item->course->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Course <b>'.$item->course->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-courses/purchases-record/'.$item->course->slug.'/'.$item->course_id);
+                }else if (!is_null($item->certification_id)){
+                    $detalle->certification_id = $item->certification_id;
+                    $detalle->original_amount = $item->original_amount;
+                    $detalle->amount = $item->amount;
+                    $detalle->save();
+
+                    if ($item->gift == 0){
+                        DB::table('certifications_students')->insert(
+                            ['user_id' => $pago->user_id, 'certification_id' => $item->certification_id, 'progress' => 0, 'start_date' => date('Y-m-d')]
+                        );
+                    }else{
+                        $regalo = new Gift();
+                        $regalo->buyer_id = $pago->user_id;
+                        $regalo->certification_id = $item->certification_id;
+                        $regalo->code = 'T-Gift-'.$detalle->id;
+                        $regalo->purchase_detail_id = $detalle->id;
+                        $regalo->status = 0; 
+                        $regalo->save();
+                    }
+                    
+                    if ($item->certification->price > 0){
+                        $comisiones->store($item->certification_id, 'certificacion', $item->instructor_code, $item->partner_code, $detalle->id);
+                    }
+
+                    //*** Notificar al Instructor ***//
+                    $notificacion->store($item->certification->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Mentoring <b>'.$item->certification->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-mentorings/purchases-record/'.$item->certification->slug.'/'.$item->certification_id);
                 }else if (!is_null($item->podcast_id)){
                     $detalle->podcast_id = $item->podcast_id;
                     $detalle->original_amount = $item->original_amount;

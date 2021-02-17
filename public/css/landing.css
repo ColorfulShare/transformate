@@ -425,6 +425,10 @@ body {
 #ratings-content::-webkit-scrollbar-track:active {
   background: #d4d4d4;
 }
+.content-courses{
+    padding: 20px 10% 20px 10%; 
+    background-color: #E5E5E5;
+}
 /* Página Eventos */
 .events-content{
     padding: 20px 5% 20px 5%; 
@@ -1625,5 +1629,9 @@ body {
     }
 }
 
-
+@media (min-width: 1800px) {
+    .content-courses{
+        padding: 20px 20% 20px 20%;
+    }
+}
 /*** Fin Nuevo Diseño Index ***/

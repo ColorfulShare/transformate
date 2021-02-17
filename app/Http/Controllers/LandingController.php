@@ -119,60 +119,6 @@ class LandingController extends Controller
     }
 
     /** Landing / T- Courses **/
-    public function coursesOld($slug = NULL, $categoria = 1){
-        $url = explode("www", \Request::url());
-        if (count($url) > 1){
-            $www = 1;
-        }else{
-            $www = 0;
-        }
-
-        if ($categoria == 100){
-            $cursos = MasterClass::where('status', '=', 1)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $libros = NULL;
-            $cantCursos = $cursos->count();
-            $cantLibros = 0;
-        }elseif ($categoria == 0){
-            $cursos = NULL;
-
-            $libros = Podcast::where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $cantCursos = 0;
-            $cantLibros = $libros->count();
-        }else{
-            $cursos = Course::where('category_id', '=', $categoria)
-                        ->where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $libros = Podcast::where('category_id', '=', $categoria)
-                        ->where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
-
-            $cantCursos = $cursos->count();
-            $cantLibros = $libros->count();
-        }
-
-        $categoriaSeleccionada = $categoria;
-
-        $cursosRegalo = 0;
-        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
-            $cursosRegalo = DB::table('gifts')
-                                ->where('user_id', '=', Auth::user()->id)
-                                ->where('checked', '=', 0)
-                                ->count();
-        }
-
-        return view('landing.coursesOld')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada', 'www', 'cursosRegalo'));
-    }
-
-     /** Landing / T- Courses **/
     public function courses($slug = NULL, $categoria = 'destacados'){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
@@ -187,7 +133,7 @@ class LandingController extends Controller
             $cursos = Course::where('status', '=', 2)
                         ->where('featured', '=', 1)
                         ->orderBy('created_at', 'DESC')
-                        ->paginate(9);
+                        ->get();
             $tituloCategoriaSeleccionada = 'Destacados';
         }else if ($categoria == 'vendidos'){
             $cursosVendidos = PurchaseDetail::with('course', 'course.user')
@@ -200,38 +146,43 @@ class LandingController extends Controller
             foreach ($cursosVendidos as $cursoVendido){
                 $cursos->push($cursoVendido->course);
             }
-            $cursos = $cursos->paginate(9);
 
             $tituloCategoriaSeleccionada = 'Más Vendidos';
         }else if ($categoria == 'recomendados'){
             $cursos = Course::where('status', '=', 2)
                             ->orderByRaw('rand()')
-                            ->paginate(9);
+                            ->get();
 
             $tituloCategoriaSeleccionada = 'Recomendados';
         }else if ($categoria == 'todos'){
             $cursos = Course::where('status', '=', 2)
                             ->orderBy('title', 'ASC')
-                            ->paginate(9);
+                            ->get();
 
             $tituloCategoriaSeleccionada = 'Todos';
         }else if ($categoria == 100){
             $cursos = MasterClass::where('status', '=', 1)
                         ->orderBy('id', 'DESC')
-                        ->paginate(9);
+                        ->get();
 
             $tituloCategoriaSeleccionada = 'T-Master Class';
         }else if ($categoria == 'tbooks'){
             $cursos = Podcast::where('status', '=', 2)
                         ->orderBy('id', 'DESC')
-                        ->paginate(9);
+                        ->get();
 
             $tituloCategoriaSeleccionada = 'T-Books';
+        }else if ($categoria == 'tmentorings'){
+            $cursos = Certification::where('status', '=', 2)
+                        ->orderBy('id', 'DESC')
+                        ->get();
+
+            $tituloCategoriaSeleccionada = 'T-Mentorings';
         }else{
             $cursos = Course::where('category_id', '=', $categoria)
                         ->where('status', '=', 2)
                         ->orderBy('id', 'DESC')
-                        ->paginate(9);
+                        ->get();
 
             $datosCategoria = DB::table('categories')
                                 ->select('title')

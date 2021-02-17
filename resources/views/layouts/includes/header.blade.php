@@ -63,6 +63,11 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                <a href="{{ route('landing.courses', ['t-mentorings', 'tmentorings']) }}">
+                                                    <span><i class="fas fa-landmark"></i> T-Mentorings</span>
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
                                                     <span><i class="fab fa-tumblr"></i> T-Master Class</span>
                                                 </a>
@@ -234,6 +239,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('instructors.certifications.index') }}">
+                                    <span><i class="fas fa-landmark"></i> T-Mentorings</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('instructors.podcasts.index') }}">
                                     <span><i class="fas fa-microphone"></i> T-Books</span>
                                 </a>
@@ -266,6 +276,11 @@
                             <li>
                                 <a href="{{ route('landing.courses') }}">
                                     <span><i class="fas fa-video"></i> T-Courses</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('landing.courses', ['t-mentorings', 'tmentorings']) }}">
+                                    <span><i class="fas fa-landmark"></i> T-Mentorings</span>
                                 </a>
                             </li>
                             <li>
@@ -363,6 +378,11 @@
                         <li style="font-size:14px">
                             <a href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
                                 <span><i class="fas fa-book"></i> T-Books</span>
+                            </a>
+                        </li>
+                        <li style="font-size:14px">
+                            <a href="{{ route('landing.courses', ['t-mentorings', 'tmentorings']) }}">
+                                <span><i class="fas fa-landmark"></i> T-Mentorings</span>
                             </a>
                         </li>
                         <li style="font-size:14px">

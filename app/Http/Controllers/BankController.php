@@ -293,6 +293,30 @@ class BankController extends Controller
 
                     //*** Notificar al Instructor ***//
                     $notificacion->store($item->course->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Course <b>'.$item->course->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-courses/purchases-record/'.$item->course->slug.'/'.$item->course_id);
+                }else if (!is_null($item->certification_id)){
+                    $detalle->certification_id = $item->certification_id;
+                    $detalle->save();
+
+                    if ($item->gift == 0){
+                         DB::table('certifications_students')->insert([
+                            ['user_id' => $compra->user_id, 'certification_id' => $item->certification_id, 'start_date' => date('Y-m-d')]
+                        ]);
+                    }else{
+                        $regalo = new Gift();
+                        $regalo->buyer_id = $compra->user_id;
+                        $regalo->certification_id = $item->certification_id;
+                        $regalo->code = 'T-Gift-'.$detalle->id;
+                        $regalo->purchase_detail_id = $detalle->id;
+                        $regalo->status = 0; 
+                        $regalo->save();
+                    }
+                   
+                    if ($item->certification->price > 0){
+                        $comisiones->store($item->certification_id, 'certificacion', $item->instructor_code, $item->partner_code, $detalle->id);
+                    }
+
+                    //*** Notificar al Instructor ***//
+                    $notificacion->store($item->certification->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Mentoring <b>'.$item->certification->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-mentorings/purchases-record/'.$item->certification->slug.'/'.$item->certification_id);
                 }else if (!is_null($item->podcast_id)){
                     $detalle->podcast_id = $item->podcast_id;
                     $detalle->save();

@@ -97,6 +97,12 @@ class AjaxController extends Controller
                         ->first();
 
             return view('instructors.courses.multimediaResources')->with(compact('curso'));
+        }else if ($tipo_contenido == 'certificacion'){
+            $certificacion = Certification::where('id', '=', $id_contenido)
+                                ->select('cover', 'cover_name', 'preview', 'preview_name', 'preview_cover', 'preview_cover_name')
+                                ->first();
+
+            return view('instructors.certifications.multimediaResources')->with(compact('certificacion'));
         }else if ($tipo_contenido == 'podcast'){
             $podcast = Podcast::where('id', '=', $id_contenido)
                             ->select('audio_file', 'audio_filename', 'cover', 'cover_name', 'preview', 'preview_name')
@@ -118,6 +124,12 @@ class AjaxController extends Controller
             $modulos = DB::table('modules')
                         ->select('id', 'title')
                         ->where('course_id', '=', $id)
+                        ->orderBy('priority_order', 'ASC')
+                        ->get();
+        }else{
+            $modulos = DB::table('modules')
+                        ->select('id', 'title')
+                        ->where('certification_id', '=', $id)
                         ->orderBy('priority_order', 'ASC')
                         ->get();
         }

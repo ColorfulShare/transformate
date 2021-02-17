@@ -69,6 +69,11 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('instructors.certifications.index') }}">
+            <span><i class="fas fa-landmark"></i> T-Mentoring</span>
+        </a>
+    </li>
+    <li>
         <a href="{{ route('instructors.podcasts.index') }}">
             <span><i class="fas fa-microphone"></i> T-Books</span>
         </a>

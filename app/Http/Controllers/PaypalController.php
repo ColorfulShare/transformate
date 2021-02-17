@@ -159,25 +159,6 @@ class PaypalController extends BaseController
             	$cuponAplicado = NULL;
             }
 
-            /*$ultCompra = DB::table('purchases')
-                        ->select('id')
-                        ->where('user_id', '=', Auth::user()->id)
-                        ->where('status', '=', 1)
-                        ->orderBy('id', 'DESC')
-                        ->first();
-
-	        $descuentoCodigo = 0;
-	        if (!is_null($ultCompra)){
-	            $detallesUltCompra = DB::table('purchase_details')
-	                                    ->where('purchase_id', '=', $ultCompra->id)
-	                                    ->where('instructor_code', '=', 1)
-	                                    ->count();
-
-	            if ($detallesUltCompra > 0){
-	                $descuentoCodigo = 1;
-	            }
-	        }*/
-
 	        $totalOriginal = 0;
 			$totalCompra = 0;
             if (!is_null($cuponAplicado)){
@@ -188,6 +169,14 @@ class PaypalController extends BaseController
 							$totalCompra += ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
                             $precioConMembresia = (($item->course->price * 70) / 100);
+                            $totalCompra += ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                        }
+					}else if (!is_null($item->certification_id)){
+						$totalOriginal += $item->certification->price;
+						if (is_null(Auth::user()->membership_id)){
+							$totalCompra += ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                        }else{
+                            $precioConMembresia = (($item->certification->price * 70) / 100);
                             $totalCompra += ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
 					}else if (!is_null($item->podcast_id)){
@@ -214,6 +203,13 @@ class PaypalController extends BaseController
 							$totalCompra += $item->course->price;
                         }else{
                             $totalCompra += (($item->course->price * 70) / 100);
+                        }
+					}else if (!is_null($item->certification_id)){
+						$totalOriginal += $item->certification->price;
+						if (is_null(Auth::user()->membership_id)){
+							$totalCompra += $item->certification->price;
+                        }else{
+                            $totalCompra += (($item->certification->price * 70) / 100);
                         }
 					}else if (!is_null($item->podcast_id)){
 						$totalOriginal += $item->podcast->price;
@@ -275,6 +271,23 @@ class PaypalController extends BaseController
                             $detalle->amount = (($item2->course->price * 70) / 100);
                         }
 					}
+				}else if (!is_null($item2->certification_id)){
+					$detalle->certification_id = $item2->certification_id;
+					$detalle->original_amount = $item2->certification->price;
+					if (!is_null($cuponAplicado)){
+						if (is_null(Auth::user()->membership_id)){
+							$detalle->amount = ( $item2->certification->price - (($item2->certification->price * $cuponAplicado->discount) / 100));
+                        }else{
+                            $precioConMembresia = (($item2->certification->price * 70) / 100);
+                            $detalle->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                        }
+					}else{
+						if (is_null(Auth::user()->membership_id)){
+							$detalle->amount = $item2->certification->price;
+                        }else{
+                            $detalle->amount = (($item2->certification->price * 70) / 100);
+                        }
+					}
 				}else if (!is_null($item2->podcast_id)){
 					$detalle->podcast_id = $item2->podcast_id;
 					$detalle->original_amount = $item2->podcast->price;
@@ -334,6 +347,25 @@ class PaypalController extends BaseController
 
                     //*** Notificar al Instructor ***//
                     $notificacion->store($item2->course->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Course <b>'.$item2->course->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-courses/purchases-record/'.$item2->course->slug.'/'.$item2->course_id);
+				}else if (!is_null($item2->certification_id)){
+					if ($item2->gift == 0){
+						Auth::user()->certifications_students()->attach($item2->certification_id, ['start_date' => date('Y-m-d')]);
+					}else{
+						$regalo = new Gift();
+                        $regalo->buyer_id = Auth::user()->id;
+                        $regalo->certification_id = $item->certification_id;
+                        $regalo->code = 'T-Gift-'.$detalle->id;
+                        $regalo->purchase_detail_id = $detalle->id;
+                        $regalo->status = 0; 
+                        $regalo->save();
+					}
+
+					if ($item2->certification->price > 0){
+                        $comisiones->store($item2->certification_id, 'certificacion', $item2->instructor_code, $item2->partner_code, $detalle->id);
+                    }
+
+                    //*** Notificar al Instructor ***//
+                    $notificacion->store($item2->certification->user_id, 'Nueva Compra', 'Tiene una nueva compra de su T-Mentoring <b>'.$item2->ertification->title.'</b>', 'fa fa-shopping-cart', 'instructors/t-mentorings/purchases-record/'.$item2->certification->slug.'/'.$item2->certification_id);
 				}else if (!is_null($item2->podcast_id)){
 					if ($item2->gift == 0){
 						Auth::user()->podcasts_students()->attach($item2->podcast_id);

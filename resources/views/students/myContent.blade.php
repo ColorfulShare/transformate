@@ -120,6 +120,60 @@
                     @endforeach
                 </ul>
             @endif
+
+            @if ($cantCertificaciones > 0)
+                <div class="uk-clearfix boundary-align brt uk-visible@s"> 
+                    <div class="uk-float-left section-heading none-border"> 
+                        <h2 class="sca">Mis T-Mentorings</h2> 
+                    </div> 
+                </div>  
+
+                <div class="uk-text-center uk-hidden@s category-title-s">
+                    <span>Mis T-Mentorings<span>
+                </div>     
+
+                <ul class="uk-child-width-1-1@xs uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
+                    @foreach ($certificaciones as $certificacion)
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($certificacion->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$certificacion->id, 'certificacion']) }}">
+                                            <img src="{{ asset('uploads/images/certifications/'.$certificacion->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                        <a href="#">
+                                            <img src="{{ asset('uploads/images/courses/'.$certificacion->cover) }}" class="content-image">
+                                        </a>
+                                    @endif
+                                </div>
+                                <div class="uk-card-body card-body">
+                                    <a href="#">
+                                        <div>
+                                            <div class="course-title">{{ $certificacion->title }}</div>
+                                            <div class="course-instructor">Por: {{ $certificacion->user->names.' '.$certificacion->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $certificacion->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($certificacion->subtitle) }}</div>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons uk-text-center" style="height: 70px;">
+                                        <a class="link-course" href="{{ route('students.certifications.resume', [$certificacion->slug, $certificacion->id]) }}"> <span class="btn-course2">Ir a la T-Mentoring</span></a>
+                                        @if ($certificacion->progress == 100)
+                                            <br><br>
+                                            <a class="link-course" href="{{ asset('certificates/certifications/'.Auth::user()->id.'-'.$certificacion->id.'.pdf') }}" target="_blank"> <span class="btn-course3">Ver Certificado</span></a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-card-footer" style="padding:0px">
+                                    <div class="uk-box-shadow-hover-small uk-padding uk-card-primary card-footer">
+                                        <div class="uk-text-center course-price">Progreso: <b>{{ $certificacion->progress }}%</b></div>
+                                    </div>         
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         @endif
     </div>
 @endsection

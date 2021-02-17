@@ -20,7 +20,11 @@ class LessonController extends Controller
         $leccion->priority_order = $cantLecciones+1;
         $leccion->save();
 
-        return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+        if (!is_null($datosModulo->course_id)){
+            return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+        }else{
+            return redirect('instructors/t-mentorings/temary/'.$datosModulo->certification->slug.'/'.$datosModulo->certification_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+        }
     }
 
     public function show_video($leccion){
@@ -51,9 +55,17 @@ class LessonController extends Controller
             $leccion->video = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->file_path; 
             $leccion->save();
 
-            return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'El video ha sido cargado con éxito.');
+            if (!is_null($datosModulo->course_id)){
+               return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'El video ha sido cargado con éxito.'); 
+            }else{
+                return redirect('instructors/t-mentorings/temary/'.$datosModulo->certification->slug.'/'.$datosModulo->certification_id)->with('msj-exitoso', 'El video ha sido cargado con éxito.');
+            } 
         }else{
-            return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-erroneo', 'El video no ha podido cargarse. Intente nuevamente.');
+            if (!is_null($datosModulo->course_id)){
+                return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-erroneo', 'El video no ha podido cargarse. Intente nuevamente.');
+            }else{
+                return redirect('instructors/t-mentorings/temary/'.$datosModulo->certification->slug.'/'.$datosModulo->certification_id)->with('msj-erroneo', 'El video no ha podido cargarse. Intente nuevamente.');
+            }
         } 
     }
 
@@ -115,21 +127,39 @@ class LessonController extends Controller
         $leccion->save();
 
         $datosModulo = Module::find($leccion->module_id);
-        
-        return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+
+        if (!is_null($datosModulo->course_id)){
+            return redirect('instructors/t-courses/temary/'.$datosModulo->course->slug.'/'.$datosModulo->course_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+        }else{
+            return redirect('instructors/t-mentorings/temary/'.$datosModulo->certification->slug.'/'.$datosModulo->certification_id)->with('msj-exitoso', 'La lección ha sido agregada con éxito.');
+        }
     }
 
     public function add_module(Request $request){
-        $cantModulos = DB::table('modules')
+        if ($request->content_type == 'curso'){
+            $cantModulos = DB::table('modules')
                             ->where('course_id', '=', $request->course_id)
                             ->count();
 
-        $modulo = new Module($request->all());
-        $modulo->course_id = $request->course_id;
-        $modulo->priority_order = $cantModulos+1;
-        $modulo->save();
+            $modulo = new Module($request->all());
+            $modulo->course_id = $request->course_id;
+            $modulo->priority_order = $cantModulos+1;
+            $modulo->save();
 
-        return redirect('instructors/t-courses/temary/'.$request->course_slug.'/'.$request->course_id)->with('msj-exitoso', 'El módulo ha sido agregado con éxito.');
+            return redirect('instructors/t-courses/temary/'.$request->course_slug.'/'.$request->course_id)->with('msj-exitoso', 'El módulo ha sido agregado con éxito.');
+        }else{
+            $cantModulos = DB::table('modules')
+                            ->where('certification_id', '=', $request->certification_id)
+                            ->count();
+
+            $modulo = new Module($request->all());
+            $modulo->certification_id = $request->certification_id;
+            $modulo->priority_order = $cantModulos+1;
+            $modulo->save();
+
+            return redirect('instructors/t-mentorings/temary/'.$request->certification_slug.'/'.$request->certification_id)->with('msj-exitoso', 'El módulo ha sido agregado con éxito.');
+        }
+        
     }
 
     public function update_module(Request $request){
@@ -137,7 +167,11 @@ class LessonController extends Controller
         $modulo->fill($request->all());
         $modulo->save();
 
-        return redirect('instructors/t-courses/temary/'.$modulo->course->slug.'/'.$modulo->course_id)->with('msj-exitoso', 'El módulo ha sido actualizado con éxito.');
+        if (!is_null($modulo->course_id)){
+            return redirect('instructors/t-courses/temary/'.$modulo->course->slug.'/'.$modulo->course_id)->with('msj-exitoso', 'El módulo ha sido actualizado con éxito.');
+        }else{
+            return redirect('instructors/t-mentorings/temary/'.$modulo->certification->slug.'/'.$modulo->certification_id)->with('msj-exitoso', 'El módulo ha sido actualizado con éxito.');
+        }
     }
 
     public function load_resource(Request $request){
@@ -152,9 +186,17 @@ class LessonController extends Controller
             $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->file_path; 
             $recurso->save();
 
-            return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'El recurso ha sido cargado con éxito.');
+            if (!is_null($leccion->module->course_id)){
+                return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'El recurso ha sido cargado con éxito.');
+            }else{
+                return redirect('instructors/t-mentorings/temary/'.$leccion->module->certification->slug.'/'.$leccion->module->certification_id)->with('msj-exitoso', 'El recurso ha sido cargado con éxito.');
+            }
         }else{
-            return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-erroneo', 'El recurso no ha podido cargarse. Intente nuevamente.');
+            if (!is_null($leccion->module->course_id)){
+                return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-erroneo', 'El recurso no ha podido cargarse. Intente nuevamente.');
+            }else{
+                return redirect('instructors/t-mentorings/temary/'.$leccion->module->certification->slug.'/'.$leccion->module->certification_id)->with('msj-erroneo', 'El recurso no ha podido cargarse. Intente nuevamente.');
+            }
         } 
     }
 
@@ -191,10 +233,16 @@ class LessonController extends Controller
     public function delete_module($id){
         $modulo = Module::find($id);
 
-        $modulosRestantes = Module::where('course_id', '=', $modulo->course_id)
+        if (!is_null($modulo->course_id)){
+            $modulosRestantes = Module::where('course_id', '=', $modulo->course_id)
                                 ->where('priority_order', '>', $modulo->priority_order)
                                 ->get();
-
+        }else{
+            $modulosRestantes = Module::where('certification_id', '=', $modulo->certification_id)
+                                ->where('priority_order', '>', $modulo->priority_order)
+                                ->get();
+        }
+       
         foreach ($modulosRestantes as $moduloRestante) {
             $moduloRestante->priority_order = $moduloRestante->priority_order-1;
             $moduloRestante->save();
@@ -217,19 +265,29 @@ class LessonController extends Controller
 
         $modulo->delete();
         
-        return redirect('instructors/t-courses/temary/'.$modulo->course->slug.'/'.$modulo->course_id)->with('msj-exitoso', 'El módulo ha sido eliminado con éxito.'); 
+        if (!is_null($modulo->course_id)){
+            return redirect('instructors/t-courses/temary/'.$modulo->course->slug.'/'.$modulo->course_id)->with('msj-exitoso', 'El módulo ha sido eliminado con éxito.'); 
+        }else{
+            return redirect('instructors/t-mentorings/temary/'.$modulo->certification->slug.'/'.$modulo->certification_id)->with('msj-exitoso', 'El módulo ha sido eliminado con éxito.'); 
+        }
     }
 
     public function delete($id){
         $leccion = Lesson::find($id);
 
-        if (Storage::disk('s3')->has('courses/'.$leccion->module->course_id.'/'.$leccion->id)){
-            Storage::disk('s3')->delete('courses/'.$leccion->module->course_id.'/'.$leccion->id);
+        if (!is_null($leccion->module->course_id)){
+            if (Storage::disk('s3')->has('courses/'.$leccion->module->course_id.'/'.$leccion->id)){
+                Storage::disk('s3')->delete('courses/'.$leccion->module->course_id.'/'.$leccion->id);
+            } 
+        }else{
+            if (Storage::disk('s3')->has('certifications/'.$leccion->module->certification_id.'/'.$leccion->id)){
+                Storage::disk('s3')->delete('certifications/'.$leccion->module->certification_id.'/'.$leccion->id);
+            } 
         }
-
+       
         $leccionesRestantes = Lesson::where('module_id', '=', $leccion->module_id)
-                                ->where('priority_order', '>', $leccion->priority_order)
-                                ->get();
+                                    ->where('priority_order', '>', $leccion->priority_order)
+                                    ->get();
 
         foreach ($leccionesRestantes as $leccionRestante) {
             $leccionRestante->priority_order = $leccionRestante->priority_order-1;
@@ -247,11 +305,18 @@ class LessonController extends Controller
         $leccion->delete();
 
         if (Auth::user()->role_id == 2){
-            return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            if (!is_null($leccion->module->course_id)){
+                return redirect('instructors/t-courses/temary/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            }else{
+                return redirect('instructors/t-mentorings/temary/'.$leccion->module->certification->slug.'/'.$leccion->module->certification_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            }
         }else{
-            return redirect('admins/t-courses/lessons/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            if (!is_null($leccion->module->course_id)){
+                return redirect('admins/t-courses/lessons/'.$leccion->module->course->slug.'/'.$leccion->module->course_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            }else{
+                return redirect('admins/t-mentorings/lessons/'.$leccion->module->certification->slug.'/'.$leccion->module->certification_id)->with('msj-exitoso', 'La lección ha sido eliminada con éxito.');
+            }
         }
-       
     }
 
     public function delete_resource($id){
@@ -264,6 +329,11 @@ class LessonController extends Controller
 
         $recurso->delete();
 
-        return redirect('instructors/t-courses/temary/'.$recurso->lesson->module->course->slug.'/'.$recurso->lesson->module->course_id)->with('msj-exitoso', 'El recurso ha sido eliminado con éxito.');
+        if (!is_null($recurso->lesson->module->course_id)){
+            return redirect('instructors/t-courses/temary/'.$recurso->lesson->module->course->slug.'/'.$recurso->lesson->module->course_id)->with('msj-exitoso', 'El recurso ha sido eliminado con éxito.');
+        }else{
+            return redirect('instructors/t-mentorings/temary/'.$recurso->lesson->module->certification->slug.'/'.$recurso->lesson->module->certification_id)->with('msj-exitoso', 'El recurso ha sido eliminado con éxito.');
+        }
+        
     }
 }
