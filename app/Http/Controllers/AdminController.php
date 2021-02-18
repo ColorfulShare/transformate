@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str as Str;
 use App\Models\User; use App\Models\Course; use App\Models\Certification; use App\Models\Podcast; use App\Models\PurchaseDetail; use App\Models\Commission; use App\Models\Purchase;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use DB; use Auth; use Hash; use Route; use Mail;
 
 class AdminController extends Controller
@@ -565,5 +566,52 @@ class AdminController extends Controller
         }     
         
         return redirect("admins/users/students")->with('msj-exitoso', 'El correo ha sido enviado a los estudiantes con éxito.'); 
+    }
+
+    public function add_sponsor(Request $request){
+        $patrocinador = User::where('email', '=', $request->sponsor_email)
+                            ->first();
+        $usuario = User::find($request->user_id);
+
+        if (!is_null($patrocinador)){
+            $usuario->sponsor_id = $patrocinador->id;
+            $usuario->save();
+
+            $comisionesUsuario = DB::table('commissions')
+                                    ->where('user_id', '=', $usuario->id)
+                                    ->where('purchase_detail_id', '<>', NULL)
+                                    ->orderBy('id', 'ASC')
+                                    ->get();
+            $cont = 0;
+            foreach ($comisionesUsuario as $comisionUsuario){
+                if ($cont == 0){
+                    $fechaPrimeraCompra = new Carbon($comisionUsuario->date);
+                    $fechaActual = Carbon::now();
+                    $fechaFinal = $fechaPrimeraCompra->addYear();
+                }
+
+                if ($fechaActual <= $fechaFinal){
+                    $comision = new Commission();
+                    $comision->user_id = $patrocinador->id;
+                    $comision->amount = (($comisionUsuario->amount * 10) / 100);
+                    $comision->type = 'Plan de Afiliado';
+                    $comision->referred_id = $usuario->id;
+                    $comision->purchase_detail_id = $comisionUsuario->purchase_detail_id;
+                    $comision->status = 0;
+                    $comision->date = date('Y-m-d');
+                    $comision->save();
+
+                    $patrocinador->balance = $patrocinador->balance + $comision->amount;
+                    $patrocinador->save();
+                }
+
+                $cont++;
+            } 
+                    
+            return redirect('admins/users/show/'.$usuario->id)->with('msj-exitoso', 'El patrocinador ha sido asignado con éxito.');
+        }else{
+            return redirect('admins/users/show/'.$usuario->id)->with('msj-erroneo', 'El correo ingresado no coincide con ningún usuario registrado en la plataforma.');
+        }
+        
     }
 }

@@ -443,6 +443,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('change-status', 'AdminController@change_status_user')->name('admins.users.change-status');
 		Route::post('send-mail-students-by-course', 'AdminController@send_mail_students_by_course')->name('admins.users.send-mail-students-by-course');
 		Route::post('send-mail-all-students', 'AdminController@send_mail_all_students')->name('admins.users.send-mail-all-students');
+		Route::post('add-sponsor', 'AdminController@add_sponsor')->name('admins.users.add-sponsor');
 	});
 
 	Route::group(['prefix' => 'administrative-profiles'], function() {

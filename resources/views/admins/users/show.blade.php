@@ -48,6 +48,11 @@
                 document.getElementById("btn-clave").disabled = true;
             }
         }
+
+        function addSponsor(){
+            var modal = UIkit.modal("#sponsor-modal");
+            modal.show(); 
+		}
 	</script>
 @endpush
 
@@ -59,6 +64,14 @@
 	            <strong>{{ Session::get('msj-exitoso') }}</strong>
 	        </div>
 	    @endif
+
+	    @if (Session::has('msj-erroneo'))
+	        <div class="uk-alert-danger" uk-alert>
+	            <a class="uk-alert-close" uk-close></a>
+	            <strong>{{ Session::get('msj-erroneo') }}</strong>
+	        </div>
+	    @endif
+
 
         <div class="uk-card-small uk-card-default"> 
             <div class="uk-card-header uk-text-bold">
@@ -143,10 +156,15 @@
 	                            <div class="uk-form-label">Código de Afiliación</div>
 	                            <input class="uk-input" type="text" value="{{ $usuario->afiliate_code }}" disabled> 
 	                        </div>     
-	                        <div class="uk-width-1-2"> 
-		                        <div class="uk-form-label">Mentor y/o Partner que lo refirió</div>
-		                        <input class="uk-input" type="text" @if (is_null($usuario->sponsor_id)) value="No Posee" @else value="{{ $usuario->sponsor->names }} {{ $usuario->sponsor->last_names }} (Id = {{ $usuario->sponsor_id }})" @endif disabled> 
-		                    </div> 
+	                        @if ( ($usuario->role_id == 2) || ($usuario->role_id == 4) )
+		                        <div class="uk-width-1-2"> 
+			                        <div class="uk-form-label">Mentor y/o Partner que lo refirió</div>
+			                        <input class="uk-input" type="text" @if (is_null($usuario->sponsor_id)) value="No Posee" @else value="{{ $usuario->sponsor->names }} {{ $usuario->sponsor->last_names }} (Id = {{ $usuario->sponsor_id }})" @endif disabled> 
+			                        @if (is_null($usuario->sponsor_id))
+			                        	<a href="#sponsor-modal" uk-toggle>Asignar Patrocinador</a>
+			                        @endif
+			                    </div> 
+			                @endif
 		                    @if ($usuario->role_id == 3)
 		                    	<div class="uk-width-1-1">
 		                            Perfil Administrativo (*):
@@ -235,5 +253,31 @@
                 </div>                         
             </div> 
         </div>                 
+    </div>
+
+    <!-- Modal para Asignar Patrocinador -->                     
+    <div id="sponsor-modal" uk-modal> 
+        <div class="uk-modal-dialog"> 
+            <button class="uk-modal-close-default uk-padding-small" type="button" uk-close></button>                   
+            <div class="uk-modal-header"> 
+                <h4>Asignar Patrocinador</h4> 
+            </div>                    
+            <form action="{{ route('admins.users.add-sponsor') }}" method="POST">  
+                @csrf
+                <input type="hidden" name="user_id" value="{{ $usuario->id }}">
+                <div class="uk-modal-body">
+                    <div class="uk-grid">
+                    	<div class="uk-width-1-1"> 
+			                <div class="uk-form-label">Ingrese el correo del Mentor o Partner que lo refirió</div>
+			                <input class="uk-input" type="email" name="sponsor_email" required> 
+			            </div> 
+                    </div>                              
+                </div>                             
+                <div class="uk-modal-footer uk-text-right"> 
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancelar</button>                                 
+                    <button class="uk-button uk-button-primary" type="submit" id="btn-crear">Asignar</button>
+                </div>     
+            </form>                        
+        </div>                         
     </div>
 @endsection
