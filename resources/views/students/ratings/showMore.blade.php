@@ -21,6 +21,6 @@
    @endforeach
 
    @if ($check == 1)
-      <div class="uk-text-center" style="padding-top: 10px;"><a href="javascript:;" class="link-back-to-courses" id="link-show-more" onclick="showMoreRatings();" data-route="{{ route('students.ratings.show-more', [$curso_id, $newCant]) }}"><b><i class="fas fa-search-plus"></i> Ver más...</b></a></div>
+      <div class="uk-text-center" style="padding-top: 10px;"><a href="javascript:;" class="link-back-to-courses" id="link-show-more" onclick="showMoreRatings();" data-route="{{ route('students.ratings.show-more', [$curso_id, $newCant, $tipo]) }}"><b><i class="fas fa-search-plus"></i> Ver más...</b></a></div>
    @endif
 </div>

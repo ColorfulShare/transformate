@@ -80,7 +80,7 @@
    @if (is_null($miValoracion))
       <script>
          $(function(){
-            document.getElementById("course_id").value = "{{ $curso->id }}";
+            document.getElementById("certification_id").value = "{{ $certificacion->id }}";
             UIkit.modal("#modalValorar").show();
          });
       </script>
@@ -91,10 +91,10 @@
    <div class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid>
       <div class="course-details-div">
          <a href="{{ route('students.my-content') }}" class="link-back-to-courses">Volver a Mis Cursos</a>
-         <div class="course-details-title">{{ $curso->title }}</div>
-         <div class="course-details-category"><i class="{{ $curso->category->icon }}"></i> {{ $curso->category->title }}</div>
-         <div class="course-details-lessons"><i class="fas fa-info-circle"></i> {{ $curso->lessons_count }} Lecciones en Español</div>
-         <div class="course-details-instructor">Por: {{ $curso->user->names }} {{ $curso->user->last_names }}</div>
+         <div class="course-details-title">{{ $certificacion->title }}</div>
+         <div class="course-details-category"><i class="{{ $certificacion->category->icon }}"></i> {{ $certificacion->category->title }}</div>
+         <div class="course-details-lessons"><i class="fas fa-info-circle"></i> {{ $certificacion->lessons_count }} Lecciones en Español</div>
+         <div class="course-details-instructor">Por: {{ $certificacion->user->names }} {{ $certificacion->user->last_names }}</div>
          
          <div class="link-back-to-courses uk-text-center">Mi Progreso ({{ $progreso->progress }}%)</div>
          <progress id="js-progressbar" class="uk-progress progress-green uk-margin-small-bottom uk-margin-small-top" value="{{ $progreso->progress }}" max="100" style="height: 15px;"></progress>
@@ -102,50 +102,50 @@
 
          <div class="course-details-buttons">
             @if ($progreso->progress != 100)
-               <a type="button" href="{{ route('students.courses.lessons', [$curso->slug, $curso->id, $primeraLeccion->id ]) }}" class="uk-button courses-button-blue"><i class="far fa-play-circle"></i> Ir a Lecciones</a>
+               <a type="button" href="{{ route('students.certifications.lessons', [$certificacion->slug, $certificacion->id, $primeraLeccion->id ]) }}" class="uk-button courses-button-blue"><i class="far fa-play-circle"></i> Ir a Lecciones</a>
             @else
-               <a type="button" href="{{ asset('certificates/courses/'.Auth::user()->id.'-'.$curso->id.'.pdf') }}" class="uk-button courses-button-blue" target="_blank"><i class="fas fa-medal"></i> Ver Certificado</a>
+               <a type="button" href="{{ asset('certificates/certifications/'.Auth::user()->id.'-'.$certificacion->id.'.pdf') }}" class="uk-button courses-button-blue" target="_blank"><i class="fas fa-medal"></i> Ver Certificado</a>
             @endif
 
-            <a type="button" href="{{ route('students.discussions.group', ['course', $curso->slug, $curso->id]) }}" class="uk-button courses-button-blue"><i class="far fa-comments"></i> Ir al Foro</a>
+            <a type="button" href="{{ route('students.discussions.group', ['certification', $certificacion->slug, $certificacion->id]) }}" class="uk-button courses-button-blue"><i class="far fa-comments"></i> Ir al Foro</a>
          </div>
          
       </div>
 
       <div class="course-preview-div">
-         @if (!is_null($curso->preview))
+         @if (!is_null($certificacion->preview))
             <div class="video-responsive">
-               <video src="{{ $curso->preview }}" type="video/mp4" @if (!is_null($curso->preview_cover)) poster="{{ asset('uploads/images/courses/preview_covers/'.$curso->preview_cover) }}" @endif controls controlslist="nodownload" class="course-preview-video"></video>
+               <video src="{{ $certificacion->preview }}" type="video/mp4" @if (!is_null($certificacion->preview_cover)) poster="{{ asset('uploads/images/certifications/preview_covers/'.$certificacion->preview_cover) }}" @endif controls controlslist="nodownload" class="course-preview-video"></video>
             </div>
          @else
-            Este curso no posee un video resumen...
+            Esta mentoría no posee un video resumen...
          @endif
       </div>
    </div>
 
    <div class="uk-child-width-1-2@xl uk-child-width-1-2@l uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid style="background-color: #E5E5E5;">
       <div class="course-content-div">
-         <div class="course-content-subtitle">{{ $curso->subtitle }}</div>
+         <div class="course-content-subtitle">{{ $certificacion->subtitle }}</div>
 
          <div class="course-accordion">
             <ul uk-accordion>
                <li class="uk-open">
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Objetivos</b></a>
                   <div class="uk-accordion-content course-accordion-content">
-                     <p>{!! $curso->objectives !!}</p>
+                     <p>{!! $certificacion->objectives !!}</p>
                   </div>
                </li>
                <li>
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>¿A quién está dirigido?</b></a>
                   <div class="uk-accordion-content course-accordion-content">
-                     <p>{!! $curso->destination !!}</p>
+                     <p>{!! $certificacion->destination !!}</p>
                   </div>
                </li> 
                <li>
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Temario</b></a>
                   <div class="uk-accordion-content course-accordion-content" >
                      <ul uk-accordion>
-                        @foreach ($curso->modules as $modulo)
+                        @foreach ($certificacion->modules as $modulo)
                            <li>
                               <a class="uk-accordion-title uk-accordion-title2 module-accordion-title" href="#">Unidad {{ $modulo->priority_order }}: {{ $modulo->title }}</a>
                               <div class="uk-accordion-content">
@@ -154,7 +154,7 @@
                                        <li style="font-size: 18px; font-weight: 400; color: #0B132B !important; padding: 0 0 !important; margin: 0 0 !important">
                                           <a> Lección {{$leccion->priority_order}}: {{ $leccion->title }} </a>
                                           @if (!is_null($leccion->video))
-                                             <a href="{{ route('students.courses.lessons', [$curso->slug, $curso->id, $leccion->id]) }}"><span class="uk-icon-button icon-play"> <i class="fas fa-play icon-small"></i> </span></a>
+                                             <a href="{{ route('students.certifications.lessons', [$certificacion->slug, $certificacion->id, $leccion->id]) }}"><span class="uk-icon-button icon-play"> <i class="fas fa-play icon-small"></i> </span></a>
                                           @endif
                                        </li>
                                     @endforeach
@@ -168,19 +168,19 @@
                <li>
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Requisitos</b></a>
                   <div class="uk-accordion-content course-accordion-content" >
-                     <p>{!! $curso->requirements !!}</p>
+                     <p>{!! $certificacion->requirements !!}</p>
                   </div>
                </li>
                <li>
                   <a class="uk-accordion-title course-accordion-title" href="#"><b>Sobre el instructor</b></a>
                   <div class="uk-accordion-content course-accordion-content" >
-                     <p>{{ $curso->user->review }}</p>
+                     <p>{{ $certificacion->user->review }}</p>
                   </div>
                </li>
             </ul>
 
             <div style="padding-top: 30px;">
-               <a href="{{ route('landing.courses') }}" class="link-back-to-courses"><b>Volver a T-Cursos</b></a>
+               <a href="{{ route('students.my-content') }}" class="link-back-to-courses"><b>Volver a Mis Cursos</b></a>
             </div>
          </div>
       </div>
@@ -223,7 +223,7 @@
                      @endforeach
 
                      @if ($totalValoraciones > 2)
-                        <div class="uk-text-center" style="padding-top: 10px;"><a href="javascript:;" class="link-back-to-courses" id="link-show-more" onclick="showMoreRatings();" data-route="{{ route('students.ratings.show-more', [$curso->id, 2, 'curso']) }}"><b><i class="fas fa-search-plus"></i> Ver más...</b></a></div>
+                        <div class="uk-text-center" style="padding-top: 10px;"><a href="javascript:;" class="link-back-to-courses" id="link-show-more" onclick="showMoreRatings();" data-route="{{ route('students.ratings.show-more', [$certificacion->id, 2, 'certificacion']) }}"><b><i class="fas fa-search-plus"></i> Ver más...</b></a></div>
                      @endif
                   </div>
               </div>

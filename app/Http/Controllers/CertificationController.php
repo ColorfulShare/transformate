@@ -115,21 +115,7 @@ class CertificationController extends Controller
             }
         }
         
-        for ($i = 1; $i < 11; $i++){
-            $modulo = new Module();
-            $modulo->certification_id = $certificacion->id;
-            $modulo->priority_order = $i;
-            $modulo->title = 'Módulo '.$i;
-            $modulo->save();
-
-            for ($j = 1; $j < 7; $j++){
-                $leccion = new Lesson();
-                $leccion->module_id = $modulo->id;
-                $leccion->priority_order = $j;
-                $leccion->title = 'Lección '.$j;
-                $leccion->save();
-            }
-        }
+        $this->save_search_keys($certificacion->id);
 
         return redirect('instructors/t-mentoring/temary/'.$certificacion->slug.'/'.$certificacion->id)->with('msj-exitoso', 'La T-Mentoring ha sido creada con éxito. Por favor, cree el temario de la misma para finalizar.');
     }
@@ -391,6 +377,8 @@ class CertificationController extends Controller
             
             $certificacion->save();
 
+            $this->save_search_keys($certificacion->id);
+
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-mentorings/edit/'.$certificacion->slug.'/'.$request->certification_id)->with('msj-exitoso', 'Los datos de la T-Mentoring han sido actualizados con éxito');
             }else if (Auth::user()->role_id == 3){
@@ -475,17 +463,9 @@ class CertificationController extends Controller
                             ->with(['modules' => function ($query){
                                     $query->orderBy('priority_order', 'ASC');
                                 },
-                                'modules.lessons', 
-                                'students' => function ($query2){
-                                    $query2->where('user_id', '=', Auth::user()->id);
-                                },
-                                'tags'
-                            ])->withCount(['students',
-                                'ratings' => function ($query3){
-                                    $query3->orderBy('created_at', 'DESC');
-                                },
-                                'ratings as promedio' => function ($query4){
-                                    $query4->select(DB::raw('avg(points)'));
+                                'modules.lessons', 'tags'
+                            ])->withCount(['ratings as promedio' => function ($query2){
+                                    $query2->select(DB::raw('avg(points)'));
                                 }
                             ])->first();
 
@@ -793,5 +773,16 @@ class CertificationController extends Controller
                                     ->count();
 
         return view('admins.certifications.showByInstructor')->with(compact('certificaciones', 'totalCertificaciones'));
+    }
+
+    public function save_search_keys($certification){
+        $certificacion = Certification::find($certification);
+
+        $etiquetas = "";
+        foreach ($certificaciones->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $certificacion->search_keys = $certificacion->title." ".$certificacion->subtitle." ".$certificacion->user->names." ".$certificacion->user->last_names." ".$certificacion->category->title." ".$certificacion->subcategory->title." ".$etiquetas;
+        $certificacion->save();
     }
 }

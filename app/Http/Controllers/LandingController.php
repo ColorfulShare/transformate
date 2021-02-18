@@ -201,6 +201,7 @@ class LandingController extends Controller
         $cursosRegalo = 0;
         $misCursos = [];
         $misLibros = [];
+        $misCertificaciones = [];
         if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
             $cursosRegalo = DB::table('gifts')
                                 ->where('user_id', '=', Auth::user()->id)
@@ -222,9 +223,17 @@ class LandingController extends Controller
             foreach ($miContenidoLibros as $contenidoLibro){
                 array_push($misLibros, $contenidoLibro->podcast_id);
             }
+
+            $miContenidoCertificaciones = DB::table('certifications_students')
+                                            ->where('user_id', '=', Auth::user()->id)
+                                            ->get();
+
+            foreach ($miContenidoCertificaciones as $contenidoCertificacion){
+                array_push($misCertificaciones, $contenidoCertificacion->certification_id);
+            }
         }
 
-        return view('landing.courses')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros'));
+        return view('landing.courses')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros', 'misCertificaciones'));
     }
 
     /** Landing / T-Mentor **/
@@ -246,11 +255,16 @@ class LandingController extends Controller
         $librosRelacionados = Podcast::where('search_keys', 'like', "%{$request->get('busqueda')}%")
                                     ->where('status', '=', 2)
                                     ->get();
+
+        $certificacionesRelacionadas = Certification::where('search_keys', 'like', "%{$request->get('busqueda')}%")
+                                            ->where('status', '=', 2)
+                                            ->get();
         
         $totalCursos = Course::where('status', '=', 2)->count();
 
         $misCursos = [];
         $misLibros = [];
+        $misCertificaciones = [];
         if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
             $miContenidoCursos = DB::table('courses_students')
                                     ->where('user_id', '=', Auth::user()->id)
@@ -267,9 +281,17 @@ class LandingController extends Controller
             foreach ($miContenidoLibros as $contenidoLibro){
                 array_push($misLibros, $contenidoLibro->podcast_id);
             }
+
+             $miContenidoCertificaciones = DB::table('certifications_students')
+                                            ->where('user_id', '=', Auth::user()->id)
+                                            ->get();
+
+            foreach ($miContenidoCertificaciones as $contenidoCertificacion){
+                array_push($misCertificaciones, $contenidoCertificacion->certification_id);
+            }
         }
 
-        return view('landing.search')->with(compact('cursosRelacionados', 'librosRelacionados', 'totalCursos', 'misCursos', 'misLibros'));
+        return view('landing.search')->with(compact('cursosRelacionados', 'librosRelacionados', 'certificacionesRelacionadas', 'totalCursos', 'misCursos', 'misLibros', 'misCertificaciones'));
     }
 
     public function show_instructor_profile($slug, $id){

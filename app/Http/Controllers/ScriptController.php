@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str as Str;
 use App\Models\Transaction; use App\Models\Commission; use App\Models\EventSubscription;
-use App\Models\Liquidation;
+use App\Models\Liquidation; use App\Models\Certification;
 use App\Models\User; use App\Models\Course; use App\Models\Podcast;
 use Auth; use DB; use Carbon\Carbon;
 
@@ -27,7 +27,7 @@ class ScriptController extends Controller{
    }
 
    public function llenar_claves_busqueda_cursos(){
-      $cursos = Course::all();
+      /*$cursos = Course::all();
 
       foreach ($cursos as $curso){
          $etiquetas = "";
@@ -47,6 +47,16 @@ class ScriptController extends Controller{
          }
          $libro->search_keys = $libro->title." ".$libro->subtitle." ".$libro->user->names." ".$libro->user->last_names." ".$libro->category->title." ".$libro->subcategory->title." ".$etiquetas;
          $libro->save();
+      }*/
+
+      $certificaciones = Certification::all();
+      foreach ($certificaciones as $certificacion){
+         $etiquetas = "";
+         foreach ($certificacion->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $certificacion->search_keys = $certificacion->title." ".$certificacion->subtitle." ".$certificacion->user->names." ".$certificacion->user->last_names." ".$certificacion->category->title." ".$certificacion->subcategory->title." ".$etiquetas;
+         $certificacion->save();
       }
 
       dd("Script Ejecutado");

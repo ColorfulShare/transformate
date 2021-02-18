@@ -124,20 +124,20 @@
                                     </a>
                                     <div class="card-buttons">
                                         @if (Auth::guest())
-                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle>Agregar al carrito</a>
                                         @elseif (Auth::user()->role_id == 1)
                                             @if (!in_array($cursoDestacado->id, $misCursos))
                                                 @if (!is_null(Auth::user()->membership_id))
                                                     @if (Auth::user()->membership_courses < 3)
-                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoDestacado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoDestacado->id, 'membresia']) }}">Agregar a Mis Cursos</a>
                                                     @else
-                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                        <a cclass="uk-button btn-style2" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}">Agregar al Carrito</a>
                                                     @endif
                                                 @else
-                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}">Agregar al Carrito</a>
                                                 @endif
                                             @else
-                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoDestacado->slug, $cursoDestacado->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoDestacado->slug, $cursoDestacado->id]) }}"> Continuar T-Course</a>
                                             @endif
                                         @endif
                                     </div>
@@ -179,20 +179,20 @@
                                     </a>
                                     <div class="card-buttons">
                                         @if (Auth::guest())
-                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle>Agregar al carrito</a>
                                         @elseif (Auth::user()->role_id == 1)
                                             @if (!in_array($cursoVendido->course->id, $misCursos))
                                                 @if (!is_null(Auth::user()->membership_id))
                                                     @if (Auth::user()->membership_courses < 3)
-                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoVendido->course->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoVendido->course->id, 'membresia']) }}">Agregar a Mis Cursos</a>
                                                     @else
-                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                        <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}">Agregar al Carrito</a>
                                                     @endif
                                                 @else
-                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}">Agregar al Carrito></a>
                                                 @endif
                                             @else
-                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}">Continuar T-Course</a>
                                             @endif
                                         @endif
                                     </div>
@@ -234,20 +234,20 @@
                                     </a>
                                     <div class="card-buttons">
                                         @if (Auth::guest())
-                                            <a class="link-course" href="#modal-login" uk-toggle> <span class="btn-course2">Agregar al carrito</span></a>
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle> Agregar al carrito</a>
                                         @elseif (Auth::user()->role_id == 1)
                                             @if (!in_array($cursoRecomendado->id, $misCursos))
                                                 @if (!is_null(Auth::user()->membership_id))
                                                     @if (Auth::user()->membership_courses < 3)
-                                                        <a class="link-course" href="{{ route('students.courses.add', [$cursoRecomendado->id, 'membresia']) }}"> <span class="btn-course2">Agregar a Mis Cursos</span></a>
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoRecomendado->id, 'membresia']) }}">Agregar a Mis Cursos</a>
                                                     @else
-                                                        <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                        <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}">Agregar al Carrito</a>
                                                     @endif
                                                 @else
-                                                    <a class="link-course" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}"> <span class="btn-course2">Agregar al Carrito</span></a>
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}">Agregar al Carrito</a>
                                                 @endif
                                             @else
-                                                <a class="link-course" href="{{ route('students.courses.resume', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}"> <span class="btn-course3">Continuar T-Course</span></a>
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Continuar T-Course</a>
                                             @endif
                                         @endif
                                     </div>

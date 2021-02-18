@@ -108,7 +108,7 @@ body {
 }
 /*Cards subtítulo */
 .course-subtitle {
-    height: 70px;
+    height: 65px;
     color: #8A8A8A;
     font-weight: 400;
     line-height: 1.2;
@@ -172,6 +172,24 @@ body {
     font-size: 18px;
     border-radius: 10px;
 }
+.btn-style{
+    background-color: #034a91;
+    color: white !important;
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 20px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+.btn-style2{
+    background-color: #5FA8D3;
+    color: white !important;
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 20px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
 .link-course:hover .btn-course2 {
     text-decoration: none;
     background-color: white;
@@ -191,6 +209,18 @@ body {
     text-decoration: none;
     background-color: white;
     color: #5FA8D3;
+    border: solid #5FA8D3 1px;
+}
+.btn-style:hover{
+    text-decoration: none;
+    background-color: white;
+    color: #034a91 !important;
+    border: solid #034a91 1px;
+}
+.btn-style2:hover {
+    text-decoration: none;
+    background-color: white;
+    color: #5FA8D3 !important;
     border: solid #5FA8D3 1px;
 }
 /* Cards precio */
@@ -235,7 +265,7 @@ body {
 }
 /* Listado de Categorías (T-Courses) */
 .categories-list li{
-    font-size: 22px; 
+    font-size: 18px; 
     color: #8A8A8A; 
     font-weight: 700;
 }
@@ -426,7 +456,7 @@ body {
   background: #d4d4d4;
 }
 .content-courses{
-    padding: 20px 10% 20px 10%; 
+    padding: 20px 12% 20px 12%; 
     background-color: #E5E5E5;
 }
 /* Página Eventos */
