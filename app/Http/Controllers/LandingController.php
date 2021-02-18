@@ -115,7 +115,11 @@ class LandingController extends Controller
                                 ->where('status', '=', 2)
                                 ->count();
 
-        return view('landing.index')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts', 'misCursos'));
+        $cantCertificaciones = DB::table('certifications')
+                                ->where('status', '=', 2)
+                                ->count();
+
+        return view('landing.index')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts', 'cantCertificaciones', 'misCursos'));
     }
 
     /** Landing / T- Courses **/

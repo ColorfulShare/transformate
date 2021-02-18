@@ -309,6 +309,21 @@
                     </div>
                 </a>
             </div>
+            <div>
+                <a href="{{ route('landing.courses', ['t-mentorings', 'tmentorings']) }}">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
+                            </div>
+                            <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Mentorings</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantCertificaciones }} cursos</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
             @foreach ($categoriasHome as $categoriaH)
                 <div>
                     <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
