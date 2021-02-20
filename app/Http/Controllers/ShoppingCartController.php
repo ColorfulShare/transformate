@@ -48,7 +48,7 @@ class ShoppingCartController extends Controller
                 $items->push($datosItem);
             }
 
-            return view('landing.shoppingCart.indexGuest')->with(compact('items', 'cantItems', 'totalItems'));
+            return view('landing.shoppingCart')->with(compact('items', 'cantItems', 'totalItems'));
         }else{
             $items = Product::where('user_id', '=', Auth::user()->id)->orderBy('date', 'DESC')->get();
             
@@ -175,7 +175,7 @@ class ShoppingCartController extends Controller
                 $totalItems = (($totalItems * 90) / 100);
             }
             
-        	return view('landing.shoppingCart.index')->with(compact('items', 'cantItems', 'totalItems', 'totalAnterior', 'cuponAplicado', 'cantItemsInstructorCode', 'cantItemsPartnerCode', 'cantGifts'));
+            return view('students.shoppingCart.index')->with(compact('items', 'cantItems', 'totalItems', 'totalAnterior', 'cuponAplicado', 'cantItemsInstructorCode', 'cantItemsPartnerCode', 'cantGifts'));
         }
     }
 
@@ -420,7 +420,7 @@ class ShoppingCartController extends Controller
                                     ->select('price')
                                     ->where('id', '=', $tipoItem[1])
                                     ->first();
-                else if ($tipoItem[0] == 'certificacion'){
+                }else if ($tipoItem[0] == 'certificacion'){
                     $precioItem = DB::table('certifications')
                                     ->select('price')
                                     ->where('id', '=', $tipoItem[1])
@@ -440,7 +440,7 @@ class ShoppingCartController extends Controller
                 $totalItems += $precioItem->price;
             }
 
-            return view('landing.shoppingCart.checkoutGuest')->with(compact('cantItems', 'totalItems'));
+            return view('landing.checkout')->with(compact('cantItems', 'totalItems'));
         }else{
             $items = Product::where('user_id', '=', Auth::user()->id)->orderBy('date', 'DESC')->get();
 
@@ -554,7 +554,7 @@ class ShoppingCartController extends Controller
             $payment_methods = \MercadoPago\SDK::get("/v1/payment_methods");
             $bancosDisponibles = $payment_methods['body'][9]['financial_institutions'];*/
 
-            return view('landing.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior'));
+            return view('students.shoppingCart.checkout')->with(compact('cantItems', 'totalItems', 'totalAnterior'));
         }
     }
 
