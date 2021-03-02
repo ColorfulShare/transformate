@@ -243,7 +243,9 @@ class LandingController extends Controller
 
     //*** T- Member ***//
     public function t_member(){
-        return view('landing.tMember');
+        $membresia = DB::table('memberships')->first();
+
+        return view('landing.tMember')->with(compact('membresia'));
     }
 
     /** Header / Búsqueda Personalizada **/

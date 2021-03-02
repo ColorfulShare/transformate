@@ -21,8 +21,8 @@
     	<img src="{{ asset('images/courses_banner.jpg') }}" alt="" class="uk-visible@s">
     	<img src="{{ asset('images/courses_banner_movil.jpg') }}" alt="" class="uk-hidden@s">
     	<div class="courses-banner-text">
-         	<h1 class="uk-text-bold title">Más que cursos, son una guía de transformación</h1>
-         	<span class="description">Son más de <strong>{{ $totalCursos }}</strong> cursos, en los que te ayudamos a crecer como profesional y persona</span>
+         	<h1 class="uk-text-bold title">Más que cursos. Rutas de transformación</h1>
+         	<span class="description">Son más de <strong>3600</strong> lecciones en  pro de tu crecimiento personal y profesional con propósito</span>
         </div>
     </div>
 

@@ -1443,6 +1443,15 @@ body {
     .t-mentor-text .description {
         font-size: 14px;
     }
+    .t-mentor-info {
+        padding-left: 5%;
+        padding-right: 5%;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+    }
+
     .t-mentor-button {
         padding: 10px 20px;
         background-color: #41a8c4;

@@ -35,7 +35,7 @@
    </div>
 
    <div class="t-mentor-imagen-info">
-      <div class="t-mentor-info" style="background-image: url('http://localhost:8000/images/t_mentor_banner2.jpg');background-repeat: no-repeat;background-size: cover; height: 500px; display: flex; align-items: center;">
+      <div class="t-mentor-info" style="background-image: url('http://localhost:8000/images/t_mentor_banner2.jpg');background-repeat: no-repeat;background-size: cover; height: 250px; display: flex; align-items: center;">
          <div>
             Como MENTOR podrás crear video cursos o audio cursos en diferentes temáticas y <br>
             categorías, sobre todo en aquellas donde está tu pasión, identifícala y luego podrás elegir en Transfórmate PRO la categoría de cursos de tu preferencia.
@@ -107,13 +107,13 @@
             <h1 class="uk-text-bold title">NUESTRO EQUIPO 24/7 PARA TÍ T-MENTOR</h1>
             <div class="uk-visible@s">
                <br>
-               <span class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, set diam nonumy<br> eirmod tempor invidum ut.</span>
+               <span class="description">Estaremos contigo en cada paso de tu Ruta de Mentor.<br> Disfrutaremos juntos de este camino.</span>
                <!--<div class="uk-width-1-1 uk-text-center t-mentor-button-div">
                   <a class="t-mentor-button-blue start-now-button" href="#modal-register-instructor" uk-toggle>Contáctanos</a>
                </div>-->
             </div>
             <div class="uk-hidden@s">
-               <span class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, set diam nonumy eirmod tempor invidum ut.</span>
+               <span class="description">Estaremos contigo en cada paso de tu Ruta de Mentor.<br> Disfrutaremos juntos de este camino.</span>
             </div>
          </div>
       </div>
