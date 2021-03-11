@@ -4,6 +4,10 @@
    <link rel="stylesheet" type="text/css" href="{{ asset('css/courseDescription.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'AddToCart');
+@endsection
+
 @push('scripts')
    <script>
       $(function(){    

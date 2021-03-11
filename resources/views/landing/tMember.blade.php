@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('template/css/t_member.css') }}">
 @endpush
 
+@section('fb-events')
+    fbq('track', 'AddToCart');
+@endsection
+
 @push('scripts')
     <script>
         function cambiarTab($tab){
@@ -24,7 +28,6 @@
                 $("#button-t-mentor").addClass("tab-t-mentor");
                 document.getElementById("link-show-more").href = 'https://www.transformatepro.com/documents/t MENTOR pro_TRANSFORMATE_180520.pdf';
             }
-            
         }
     </script>
 @endpush
@@ -140,7 +143,11 @@
                 </div>
                 <div class="uk-width-1-1@s uk-width-1-2@m buy-course-div" style="margin-top: 0px;">
                     <button class="button-transformate btn-show-more">
-                        <a class="no-link" href="{{ route('landing.shopping-cart.store', [1, 'membresia']) }}">  Adquirir Membresía</a>
+                        @if (Auth::guest())
+                            <a class="no-link"href="#modal-login" uk-toggle>  Adquirir Membresía</a>
+                        @else
+                            <a class="no-link" href="{{ route('landing.shopping-cart.store', [1, 'membresia']) }}">  Adquirir Membresía</a>
+                        @endif
                     </button>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 @extends('layouts.landing')
 
+@section('fb-events')
+    fbq('track', 'AddToCart');
+@endsection
+
 @section('content')
 	@if (Session::has('msj-informativo'))
       	<div class="row">

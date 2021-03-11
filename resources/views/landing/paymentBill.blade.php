@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('template/css/shoppingCart.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'Purchase', {value: {{ number_format($datosSuscripcion->payment_amount, 0, ',', '.') }}, currency: 'USD'});
+@endsection
+
 @push('scripts')
     <script>
         function redireccionar(){

@@ -4,6 +4,10 @@
    <link rel="stylesheet" href="{{ asset('css/events.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'InitiateCheckout');
+@endsection
+
 @push('scripts')
    <script>
         $(function(){    

@@ -1,5 +1,9 @@
 @extends('layouts.landing')
 
+@section('fb-events')
+   fbq('track', 'InitiateCheckout');
+@endsection
+
 @push('scripts')
    <script>
       function cargarModal($evento){

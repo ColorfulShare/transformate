@@ -426,7 +426,7 @@ class ShoppingCartController extends Controller
                                     ->where('id', '=', $tipoItem[1])
                                     ->first();
                 }else if ($tipoItem[0] == 'membresia'){
-                    $precioItem = DB::table('membership')
+                    $precioItem = DB::table('memberships')
                                     ->select('price')
                                     ->where('id', '=', $tipoItem[1])
                                     ->first();

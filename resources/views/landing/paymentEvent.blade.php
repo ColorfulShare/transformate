@@ -14,7 +14,6 @@
                 var modal = UIkit.modal("#infoModal");
                 modal.show();
             }
-           
         });
 
         function metodo_pago($opcion){
