@@ -18,8 +18,8 @@
 
 		$(function(){
 			AWS.config.update({
-	            accessKeyId : 'AKIAJGR3OI2PT2TQV4KA',
-	            secretAccessKey : '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'
+	            accessKeyId : 'AKIAX4HC5HMCXVX5XDYL',
+	            secretAccessKey : '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'
 	        });
 	        AWS.config.region = 'us-east-2';
 	        var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
@@ -138,8 +138,6 @@
 @endpush
 
 @section('content')
-	<input type="hidden" id="accessKeyId" value="QUtJQUpHUjNPSTJQVDJUUVY0S0E=">
-    <input type="hidden" id="secretAccessKey" value="ak8xZTI1SW1yM2NDS2IwYlpmLzRLZncvNWJFSE9wVDR1Q1gvc09acA==">
 	<div class="uk-container">
 		@if (Session::has('msj-exitoso'))
             <div class="uk-alert-success" uk-alert>
