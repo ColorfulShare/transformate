@@ -46,7 +46,7 @@
         <div class="background-ligth uk-text-center" id="t-member-tabs">
             <div id="t-mentor-section">
                 <div class="t-member-text color-ligth2" id="t-member-text">
-                    Si eres Mentor o Potencial Mentor de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 35 ANUALES, con la que obtendrás los siguientes beneficios.
+                    Si eres Mentor o Potencial Mentor de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 55 ANUALES, con la que obtendrás los siguientes beneficios.
                 </div>
 
                 <div class="uk-child-width-1-3@m uk-child-width-1-1@s t-member-items" uk-grid>
@@ -86,13 +86,13 @@
 
                 <div class="color-ligth2" id="t-member-observation">
                     <b>SERVICIOS PRODUCTORA TRANSFÓRMATE</b><br>
-                    CON LA T-MEMBER DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 35 ANUALES, PODRÁS ACCEDER A CUALQUIER SERVICIO CON UN 30% DE DESCUENTO.
+                    CON LA T-MEMBER DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 55 ANUALES, PODRÁS ACCEDER A CUALQUIER SERVICIO CON UN 30% DE DESCUENTO.
                 </div>
             </div>
 
             <div id="t-member-section" style="display: none;">
                 <div class="t-member-text color-ligth2" id="t-member-text2">
-                    Si eres Miembro o Potencial Miembro de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 35 ANUALES, con la que obtendrás los siguientes beneficios.
+                    Si eres Miembro o Potencial Miembro de TransfórmatePRO, podrás acceder a una<br> MEMBRESÍA PRO DE COP$ {{ number_format($membresia->price, 0, ',', '.') }} o USD$ 55 ANUALES, con la que obtendrás los siguientes beneficios.
                 </div>
 
                 <div class="uk-child-width-1-3@m uk-child-width-1-1@s t-member-items" uk-grid>
