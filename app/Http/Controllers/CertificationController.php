@@ -117,7 +117,7 @@ class CertificationController extends Controller
         
         $this->save_search_keys($certificacion->id);
 
-        return redirect('instructors/t-mentoring/temary/'.$certificacion->slug.'/'.$certificacion->id)->with('msj-exitoso', 'La T-Mentoring ha sido creada con éxito. Por favor, cree el temario de la misma para finalizar.');
+        return redirect('instructors/t-mentorings/temary/'.$certificacion->slug.'/'.$certificacion->id)->with('msj-exitoso', 'La T-Mentoring ha sido creada con éxito. Por favor, cree el temario de la misma para finalizar.');
     }
 
     //**** Instructor /  T-Mentoring / Cargar Temario ***//
@@ -779,7 +779,7 @@ class CertificationController extends Controller
         $certificacion = Certification::find($certification);
 
         $etiquetas = "";
-        foreach ($certificaciones->tags as $tag){
+        foreach ($certificacion->tags as $tag){
             $etiquetas = $etiquetas." ".$tag->tag;
         }
         $certificacion->search_keys = $certificacion->title." ".$certificacion->subtitle." ".$certificacion->user->names." ".$certificacion->user->last_names." ".$certificacion->category->title." ".$certificacion->subcategory->title." ".$etiquetas;

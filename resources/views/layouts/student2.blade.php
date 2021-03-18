@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{ asset('template/images/favicon_transformate_01.png') }}">
         <meta name="description" content="">
-        <title>Transfórmate | Cursos de Transformación </title>          
+        <title>Transf贸rmate | Cursos de Transformaci贸n </title>          
         <!-- Favicon -->
         <link href="{{ asset('template/images/favicon_transformate_01.png') }}" rel="icon" type="image/png">
         <!-- Your stylesheet-->
@@ -37,25 +37,34 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ asset('vendors/datatables/datatables.min.js') }}"></script>
 
-        <!-- Facebook Pixel Code -->
+       <!-- Facebook Pixel Code -->
         <script>
             !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window,document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1831887370445429'); 
-            fbq('track', 'PageView');
-            fbq('track', 'Search');
             
-            @yield('fb-events')
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            
+            'https://connect.facebook.net/en_US/fbevents.js');
+            
+            
+            fbq('init', '465006734543855'); 
+            
+            fbq('track', 'PageView');
         </script>
+
         <noscript>
-            <img height="1" width="1" src="https://www.facebook.com/tr?id=1831887370445429&ev=PageView &noscript=1"/>
+            <img height="1" width="1" src="https://www.facebook.com/tr?id=465006734543855&ev=PageView&noscript=1"/>
         </noscript>
+        <!-- End Facebook Pixel Code -->
 
         @stack('scripts')  
     </head>     
