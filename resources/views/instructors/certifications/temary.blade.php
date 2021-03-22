@@ -17,16 +17,33 @@
 		}
 
 		$(function(){
-			AWS.config.update({
-	            accessKeyId : 'AKIAX4HC5HMCXVX5XDYL',
-	            secretAccessKey : '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'
-	        });
-	        AWS.config.region = 'us-east-2';
-	        var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+	        var url = {{ $www }};
+	        var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
+            if (url == 1){
+				var route = "https://www.transformatepro.com/ajax/load";
+			}else{
+				var route = "https://transformatepro.com/ajax/load";
+			}
+			$.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')     
+                },
+                url: route,
+                type:'POST',
+                data:  parametros,
+                success:function(ans){
+                    AWS.config.update({
+                        accessKeyId : ans.c1,
+                        secretAccessKey : ans.c2
+                    });
+                    AWS.config.region = ans.c3;
+                }
+            });
 
 			$('.video-file-upload').on('change', function(e) {
 	            e.preventDefault();
-
+                
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
 	            var certificacion = $("#certification_id").val();
 	            var leccion = $("#lesson_id").val();
 	            var uploadFiles = $('#video')[0];
@@ -69,7 +86,8 @@
 
 	        $('.resource-file-upload').on('change', function(e) {
 	            e.preventDefault();
-
+                
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
 	            var certificacion = $("#certification_id").val();
 	            var leccion = $("#lesson_id_resource").val();
 	            var uploadFiles = $('#resource')[0];
@@ -412,4 +430,7 @@
 		<input type="hidden" name="file_extension" id="file_extension_resource">
 		<input type="hidden" name="file_path" id="file_path_resource">
 	</form>
+	
+	<input type="hidden" id="accessKeyId" value="QUtJQVg0SEM1SE1DWU5BV1FOQlI=">
+    <input type="hidden" id="secretAccessKey" value="QXNPeVJKOHVwVEhvUnlKVEwrL3NjZzU4TTJ0VXg2WXM5SUFocDcyag==">
 @endsection

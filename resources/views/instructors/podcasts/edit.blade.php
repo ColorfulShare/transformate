@@ -77,13 +77,28 @@
 
 		$(function(){
 			var url = {{ $www }};
-
-            AWS.config.update({
-	            accessKeyId : 'AKIAX4HC5HMCXVX5XDYL',
-	            secretAccessKey : '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'
-	        });
-	        AWS.config.region = 'us-east-2';
-	        var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+	        var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
+            if (url == 1){
+				var route = "https://www.transformatepro.com/ajax/load";
+			}else{
+				var route = "https://transformatepro.com/ajax/load";
+			}
+			$.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')     
+                },
+                url: route,
+                type:'POST',
+                data:  parametros,
+                success:function(ans){
+                    console.log(ans);
+                    AWS.config.update({
+                        accessKeyId : ans.c1,
+                        secretAccessKey : ans.c2
+                    });
+                    AWS.config.region = ans.c3;
+                }
+            });
 
 			$('#btn-submit').on('click', function(){
 				$("#form_content" ).submit();
@@ -210,9 +225,9 @@
                     }).send(function(err, data) {
                     	var url = {{ $www }};
 		            	if (url == 1){
-		            		var route = "https://www.transformatepro.com/instructors/t-books/update-temary";
+		            		var route = "https://www.transformatepro.com/instructors/t-books/load-resource";
 		            	}else{
-		            		var route = "https://transformatepro.com/instructors/t-books/update-temary";
+		            		var route = "https://transformatepro.com/instructors/t-books/load-resource";
 		            	}
 
                         //var route = "http://localhost:8000/instructors/t-books/load-resource";
@@ -641,6 +656,6 @@
 		<input type="hidden" name="resource_id" id="resource_id">
 	</form>
 
-	<input type="hidden" id="accessKeyId" value="QUtJQUpHUjNPSTJQVDJUUVY0S0E=">
-    <input type="hidden" id="secretAccessKey" value="ak8xZTI1SW1yM2NDS2IwYlpmLzRLZncvNWJFSE9wVDR1Q1gvc09acA==">
+	<input type="hidden" id="accessKeyId" value="QUtJQVg0SEM1SE1DWU5BV1FOQlI=">
+    <input type="hidden" id="secretAccessKey" value="QXNPeVJKOHVwVEhvUnlKVEwrL3NjZzU4TTJ0VXg2WXM5SUFocDcyag==">
 @endsection

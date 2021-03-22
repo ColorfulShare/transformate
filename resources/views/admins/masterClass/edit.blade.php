@@ -59,33 +59,6 @@
 		}
 
 		$(function(){
-			//Obtener Credenciales
-			var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
-			var url = {{ $www }};
-            if (url == 1){
-				var route = "https://www.transformatepro.com/ajax/load";
-			}else{
-				var route = "https://transformatepro.com/ajax/load";
-			}
-
-			//var route = "http://localhost:8000/ajax/load";
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')     
-                },
-                url: route,
-                type:'POST',
-                data:  parametros,
-                success:function(ans){
-                    AWS.config.update({
-                        accessKeyId : ans.c1,
-                        secretAccessKey : ans.c2
-                    });
-                    AWS.config.region = ans.c3;
-                }
-            });
-
 			$('#btn-submit').on('click', function(){
 				$("#form_content" ).submit();
 			});
