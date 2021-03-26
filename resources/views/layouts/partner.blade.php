@@ -5,7 +5,7 @@
       <link rel="shortcut icon" href="{{ asset('template/images/favicon_transformate_01.png') }}">
       <meta name="description" content="">
       <meta name="csrf-token" content="{{ csrf_token() }}">
-      <title>Transfórmate | Cursos de Transformación </title>      
+      <title>Transf贸rmate | Cursos de Transformaci贸n </title>      
         <!-- Favicon -->
       <link href="{{ asset('template/images/favicon_transformate_01.png') }}" rel="icon" type="image/png">
         <!-- Your stylesheet-->
@@ -34,22 +34,33 @@
       <script src="{{ asset('template/icon/js/uikit-icons.min.js') }}"></script>
 
       <!-- Facebook Pixel Code -->
-      <script>
-         !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '160074978728892');
-          fbq('track', 'PageView');
-      </script>
-      <noscript><img height="1" width="1" style="display:none"
-          src="https://www.facebook.com/tr?id=160074978728892&ev=PageView&noscript=1"
-        /></noscript>
-      <!-- End Facebook Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            
+            'https://connect.facebook.net/en_US/fbevents.js');
+            
+            
+            fbq('init', '465006734543855'); 
+            
+            fbq('track', 'PageView');
+        </script>
+
+        <noscript>
+            <img height="1" width="1" src="https://www.facebook.com/tr?id=465006734543855&ev=PageView&noscript=1"/>
+        </noscript>
+        <!-- End Facebook Pixel Code -->
 
       @stack('scripts')         
    </head>     
@@ -81,7 +92,7 @@
       <div id="modal-code" uk-modal>
          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <button class="uk-modal-close-default" type="button" uk-close></button>
-            <h2 class="uk-modal-title">Código de Mentor</h2>
+            <h2 class="uk-modal-title">C贸digo de Mentor</h2>
             <p>{{ Auth::user()->afiliate_code }}</p>
          </div>
       </div>
@@ -89,7 +100,7 @@
       <div id="modal-code-partner" uk-modal>
          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <button class="uk-modal-close-default" type="button" uk-close></button>
-            <h2 class="uk-modal-title">Código T-Partner</h2>
+            <h2 class="uk-modal-title">C贸digo T-Partner</h2>
             <p>{{ Auth::user()->partner_code }}</p>
          </div>
       </div>

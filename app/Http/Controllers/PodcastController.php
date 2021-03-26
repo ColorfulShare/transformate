@@ -115,6 +115,8 @@ class PodcastController extends Controller
             }
         }
 
+        $this->save_search_keys($podcast->id);
+
         return redirect('instructors/t-books/edit/'.$podcast->slug.'/'.$podcast->id)->with('msj-exitoso', 'El T-Book ha sido creado con éxito. Por favor proceda a cargar el contenido multimedia.');
     }
 
@@ -174,23 +176,14 @@ class PodcastController extends Controller
     //**** Admin /  T-Books / Ver - Editar T-Book ***//
     public function show($slug, $id){
         $podcast = Podcast::where('id', '=', $id)
-                        ->with('tags')
-                        ->withCount(['students', 'resources', 
-                            'ratings' => function($query){
-                                $query->orderBy('created_at', 'DESC');
-                            }, 
-                            'ratings as promedio' => function ($query2){
-                                $query2->select(DB::raw('avg(points)'));
-                            }
-                        ])->first();
+                        ->withCount(['ratings as promedio' => function ($query){
+                            $query->select(DB::raw('avg(points)'));
+                        }])->first();
 
         $podcast->avg = explode('.', $podcast->promedio);
 
-        $instructor = User::where('id', '=', $podcast->user_id)
-                            ->first();
-
         if (Auth::guest()){
-            return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+            return view('landing.showPodcast')->with(compact('podcast'));
         }else{
             if (Auth::user()->role_id == 1){
 
@@ -198,12 +191,12 @@ class PodcastController extends Controller
                 $agregado = Auth::user()->podcasts_students()->where('podcast_id', '=', $id)->count();
 
                 if ($agregado == 0){
-                    return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+                    return view('landing.showPodcast')->with(compact('podcast'));
                 }else{
                    return redirect('students/t-books/resume/'.$slug.'/'.$id);
                 } 
             }else if (Auth::user()->role_id == 2){
-                return view('landing.showPodcast')->with(compact('podcast', 'instructor'));
+                return view('landing.showPodcast')->with(compact('podcast'));
             }else if (Auth::user()->role_id == 3){
                 $podcast = Podcast::find($id);
 
@@ -306,7 +299,18 @@ class PodcastController extends Controller
                 }
             }
 
+
+            if ($request->hasFile('cover')){
+                $file = $request->file('cover');
+                $name = $podcast->id.".".$file->getClientOriginalExtension();
+                $file->move(public_path().'/uploads/images/podcasts', $name);
+                $podcast->cover = $name;
+                $podcast->cover_name = $file->getClientOriginalName();
+            }
+
             $podcast->save();
+
+            $this->save_search_keys($podcast->id);
 
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-books/edit/'.$podcast->slug.'/'.$request->podcast_id)->with('msj-exitoso', 'Los datos del T-Book han sido actualizados con éxito');
@@ -343,33 +347,33 @@ class PodcastController extends Controller
                     }
 
                     $file = $request->file('cover');
-                    $name = time().$file->getClientOriginalName();
+                    $name = $podcast->id.".".$file->getClientOriginalExtension();
                     $file->move(public_path().'/uploads/images/podcasts', $name);
                     $podcast->cover = $name;
                     $podcast->cover_name = $file->getClientOriginalName();
                 }else if ($request->hasFile('preview')){
-                    if (!is_null($podcast->preview)){
+                    /*if (!is_null($podcast->preview)){
                         $nombreArchivo = explode("podcasts/".$podcast->id."/preview/", $podcast->preview);
                         if (Storage::disk('s3')->has('podcasts/'.$podcast->id."/preview/".$nombreArchivo[1])){
                             Storage::disk('s3')->delete('podcasts/'.$podcast->id."/preview/".$nombreArchivo[1]);
                         }
-                    }
+                    }*/
 
                     $file = $request->file('preview');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id.'/preview', $file, 'public');
-                    $podcast->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $podcast->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $podcast->preview_name = $file->getClientOriginalName();
                 }else if ($request->hasFile('audio_file')){
-                    if (!is_null($podcast->audio_file)){
+                    /*if (!is_null($podcast->audio_file)){
                         $nombreArchivo = explode("podcasts/".$podcast->id."/", $podcast->audio_file);
                         if (Storage::disk('s3')->has('podcasts/'.$podcast->id."/".$nombreArchivo[1])){
                             Storage::disk('s3')->delete('podcasts/'.$podcast->id."/".$nombreArchivo[1]);
                         }
-                    }
+                    }*/
                     
                     $file = $request->file('audio_file');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id, $file, 'public');
-                    $podcast->audio_file = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $podcast->audio_file = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $podcast->audio_filename = $file->getClientOriginalName();
                 }
             }
@@ -388,7 +392,7 @@ class PodcastController extends Controller
         $recurso->filename = $request->nombre_archivo;
         $recurso->file_extension = $request->extension;
         $recurso->file_icon = $this->setIcon($recurso->file_extension);
-        $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+        $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
         $recurso->save();
 
         return response()->json(
@@ -441,32 +445,18 @@ class PodcastController extends Controller
     //*** Admin / T-Books / Resumen T-Book ***//
     public function resume($slug, $id){
        $podcast = Podcast::where('id', '=', $id)
-                    ->with(['students' => function ($query2){
-                            $query2->where('user_id', '=', Auth::user()->id);
-                        },
-                        'tags'
-                    ])->withCount(['students',
-                        'ratings' => function ($query3){
-                            $query3->orderBy('created_at', 'DESC');
-                        },
-                        'ratings as promedio' => function ($query4){
-                            $query4->select(DB::raw('avg(points)'));
-                        }
-                    ])->first();
+                    ->withCount(['ratings as promedio' => function ($query){
+                        $query->select(DB::raw('avg(points)'));
+                    }])->first();
         
         $promedio = explode('.', $podcast->promedio);
 
-        $instructor = User::where('id', '=', $podcast->user_id)
-                        ->withCount('podcasts')
-                        ->first(); 
+        $valoraciones = Rating::where('podcast_id', '=', $id)
+                            ->orderBy('id', 'DESC')
+                            ->take(2)
+                            ->get();
 
-        $podcastsRelacionados = DB::table('podcasts')
-                                ->where('category_id', '=', $podcast->category_id)
-                                ->where('id', '<>', $id)
-                                ->orderBy('created_at', 'DESC')
-                                ->take(2)
-                                ->get();
-
+        $totalValoraciones = Rating::where('podcast_id', '=', $id)->count();
 
         if (Auth::user()->role_id == 1){
             $miValoracion = DB::table('ratings')
@@ -474,9 +464,9 @@ class PodcastController extends Controller
                                 ->where('podcast_id', '=', $id)
                                 ->first(); 
 
-            return view('students.podcasts.resume')->with(compact('podcast', 'promedio', 'instructor', 'miValoracion', 'podcastsRelacionados'));
+            return view('students.podcasts.resume')->with(compact('podcast', 'promedio', 'valoraciones', 'totalValoraciones', 'miValoracion'));
         }else{
-            return view('admins.podcasts.resume')->with(compact('podcast', 'promedio', 'instructor', 'podcastsRelacionados'));
+            return view('admins.podcasts.resume')->with(compact('podcast', 'promedio', 'valoraciones', 'totalValoraciones'));
         }
     }
 
@@ -654,5 +644,16 @@ class PodcastController extends Controller
                                     ->count();
 
         return view('admins.podcasts.showByInstructor')->with(compact('podcasts', 'totalPodcasts'));
+    }
+
+    public function save_search_keys($podcast){
+        $podcast = Podcast::find($podcast);
+
+        $etiquetas = "";
+        foreach ($podcast->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $podcast->search_keys = $podcast->title." ".$podcast->subtitle." ".$podcast->user->names." ".$podcast->user->last_names." ".$podcast->category->title." ".$podcast->subcategory->title." ".$etiquetas;
+        $podcast->save();
     }
 }

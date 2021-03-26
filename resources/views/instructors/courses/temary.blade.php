@@ -17,16 +17,33 @@
 		}
 
 		$(function(){
-			AWS.config.update({
-	            accessKeyId : 'AKIAJGR3OI2PT2TQV4KA',
-	            secretAccessKey : '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'
-	        });
-	        AWS.config.region = 'us-east-2';
-	        var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+			var url = {{ $www }};
+	        var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
+            if (url == 1){
+				var route = "https://www.transformatepro.com/ajax/load";
+			}else{
+				var route = "https://transformatepro.com/ajax/load";
+			}
+			$.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')     
+                },
+                url: route,
+                type:'POST',
+                data:  parametros,
+                success:function(ans){
+                    AWS.config.update({
+                        accessKeyId : ans.c1,
+                        secretAccessKey : ans.c2
+                    });
+                    AWS.config.region = ans.c3;
+                }
+            });
 
 			$('.video-file-upload').on('change', function(e) {
 	            e.preventDefault();
-
+                
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
 	            var curso = $("#course_id").val();
 	            var leccion = $("#lesson_id").val();
 	            var uploadFiles = $('#video')[0];
@@ -69,7 +86,8 @@
 
 	        $('.resource-file-upload').on('change', function(e) {
 	            e.preventDefault();
-
+                
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
 	            var curso = $("#course_id").val();
 	            var leccion = $("#lesson_id_resource").val();
 	            var uploadFiles = $('#resource')[0];
@@ -138,8 +156,6 @@
 @endpush
 
 @section('content')
-	<input type="hidden" id="accessKeyId" value="QUtJQUpHUjNPSTJQVDJUUVY0S0E=">
-    <input type="hidden" id="secretAccessKey" value="ak8xZTI1SW1yM2NDS2IwYlpmLzRLZncvNWJFSE9wVDR1Q1gvc09acA==">
 	<div class="uk-container">
 		@if (Session::has('msj-exitoso'))
             <div class="uk-alert-success" uk-alert>
@@ -226,6 +242,7 @@
 	        </div>
 	        <form action="{{ route('instructors.courses.temary.add-module') }}" method="POST">
 	        	@csrf
+	        	<input type="hidden" name="content_type" value="curso">
 	        	<input type="hidden" name="course_id" value="{{ $curso->id }}">
 	        	<input type="hidden" name="course_slug" value="{{ $curso->slug }}">
 		        <div class="uk-modal-body">
@@ -413,4 +430,7 @@
 		<input type="hidden" name="file_extension" id="file_extension_resource">
 		<input type="hidden" name="file_path" id="file_path_resource">
 	</form>
+
+	<input type="hidden" id="accessKeyId" value="QUtJQVpOTEo1N0hWSkM1T1o1TFk=">
+    <input type="hidden" id="secretAccessKey" value="Um5vNGZqMFZ0MzFucnNmdUQ3ZXJYMWh6OXA2ODE5aERPdVJCZ0dHeQ==">
 @endsection

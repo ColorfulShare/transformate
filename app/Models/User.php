@@ -15,7 +15,7 @@ class User extends Authenticatable
     protected $fillable = [
         'names', 'last_names', 'slug', 'birthdate', 'gender', 'country', 'state', 'username', 'email', 'email_token',
         'phone', 'password', 'role_id', 'afiliate_code', 'afiliate_direct', 'avatar', 'profession', 
-        'review', 'balance', 'event_balance', 'status', 'membership_id', 'membership_expiration', 'sponsor_id',
+        'review', 'balance', 'event_balance', 'status', 'membership_id', 'membership_expiration', 'membership_courses', 'sponsor_id',
         'charging_method', 'paypal_email', 'business_name', 'identification', 'bank', 'account_number', 
         'account_type', 'save_payment_method', 'provider', 'provider_id', 'facebook', 'instagram', 
         'twitter', 'youtube', 'pinterest', 'curriculum', 'course_review', 'video_presentation', 'profile_id'

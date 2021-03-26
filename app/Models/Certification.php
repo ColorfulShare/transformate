@@ -12,7 +12,7 @@ class Certification extends Model
         'subtitle', 'slug', 'review', 'description', 'cover', 'cover_name', 'preview', 'preview_name', 
         'preview_cover', 'preview_cover_name', 'objectives', 'requirements', 'destination', 
         'material_content', 'price', 'currency', 'cover_home', 'image_cover', 'puntuaction', 'featured', 
-        'original', 'status', 'evaluation_review', 'sent_for_review', 'reviewed_at', 'published_at'];
+        'original', 'status', 'search_keys', 'evaluation_review', 'sent_for_review', 'reviewed_at', 'published_at'];
 
     //Relación Curso - Instructor
     public function user(){

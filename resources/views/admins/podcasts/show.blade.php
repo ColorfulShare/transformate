@@ -36,7 +36,7 @@
             <div class="uk-card-header uk-text-bold">
                 <i class="fas fa-user uk-margin-small-right"></i> Detalles de Podcast
             </div>   
-            <form action="{{ route('admins.podcasts.update') }}" method="POST">
+            <form action="{{ route('admins.podcasts.update') }}" method="POST" enctype="multipart/form-data">
             	@csrf
             	<input type="hidden" name="podcast_id" value="{{ $podcast->id }}">           
 		        <div class="uk-card-body"> 
@@ -44,13 +44,17 @@
 		            	<div class="uk-width-1-1 uk-text-center">
 		            		<img src="{{ asset('uploads/images/podcasts/'.$podcast->cover) }}" style="width: 400px;">
 		            	</div>
+		            	<div class="uk-width-1-1">
+	                    	Cambiar Portada: 
+	                    	<input class="uk-input" type="file" name="cover">
+	                    </div>
 	                    <div class="uk-width-1-1">
 	                    	Título: 
 	                    	<input class="uk-input" type="text" name="title" value="{{ $podcast->title }}" required>
 	                    </div>
 	                    <div class="uk-width-1-1">
 	                    	Subtítulo: 
-	                    	<input class="uk-input" type="text" name="subtitle" value="{{ $podcast->subtitle }}" maxlength="100" required>
+	                    	<input class="uk-input" type="text" name="subtitle" value="{{ $podcast->subtitle }}" required>
 	                    </div>
 	                    <div class="uk-width-1-2">
 	                    	Categoría: 

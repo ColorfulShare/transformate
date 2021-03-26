@@ -4,87 +4,33 @@
    <link rel="stylesheet" type="text/css" href="{{ asset('css/courseDescription.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'AddToCart');
+@endsection
+
 @push('scripts')
    <script>
       $(function(){    
          $('.video-responsive').bind('contextmenu',function() { return false; });
-
          $('.close-trailer').on('click', function(){
             var vid = document.getElementById("video-trailer");
             vid.pause();
          });
-
          $('.close-trailer2').on('click', function(){
             var vid = document.getElementById("video-trailer2");
             vid.pause();
          });
       });
-
       function loadPreview(){
          modal = UIkit.modal("#previewModal");
          modal.show(); 
-         if (document.getElementById("tema").value == 'dark'){
-            $(".header-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("header-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("header-dark-trailer");
-            });
-            $(".color-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("color-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("color-dark-trailer");
-            });
-            $(".background-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("background-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("background-dark-trailer");
-            });    
-         }else{
-            $(".header-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("header-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("header-ligth-trailer");
-            });
-            $(".color-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("color-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("color-ligth-trailer");
-            });
-            $(".background-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("background-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("background-ligth-trailer");
-            });    
-         }     
       }
-
       function showLesson($lesson){
          $("#video-trailer2").attr('src', $lesson.video);
          $("#title-trailer2").empty();
          $("#title-trailer2").append($lesson.title);
          modal = UIkit.modal("#lessonModal");
-         modal.show(); 
-         if (document.getElementById("tema").value == 'dark'){
-            $(".header-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("header-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("header-dark-trailer");
-            });
-            $(".color-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("color-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("color-dark-trailer");
-            });
-            $(".background-ligth-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("background-ligth-trailer");
-               $("#"+$(this).attr('id')).addClass("background-dark-trailer");
-            });    
-         }else{
-            $(".header-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("header-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("header-ligth-trailer");
-            });
-            $(".color-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("color-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("color-ligth-trailer");
-            });
-            $(".background-dark-trailer").each(function(index) {
-               $("#"+$(this).attr('id')).removeClass("background-dark-trailer");
-               $("#"+$(this).attr('id')).addClass("background-ligth-trailer");
-            });    
-         }     
+         modal.show();   
       }
    </script>
 @endpush
@@ -121,11 +67,11 @@
          </div>
 
          <div class="uk-width-1-3 uk-text-right">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$curso->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
-            <a class="course-header-instructor-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="course-header-instructor-name" href="{{ route('landing.instructor.show-profile', [$curso->user->slug, $curso->user->id]) }}">{{ $curso->user->names }} {{ $curso->user->last_names }}</a>
          </div>
       </div>
 
@@ -287,17 +233,28 @@
                   
                   <div class="uk-child-width-1-1 course-price-buttons-div" uk-grid>
                      <div>
-                        @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-                           @if ($curso->price > 0)
-                              <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}">
-                                 <i class="fa fa-shopping-cart"></i> Añadir al Carrito
-                              </a>
+                        @if (Auth::guest())
+                           <a class="button-transformate button-aqua" ref="#modal-login" uk-toggle>
+                              <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+                           </a>
+                        @elseif (Auth::user()->role_id == 1)
+                           @if (!is_null(Auth::user()->membership_id))
+                              @if (Auth::user()->membership_courses < 3)
+                                 <a class="button-transformate button-aqua" href="{{ route('students.courses.add', $curso->id) }}">
+                                    <i class="fa fa-shopping-cart"></i> Añadir a Mis Cursos
+                                 </a>
+                              @else
+                                 <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}">
+                                    <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+                                 </a>
+                              @endif
                            @else
-                              <a class="button-transformate button-aqua" href="{{ route('students.courses.add', $curso->id) }}">
-                                 <i class="fa fa-shopping-cart"></i> Tomar Curso
-                              </a>
+                              <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}">
+                                    <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+                                 </a>
                            @endif
                         @endif
+
                         @if ( (!Auth::guest()) && (Auth::user()->role_id == 2) )
                            <a class="button-transformate button-aqua" href="{{ route('instructors.discussions.group', ['course', $curso->slug, $curso->id]) }}">
                                  <i class="fa fa-comment"></i> Ir Al Foro
@@ -335,18 +292,18 @@
 
       <div class="course-instructor-section" uk-grid>
          <div class="uk-width-auto uk-text-center">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$curso->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
          </div>
          <div class="uk-width-expand uk-text-left" style="padding-top: 15px;">
-            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$curso->user->slug, $curso->user->id]) }}">{{ $curso->user->names }} {{ $curso->user->last_names }}</a>
             <div class="color-ligth2" id="instructor-profession">
-               {{ $instructor->profession }}
+               {{ $curso->user->profession }}
             </div>
             <div class="color-ligth2" id="instructor-review">
-               {!! $instructor->review !!}
+               {!! $curso->user->review !!}
             </div>
          </div>
         
@@ -394,14 +351,24 @@
                   
       <div class="uk-child-width-1-1 course-price-buttons-div" uk-grid>
          <div>
-            @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
-               @if ($curso->price > 0)
+            @if (Auth::guest())
+               <a class="button-transformate button-aqua" ref="#modal-login" uk-toggle>
+                  <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+               </a>
+            @elseif (Auth::user()->role_id == 1)
+               @if (!is_null(Auth::user()->membership_id))
+                  @if (Auth::user()->membership_courses < 3)
+                     <a class="button-transformate button-aqua" href="{{ route('students.courses.add', $curso->id) }}">
+                        <i class="fa fa-shopping-cart"></i> Añadir a Mis Cursos
+                     </a>
+                  @else
+                     <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}">
+                        <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+                     </a>
+                  @endif
+               @else
                   <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$curso->id, 'curso']) }}">
                      <i class="fa fa-shopping-cart"></i> Añadir al Carrito
-                  </a>
-               @else
-                  <a class="button-transformate button-aqua" href="{{ route('students.courses.add', $curso->id) }}">
-                     <i class="fa fa-shopping-cart"></i> Tomar Curso
                   </a>
                @endif
             @endif
@@ -514,7 +481,7 @@
             </li>
 
             <!-- Valoraciones -->
-            {{--<li class="papd"> 
+            <li class="papd"> 
                @if ($curso->ratings_count > 0)
                   @foreach ($curso->ratings as $valoracion)
                      <div uk-grid style="padding: 0 10px;"> 
@@ -531,7 +498,6 @@
                @else
                   El T-Course no tiene ninguna valoración aún...
                @endif
-
                <div class="uk-text-center course-content-accordion">
                   <h1 class="color-ligth2" id="rating-average-movil">{{ number_format($curso->promedio, 2) }}</h1>
                   @if ($curso->avg[0] >= 1) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
@@ -541,25 +507,25 @@
                   @if ($curso->avg[0] >= 5) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
                   <div class="color-ligth2" id="rating-label-movil">Valoración del Curso</div>
                </div>
-            </li>--}}
+            </li>
          </ul>
       </div>
 
       <div class="course-instructor-section" uk-grid>
          <div class="uk-width-auto uk-text-center">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$curso->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
          </div>
          <div class="uk-width-expand uk-text-left" style="padding-top: 15px;">
-            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$curso->user->slug, $curso->user->id]) }}">{{ $curso->user->names }} {{ $curso->user->last_names }}</a>
             <div class="color-ligth2" id="instructor-profession-movil">
-               {{ $instructor->profession }}
+               {{ $curso->user->profession }}
             </div>
          </div>
          <div class="uk-width-1-1 color-ligth2" id="instructor-review-movil" style="margin-top: 5px;">
-            {!! $instructor->review !!}
+            {!! $curso->user->review !!}
          </div>
       </div>
    </div>

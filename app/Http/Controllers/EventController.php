@@ -10,12 +10,50 @@ use DB; use Auth; use Mail; use MercadoPago;
 
 class EventController extends Controller{
 
+	public function indexOld(){
+		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
+			$eventos = Event::where('status', '=', 1)
+						->with('images')
+						->orderBy('date', 'ASC')
+						->get();
+
+			$cantEventos = $eventos->count();
+
+			return view('landing.eventsOld')->with(compact('eventos', 'cantEventos'));
+		}else{
+			$eventos = Event::where('status', '=', 1)
+						->withCount(['subscriptions' => function ($query){
+							$query->where('disabled', '=', 0);
+						}])->orderBy('date', 'ASC')
+						->get();
+
+			$cantEventos = $eventos->count();
+
+			$mentores = DB::table('users')
+							->select('id', 'names', 'last_names', 'email')
+							->where('role_id', '=', 2)
+							->where('status', '=', 1)
+							->orderBy('names', 'ASC')
+							->get();
+
+			return view('admins.events.index')->with(compact('eventos', 'cantEventos', 'mentores'));
+		}
+	}
+
 	public function index(){
 		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
 			$eventos = Event::where('status', '=', 1)
 						->with('images')
 						->orderBy('date', 'ASC')
 						->get();
+
+			foreach ($eventos as $evento){
+				$dia = $this->getDay(date('N', strtotime($evento->date)));
+				$mes = $this->getMonth(date('n', strtotime($evento->date)));
+
+				$fecha = $dia." ".date('d', strtotime($evento->date))." de ".$mes;
+				$evento->date = $fecha;
+			}
 
 			$cantEventos = $eventos->count();
 
@@ -40,6 +78,77 @@ class EventController extends Controller{
 		}
 	}
 	
+	public function getDay($day){
+		switch ($day) {
+			case 1:
+				$dia = 'Lunes';
+			break;
+			case 2:
+				$dia = 'Martes';
+			break;
+			case 3:
+				$dia = 'Miércoles';
+			break;
+			case 4:
+				$dia = 'Jueves';
+			break;
+			case 5:
+				$dia = 'Viernes';
+			break;
+			case 6:
+				$dia = 'Sábado';
+			break;
+			case 7:
+				$dia = 'Domingo';
+			break;
+		}
+
+		return $dia;
+	}
+
+	public function getMonth($month){
+		switch ($month) {
+			case 1:
+				$mes = 'Enero';
+			break;
+			case 2:
+				$mes = 'Febrero';
+			break;
+			case 3:
+				$mes = 'Marzo';
+			break;
+			case 4:
+				$mes = 'Abril';
+			break;
+			case 5:
+				$mes = 'Mayo';
+			break;
+			case 6:
+				$mes = 'Junio';
+			break;
+			case 7:
+				$mes = 'Julio';
+			break;
+			case 8:
+				$mes = 'Agosto';
+			break;
+			case 9:
+				$mes = 'Septiembre';
+			break;
+			case 10:
+				$mes = 'Octubre';
+			break;
+			case 11:
+				$mes = 'Noviembre';
+			break;
+			case 12:
+				$mes = 'Diciembre';
+			break;
+		}
+
+		return $mes;
+	}
+
 	public function subscribe(Request $request){
 		$check = DB::table('event_subscriptions')
 					->where('event_id', '=', $request->event_id)
@@ -101,9 +210,17 @@ class EventController extends Controller{
 			}
 		}
 
+		if (!Auth::guest()){
+			if (Auth::user()->email == $suscriptor->email){
+				if (!is_null(Auth::user()->membership_id)){
+					$evento->amount = ($evento->amount*70)/100;
+				}
+			}
+		}
+
 		\MercadoPago\SDK::setAccessToken("APP_USR-1902410051285318-043020-57263f6c7aa781de7dba01fd37458c14-515837620");
         $payment_methods = \MercadoPago\SDK::get("/v1/payment_methods");
-        $bancosDisponibles = $payment_methods['body'][8]['financial_institutions'];
+        $bancosDisponibles = $payment_methods['body'][9]['financial_institutions'];
 
 		return view('landing.paymentEvent')->with(compact('evento', 'suscriptor', 'bancosDisponibles'));
 	}
@@ -422,6 +539,8 @@ class EventController extends Controller{
 	        $payment->payment_method_id = "pse";
 	        $payment->save();
 
+
+
 	        if ($payment->status == 'pending'){
 	            $suscripcion->payment_method = 'Transferencia Bancaria';
 	            $suscripcion->payment_id = $payment->id;
@@ -639,6 +758,35 @@ class EventController extends Controller{
 			}
 
 			return view('landing.showEvent')->with(compact('evento', 'countdown_limit', 'cantImagenesMentores'));
+		}else{
+			$evento = Event::where('id', '=', $id)
+						->withCount('images')
+						->first();
+
+			$imagenes = $evento->images;
+			$imagenes = $imagenes->sortBy('id');
+
+			$mentores = DB::table('users')
+							->select('id', 'names', 'last_names', 'email')
+							->where('role_id', '=', 2)
+							->where('status', '=', 1)
+							->orderBy('names', 'ASC')
+							->get();
+
+			return view('admins.events.show')->with(compact('evento', 'imagenes', 'mentores'));
+		}
+	}
+
+	public function show2($slug, $id){
+		if ( (Auth::guest()) || (Auth::user()->role_id != 3) ){
+			$evento = Event::find($id);
+
+			$countdown_limit = NULL;
+			if ($evento->presale == 1){
+				$countdown_limit = date('M j\, Y H:i:s', strtotime($evento->presale_datetime));
+			}
+
+			return view('landing.showEvent2')->with(compact('evento', 'countdown_limit'));
 		}else{
 			$evento = Event::where('id', '=', $id)
 						->withCount('images')

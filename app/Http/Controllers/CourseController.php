@@ -133,6 +133,8 @@ class CourseController extends Controller
         $leccion->title = 'Lección 1';
         $leccion->save();
 
+        $this->save_search_keys($curso->id);
+
         return redirect('instructors/t-courses/temary/'.$curso->slug.'/'.$curso->id)->with('msj-exitoso', 'El curso ha sido creado con éxito');
     }
 
@@ -151,8 +153,6 @@ class CourseController extends Controller
         return view('instructors.courses.temary')->with(compact('curso'));
     }
 
-    //**** Invitado - Estudiante - Instructor /  T-Courses / Ver T-Course ***//
-    //**** Admin /  T-Courses / Ver - Editar T-Course ***//
     public function show($slug, $id){
         $curso = Course::where('id', '=', $id)
                         ->with('modules', 'modules.lessons', 'tags')
@@ -168,7 +168,6 @@ class CourseController extends Controller
         $curso->avg = explode('.', $curso->promedio);
 
         $cantLecciones = 0;
-        $cantRecursos = 0;
         foreach ($curso->modules as $modulo) {
             $leccionesMod = DB::table('lessons')
                                 ->where('module_id', '=', $modulo->id)
@@ -177,34 +176,24 @@ class CourseController extends Controller
 
             foreach ($leccionesMod as $leccion){
                 $cantLecciones++;
-
-                $recursosLeccion = DB::table('resource_files')
-                                    ->where('lesson_id', '=', $leccion->id)
-                                    ->count();
-
-                $cantRecursos += $recursosLeccion;
             }
         }
 
         $curso->lessons_count = $cantLecciones;
-        $curso->resource_files_count = $cantRecursos;
-
-        $instructor = User::where('id', '=', $curso->user_id)
-                        ->first();
 
         if (Auth::guest()){
-            return view('landing.showCourse')->with(compact('curso', 'instructor')); 
+            return view('landing.showCourse')->with(compact('curso')); 
         }else if (Auth::user()->role_id == 1){
             //Vista de Estudiantes  
             $agregado = Auth::user()->courses_students()->where('course_id', '=', $id)->count();
 
             if ($agregado == 0){
-                return view('landing.showCourse')->with(compact('curso', 'instructor'));
+                return view('landing.showCourse')->with(compact('curso'));
             }else{
                return redirect('students/t-courses/resume/'.$slug.'/'.$id);
             } 
         }else if (Auth::user()->role_id == 2){
-            return view('landing.showCourse')->with(compact('curso', 'instructor'));
+            return view('landing.showCourse')->with(compact('curso'));
         }else if (Auth::user()->role_id == 3){
             $curso = Course::find($id);
 
@@ -233,10 +222,15 @@ class CourseController extends Controller
     }
 
     //**** Estudiante / Ver Curso / Tomar Curso (Guatuito) ****//
-    public function add($curso){
+    public function add($curso, $membresia = NULL){
         DB::table('courses_students')
             ->insert(['course_id' => $curso, 'user_id' => Auth::user()->id, 'progress' => 0, 'start_date' => date('Y-m-d')]);
 
+        if (!is_null($membresia)){
+            DB::table('users')
+                ->where('id', '=', Auth::user()->id)
+                ->update(['membership_courses' => Auth::user()->membership_courses+1]);
+        }
         return redirect('students/my-content')->with('msj-exitoso', 'El curso ha sido añadido a su lista con éxito');
     }
 
@@ -311,8 +305,18 @@ class CourseController extends Controller
                     );
                 }
             }
+
+            if ($request->hasFile('cover')){
+                $file = $request->file('cover');
+                $name = $curso->id.".".$file->getClientOriginalExtension();
+                $file->move(public_path().'/uploads/images/courses', $name);
+                $curso->cover = $name;
+                $curso->cover_name = $file->getClientOriginalName();
+            }
             
             $curso->save();
+
+            $this->save_search_keys($curso->id);
 
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-courses/edit/'.$curso->slug.'/'.$request->course_id)->with('msj-exitoso', 'Los datos del T-Course han sido actualizados con éxito');
@@ -371,7 +375,7 @@ class CourseController extends Controller
                 }else if ($request->hasFile('preview')){
                     $file2 = $request->file('preview');
                     $upload = Storage::disk('s3')->put('courses/previews', $file2, 'public');
-                    $curso->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $curso->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $curso->preview_name = $file2->getClientOriginalName();
                 }else if ($request->hasFile('preview_cover')){
                     $file3 = $request->file('preview_cover');
@@ -406,7 +410,7 @@ class CourseController extends Controller
 
     //*** Estudiante / T-Courses / Continuar T-Course ***//
     //*** Admin / T-Courses / Resumen T-Course ***//
-    public function resume($slug, $id){
+    public function resumeOld($slug, $id){
         $curso = Course::where('id', '=', $id)
                     ->with(['modules' => function ($query){
                             $query->orderBy('priority_order', 'ASC');
@@ -491,11 +495,83 @@ class CourseController extends Controller
         $curso->lessons_count = $cantLecciones;
 
         if (Auth::user()->role_id == 1){
-            return view('students.courses.resume')->with(compact('curso', 'primeraLeccion', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));     
+            return view('students.courses.resumeOld')->with(compact('curso', 'primeraLeccion', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));     
         }else{
-            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));
+            return view('admins.courses.resumeOld')->with(compact('curso', 'promedio', 'instructor', 'cantEstudiantes', 'progreso', 'miValoracion', 'cursosRelacionados'));
         }
         
+    }
+
+    //*** Estudiante / T-Courses / Continuar T-Course ***//
+    //*** Admin / T-Courses / Resumen T-Course ***//
+    public function resume($slug, $id){
+        $curso = Course::where('id', '=', $id)
+                    ->with(['modules' => function ($query){
+                            $query->orderBy('priority_order', 'ASC');
+                        },
+                        'modules.lessons',
+                        'tags'
+                    ])->withCount(['ratings as promedio' => function ($query2){
+                            $query2->select(DB::raw('avg(points)'));
+                        }
+                    ])->first();
+
+        $primerModulo = DB::table('modules')
+                            ->select('id')
+                            ->where('course_id', '=', $id)
+                            ->where('priority_order', '=', 1)
+                            ->first();
+
+        $primeraLeccion = DB::table('lessons')
+                            ->select('id')
+                            ->where('module_id', '=', $primerModulo->id)
+                            ->where('priority_order', '=', 1)
+                            ->first();
+        
+        $promedio = explode('.', $curso->promedio);
+
+        $valoraciones = Rating::where('course_id', '=', $id)
+                            ->orderBy('id', 'DESC')
+                            ->take(2)
+                            ->get();
+
+        $totalValoraciones = Rating::where('course_id', '=', $id)->count();
+
+        if (Auth::user()->role_id == 1){
+            $progreso = DB::table('courses_students')
+                        ->select('progress')
+                        ->where('user_id', '=', Auth::user()->id)
+                        ->where('course_id', '=', $id)
+                        ->first();
+
+            $miValoracion = DB::table('ratings')
+                            ->where('user_id', '=', Auth::user()->id)
+                            ->where('course_id', '=', $id)
+                            ->first();
+        }
+       
+
+        $cantLecciones = 0;
+        foreach ($curso->modules as $modulo) {
+            foreach ($modulo->lessons as $leccion){
+                $cantLecciones++;
+                if ($leccion->duration > 0){
+                    $tiempo = explode(".", $leccion->duration);
+                    $segundos = $tiempo[0]*60 + $tiempo[1]; 
+                    $leccion->hours = floor($segundos/ 3600);
+                    $leccion->minutes = floor(($segundos - ($leccion->hours * 3600)) / 60);
+                    $leccion->seconds = $segundos - ($leccion->hours * 3600) - ($leccion->minutes * 60);
+                }
+            }
+        }
+
+        $curso->lessons_count = $cantLecciones;
+
+        if (Auth::user()->role_id == 1){
+            return view('students.courses.resume')->with(compact('curso', 'primeraLeccion', 'promedio', 'progreso', 'valoraciones', 'totalValoraciones', 'miValoracion'));     
+        }else{
+            return view('admins.courses.resume')->with(compact('curso', 'promedio', 'valoraciones', 'totalValoraciones'));
+        }
     }
 
     //*** Estudiante / T-Courses / Continuar T-Course / Lecciones ****//
@@ -906,5 +982,16 @@ class CourseController extends Controller
                     ->get();
 
         return view('admins.reports.mostRecentCourses')->with(compact('cursos'));
+    }
+
+    public function save_search_keys($course){
+        $curso = Course::find($course);
+
+        $etiquetas = "";
+        foreach ($curso->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $curso->search_keys = $curso->title." ".$curso->subtitle." ".$curso->user->names." ".$curso->user->last_names." ".$curso->category->title." ".$curso->subcategory->title." ".$etiquetas;
+        $curso->save();
     }
 }

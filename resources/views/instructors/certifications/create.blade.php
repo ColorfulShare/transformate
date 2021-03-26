@@ -20,13 +20,11 @@
                 }
             });
 		}
-
 		$(function(){
 			$("input[type=checkbox]").change(function(){
 				var elemento = this;
 				var contador = 0;
 				var cantidadMaxima = 10;
-
 				$("input[type=checkbox]").each(function(){
 					if($(this).is(":checked"))
 						contador++;

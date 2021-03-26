@@ -25,7 +25,6 @@
                 },20000);
             }  
         }
-
         $(function(){           
             chequear_progreso();       
             $('.video').on('click',function(){

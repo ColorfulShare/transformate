@@ -5,21 +5,17 @@
         input[type="radio"] {
           display: none;
         }
-
         label {
           color: grey;
         }
-
         .clasificacion {
           direction: rtl;
           unicode-bidi: bidi-override;
         }
-
         label:hover,
         label:hover ~ label {
           color: orange;
         }
-
         input[type="radio"]:checked ~ label {
           color: orange;
         }
@@ -34,17 +30,14 @@
       $(function(){    
          $('.audio-div').bind('contextmenu',function() { return false; });
       });
-
       function cargarModalValoracion(){
          document.getElementById("podcast_id").value = "{{ $podcast->id }}";
          UIkit.modal("#modalValorar").show();
       }
-
       function cargarModalEditar(){
          document.getElementById("rating_id").value = document.getElementById("id_hidden").value;
          document.getElementById("title").value = document.getElementById("title_hidden").value;
          document.getElementById("comment").value = document.getElementById("comment_hidden").value;
-
          if (document.getElementById("points_hidden").value >= 1){
             document.getElementById("radio5").checked = true;
          }
@@ -100,7 +93,7 @@
                   <a href="{{ route('students.podcasts.resume', [$podcast->slug, $podcast->id]) }}">{{ $podcast->title }}</a>
                </h1>
                <h2 class="hero--course__by">
-                  Un T-Book de <a href="{{ route('students.instructors.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>, {{ $instructor->profession }}
+                  Un T-Book de <a href="{{ route('students.instructors.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a>, {{ $podcast->user->profession }}
                   <p class="uk-dark uk-text-bold nrg">
                      Categoría: <i class="{{ $podcast->category->icon }}"></i> {{ $podcast->category->title }}
                   </p>
@@ -220,46 +213,46 @@
                <div class="section">
                   <div class="course-teacher uk-grid" data-id="user-row-1327757">
                      <div class="course-teacher__avatar uk-width-1-3@m uk-first-column gri">
-                        <img alt="{{ $instructor->names }} {{ $instructor->last_names }}" class=" lazyloaded" src="{{ asset('uploads/images/users/'.$instructor->avatar)}}">
+                        <img alt="{{ $podcast->user->names }} {{ $podcast->user->last_names }}" class=" lazyloaded" src="{{ asset('uploads/images/users/'.$podcast->user->avatar)}}">
                      </div>
                      <div class="course-teacher__details uk-width-2-3@m uk-first-column">
                         <h3 class="course-teacher__name">
-                           <a href="{{ route('students.instructors.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+                           <a href="{{ route('students.instructors.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a>
                            <span class="badge badge--teacher ">Profesor</span>
                         </h3>
-                        <h4 class="course-teacher__title">{{ $instructor->profession }}</h4>
+                        <h4 class="course-teacher__title">{{ $podcast->user->profession }}</h4>
                         <h3 class="course-teacher__name">
                            <ul class="list-inline">
                               <li class="list-inline-item" style="font-size: 0.7em;">Redes Sociales Disponibles: </li>
-                              @if (!is_null($instructor->facebook))
+                              @if (!is_null($podcast->user->facebook))
                                  <li class="list-inline-item">
-                                    <a title="Facebook de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
+                                    <a title="Facebook de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->twitter))
+                              @if (!is_null($podcast->user->twitter))
                                  <li class="list-inline-item">
-                                    <a title="Twitter de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a title="Twitter de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->instagram))
+                              @if (!is_null($podcast->user->instagram))
                                  <li class="list-inline-item">
-                                    <a title="Instagram de {{ $instructor->names }} {{ $instructor->last_names }} Instagram" rel="external nofollow" href="{{ $instructor->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a title="Instagram de {{ $podcast->user->names }} {{ $podcast->user->last_names }} Instagram" rel="external nofollow" href="{{ $podcast->user->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->youtube))
+                              @if (!is_null($podcast->user->youtube))
                                  <li class="list-inline-item">
-                                    <a title="Canal de YouTube de {{ $instructor->names }} {{ $instructor->last_names }} Instagram" rel="external nofollow" href="{{ $instructor->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                                    <a title="Canal de YouTube de {{ $podcast->user->names }} {{ $podcast->user->last_names }} Instagram" rel="external nofollow" href="{{ $podcast->user->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->pinterest))
+                              @if (!is_null($podcast->user->pinterest))
                                  <li class="list-inline-item">
-                                     <a title="Pinterest de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
+                                     <a title="Pinterest de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
                                  </li>
                               @endif
                            </ul>
                         </h3>
                         <div class="course-teacher__summary">
-                           <p>{!! $instructor->review !!}</p>
+                           <p>{!! $podcast->user->review !!}</p>
                         </div>
                      </div>
                   </div>
@@ -309,7 +302,6 @@
                               @if ($miValoracion->points >= 3) <i class="fas fa-star icon-small"></i> @else <i class="far fa-star icon-small icon-rate"></i> @endif
                               @if ($miValoracion->points >= 4) <i class="fas fa-star icon-small"></i> @else <i class="far fa-star icon-small icon-rate"></i> @endif
                               @if ($miValoracion->points >= 5) <i class="fas fa-star icon-small"></i> @else <i class="far fa-star icon-small icon-rate"></i> @endif<br>
-
                               <a class="uk-button" onclick="cargarModalEditar();"><i class="fa fa-edit"></i> Editar</a>
                            </div>
                            <h4 class="uk-margin-remove">{{ Auth::user()->names }} {{ Auth::user()->last_names }}</h4> 
@@ -355,37 +347,37 @@
                <div class="uk-grid-small uk-padding-small" uk-grid> 
                   <div class="uk-width-4-4@m uk-first-column">   
                      <h5 class="borr">Un T-Book de</h5>                    
-                     <img class="uk-width-3-3 uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}"> <br>
-                     <strong class="nickname"><a href="{{ route('students.instructors.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a></strong> <br>
+                     <img class="uk-width-3-3 uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up" src="{{ asset('uploads/images/users/'.$podcast->user->avatar) }}"> <br>
+                     <strong class="nickname"><a href="{{ route('students.instructors.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a></strong> <br>
                      <div class="badges"><span class="badge badge--teacher ">Profesor</span><a class="badge badge--pro " href="#">Pro</a></div>
                      <div class="since">
-                        En Transfórmate desde {{ date('d-m-Y H:i A', strtotime("$instructor->created_at -5 Hours")) }}<br>
-                        <i class="fas fa-map-marker-alt"></i> {{ $instructor->state }}, {{ $instructor->country }}<br><br>
+                        En Transfórmate desde {{ date('d-m-Y H:i A', strtotime("$podcast->user->created_at -5 Hours")) }}<br>
+                        <i class="fas fa-map-marker-alt"></i> {{ $podcast->user->state }}, {{ $podcast->user->country }}<br><br>
                         <h3 class="course-teacher__name uk-text-center">
                            <ul class="list-inline">
-                              @if (!is_null($instructor->facebook))
+                              @if (!is_null($podcast->user->facebook))
                                  <li class="list-inline-item">
-                                    <a title="Facebook de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
+                                    <a title="Facebook de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->twitter))
+                              @if (!is_null($podcast->user->twitter))
                                  <li class="list-inline-item">
-                                    <a title="Twitter de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a title="Twitter de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->instagram))
+                              @if (!is_null($podcast->user->instagram))
                                  <li class="list-inline-item">
-                                    <a title="Instagram de {{ $instructor->names }} {{ $instructor->last_names }} Instagram" rel="external nofollow" href="{{ $instructor->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a title="Instagram de {{ $podcast->user->names }} {{ $podcast->user->last_names }} Instagram" rel="external nofollow" href="{{ $podcast->user->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->youtube))
+                              @if (!is_null($podcast->user->youtube))
                                  <li class="list-inline-item">
-                                    <a title="Canal de YouTube de {{ $instructor->names }} {{ $instructor->last_names }} Instagram" rel="external nofollow" href="{{ $instructor->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                                    <a title="Canal de YouTube de {{ $podcast->user->names }} {{ $podcast->user->last_names }} Instagram" rel="external nofollow" href="{{ $podcast->user->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
                                  </li>
                               @endif
-                              @if (!is_null($instructor->pinterest))
+                              @if (!is_null($podcast->user->pinterest))
                                  <li class="list-inline-item">
-                                    <a title="Pinterest de {{ $instructor->names }} {{ $instructor->last_names }}" rel="external nofollow" href="{{ $instructor->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
+                                    <a title="Pinterest de {{ $podcast->user->names }} {{ $podcast->user->last_names }}" rel="external nofollow" href="{{ $podcast->user->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
                                  </li>
                               @endif
                            </ul>

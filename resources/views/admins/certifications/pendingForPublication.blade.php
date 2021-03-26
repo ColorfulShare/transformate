@@ -33,7 +33,6 @@
                 ]
             });
         });
-
         function cargarModal($certificacion){
             document.getElementById("certification_id").value = $certificacion;
             var modal = UIkit.modal("#modalCorrecciones");

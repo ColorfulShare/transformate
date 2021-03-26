@@ -14,7 +14,6 @@
                 var modal = UIkit.modal("#infoModal");
                 modal.show();
             }
-           
         });
 
         function metodo_pago($opcion){
@@ -198,15 +197,39 @@
                                 <div class="uk-grid">
                                     <div class="uk-width-1-1">
                                         Pago seguro en línea a través de cuenta corriente o ahorros. Recuerda tener habilitada tu cuenta corriente/ahorros para realizar compras vía internet.
-                                        <br> <strong style="color: red">Importante:</strong> Debes enviarnos el comprobante de pago a nuestro whatsapp: +573123270857 o al correo: pagos@transformatepro.com, una vez hecha la transacción para aprobar tu compra. </br><br>
                                     </div>
                                     <div class="uk-width-1-1 required">
                                         Banco PSE: 
                                         <select class="uk-select input-shop" name="bank_id" required>
                                             <option value="" selected disabled>Seleccione un banco...</option>
-                                            @foreach ($bancosDisponibles as $banco)
-                                                <option value="{{ $banco['id'] }}">{{ $banco['description'] }}</option>
-                                            @endforeach
+                                            <option value="1007">Bancolombia</option>
+                                            <option value="1061">Bancoomeva S.A.</option>
+                                            <option value="1040">Banco Agrario</option>
+                                            <option value="1052">Banco AV Villas</option>
+                                            <option value="1013">Banco BBVA Colombia S.A.</option>
+                                            <option value="1032">Banco Caja Social</option>
+                                            <option value="1066">Banco Cooperativo Coopcentral</option>
+                                            <option value="1558">Banco Credifinanciera</option>
+                                            <option value="1051">Banco Davivienda</option>
+                                            <option value="1001">Banco De Bogotá</option>
+                                            <option value="1059">Banco De Las Microfinanzas Bancamia</option>
+                                            <option value="1023">Banco De Occidente</option>
+                                            <option value="1062">Banco Falabella</option>
+                                            <option value="1012">Banco GNB Sudameris</option>
+                                            <option value="1006">Banco Itaú</option>
+                                            <option value="1060">Banco Pichincha S.A.</option>
+                                            <option value="1002">Banco Popular</option>
+                                            <option value="1065">Banco Santander Colombia</option>
+                                            <option value="1069">Banco Serfinanza</option>
+                                            <option value="1283">Cfa Cooperativa Financiera</option>
+                                            <option value="1009">Citibank</option>
+                                            <option value="1370">Coltefinanciera</option>
+                                            <option value="1292">Confiar Cooperativa Financiera</option>
+                                            <option value="1289">Cotrafa</option>
+                                            <option value="1551">DaviPlata</option>
+                                            <option value="1507">Nequi</option>
+                                            <option value="1151">Rappipay</option>
+                                            <option value="1019">Scotiabank Colpatria</option>
                                         </select>
                                     </div>
                                     <div class="uk-width-1-2 required">

@@ -76,18 +76,14 @@
 		}
 
 		$(function(){
-			//Obtener Credenciales
-			var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
 			var url = {{ $www }};
+	        var parametros = {"c1" : $("#accessKeyId").val(),"c2" : $("#secretAccessKey").val()};
             if (url == 1){
 				var route = "https://www.transformatepro.com/ajax/load";
 			}else{
 				var route = "https://transformatepro.com/ajax/load";
 			}
-
-			//var route = "http://localhost:8000/ajax/load";
-
-            $.ajax({
+			$.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')     
                 },
@@ -204,7 +200,7 @@
 
             	document.getElementById("resource").disabled = true;
 
-            	var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+            	var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
                 var uploadFiles = $('#resource')[0];
                 var upFile = uploadFiles.files[0];
                 if (upFile) {
@@ -228,9 +224,9 @@
                     }).send(function(err, data) {
                     	var url = {{ $www }};
 		            	if (url == 1){
-		            		var route = "https://www.transformatepro.com/instructors/t-books/update-temary";
+		            		var route = "https://www.transformatepro.com/instructors/t-books/load-resource";
 		            	}else{
-		            		var route = "https://transformatepro.com/instructors/t-books/update-temary";
+		            		var route = "https://transformatepro.com/instructors/t-books/load-resource";
 		            	}
 
                         //var route = "http://localhost:8000/instructors/t-books/load-resource";
@@ -355,7 +351,7 @@
 
 					   			<div class="uk-width-1-1">
 						        	<label class="uk-form-label" for="subtitle"><b>Subtítulo:</b></label>
-						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" placeholder="Subtítulo del Podcast" maxlength="100" value="{{ $podcast->subtitle }}"> 
+						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" placeholder="Subtítulo del Podcast" value="{{ $podcast->subtitle }}"> 
 						    	</div>
 
 							    <div class="uk-width-1-2">
@@ -659,6 +655,6 @@
 		<input type="hidden" name="resource_id" id="resource_id">
 	</form>
 
-	<input type="hidden" id="accessKeyId" value="QUtJQUpHUjNPSTJQVDJUUVY0S0E=">
-    <input type="hidden" id="secretAccessKey" value="ak8xZTI1SW1yM2NDS2IwYlpmLzRLZncvNWJFSE9wVDR1Q1gvc09acA==">
+	<input type="hidden" id="accessKeyId" value="QUtJQVpOTEo1N0hWSkM1T1o1TFk=">
+    <input type="hidden" id="secretAccessKey" value="Um5vNGZqMFZ0MzFucnNmdUQ3ZXJYMWh6OXA2ODE5aERPdVJCZ0dHeQ==">
 @endsection

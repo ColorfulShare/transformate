@@ -44,7 +44,7 @@ class LandingController extends Controller
 
         return redirect('/')->with('msj-exitoso', 'Tu mensaje ha sido enviado con éxito');
     }
-    /** Landing / Home **/
+    
     public function index(){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
@@ -53,38 +53,49 @@ class LandingController extends Controller
             $www = 0;
         }
 
-        $categorias = DB::table('categories')
-                        ->select('id', 'title', 'slug')
-                        ->orderBy('id', 'ASC')
-                        ->get();
+        $categoriasHome = Category::withCount('courses')
+                            ->orderBy('id', 'ASC')
+                            ->get();
+        
+        $cursosID = [];
+        $cursosDestacados = Course::where('status', '=', 2)
+                                ->where('featured', '=', 1)
+                                ->orderBy('created_at', 'DESC')
+                                ->take(4)
+                                ->get();
 
-        $cursos = Course::withCount('students')
-                    ->where('status', '=', 2)
-                    ->where('category_id', '=', 1)
-                    ->orderBy('created_at', 'DESC')
-                    ->get();
+        foreach ($cursosDestacados as $cursoDestacado){
+            array_push($cursosID, $cursoDestacado->id);
+        }
 
-        $cantCursos = $cursos->count();
-
-        $cursosMasVendidos = PurchaseDetail::with('course')
+        $cursosVendidos = PurchaseDetail::with('course', 'course.user')
                                 ->select('purchase_details.course_id', DB::raw('count(*) as total'))
                                 ->where('course_id', '<>', NULL)
                                 ->groupBy('course_id')
                                 ->orderBy('total', 'DESC')
-                                ->take(8)
+                                ->take(4)
                                 ->get();
+
+        foreach ($cursosVendidos as $cursoVendido){
+            array_push($cursosID, $cursoVendido->course_id);
+        }
         
-        $cursosAgregados = NULL;
-
-        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
-            $misCursos = DB::table('courses_students')
-                                ->where('user_id', '=', Auth::user()->id)
+        $cursosRecomendados = Course::where('status', '=', 2)
+                                ->whereNotIn('id', $cursosID)
+                                ->orderByRaw('rand()')
+                                ->take(4)
                                 ->get();
 
-            $cursosAgregados = array();
-            foreach ($misCursos as $miCurso){
-                array_push($cursosAgregados, $miCurso->course_id);
-            }  
+        
+        $misCursos = [];
+        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
         }
 
         $categoriaSeleccionada = 1;
@@ -96,11 +107,23 @@ class LandingController extends Controller
         
         $cantEventos = $eventos->count();
 
-        return view('landing.index')->with(compact('cursos', 'cursosMasVendidos', 'categorias', 'cursosAgregados', 'cantCursos', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos'));
+        $cantMasterClass = DB::table('master_class')
+                                ->where('status', '=', 1)
+                                ->count();
+
+        $cantPodcasts = DB::table('podcasts')
+                                ->where('status', '=', 2)
+                                ->count();
+
+        $cantCertificaciones = DB::table('certifications')
+                                ->where('status', '=', 2)
+                                ->count();
+
+        return view('landing.index')->with(compact('cursosDestacados', 'cursosVendidos', 'cursosRecomendados', 'categoriasHome', 'www', 'categoriaSeleccionada', 'eventos', 'cantEventos', 'cantMasterClass', 'cantPodcasts', 'cantCertificaciones', 'misCursos'));
     }
 
     /** Landing / T- Courses **/
-    public function courses($slug = NULL, $categoria = 1){
+    public function courses($slug = NULL, $categoria = 'destacados'){
         $url = explode("www", \Request::url());
         if (count($url) > 1){
             $www = 1;
@@ -108,49 +131,109 @@ class LandingController extends Controller
             $www = 0;
         }
 
-        if ($categoria == 100){
+        $totalCursos = Course::where('status', '=', 2)->count();
+
+        if ($categoria == 'destacados'){
+            $cursos = Course::where('status', '=', 2)
+                        ->where('featured', '=', 1)
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+            $tituloCategoriaSeleccionada = 'Destacados';
+        }else if ($categoria == 'vendidos'){
+            $cursosVendidos = PurchaseDetail::with('course', 'course.user')
+                                ->select('purchase_details.course_id', DB::raw('count(*) as total'))
+                                ->where('course_id', '<>', NULL)
+                                ->groupBy('course_id')
+                                ->orderBy('total', 'DESC')
+                                ->get();
+            $cursos = collect();        
+            foreach ($cursosVendidos as $cursoVendido){
+                $cursos->push($cursoVendido->course);
+            }
+
+            $tituloCategoriaSeleccionada = 'Más Vendidos';
+        }else if ($categoria == 'recomendados'){
+            $cursos = Course::where('status', '=', 2)
+                            ->orderByRaw('rand()')
+                            ->get();
+
+            $tituloCategoriaSeleccionada = 'Recomendados';
+        }else if ($categoria == 'todos'){
+            $cursos = Course::where('status', '=', 2)
+                            ->orderBy('title', 'ASC')
+                            ->get();
+
+            $tituloCategoriaSeleccionada = 'Todos';
+        }else if ($categoria == 100){
             $cursos = MasterClass::where('status', '=', 1)
                         ->orderBy('id', 'DESC')
                         ->get();
 
-            $libros = NULL;
-            $cantCursos = $cursos->count();
-            $cantLibros = 0;
-        }elseif ($categoria == 0){
-            $cursos = NULL;
-
-            $libros = Podcast::where('status', '=', 2)
+            $tituloCategoriaSeleccionada = 'T-Master Class';
+        }else if ($categoria == 'tbooks'){
+            $cursos = Podcast::where('status', '=', 2)
                         ->orderBy('id', 'DESC')
                         ->get();
 
-            $cantCursos = 0;
-            $cantLibros = $libros->count();
+            $tituloCategoriaSeleccionada = 'T-Books';
+        }else if ($categoria == 'tmentorings'){
+            $cursos = Certification::where('status', '=', 2)
+                        ->orderBy('id', 'DESC')
+                        ->get();
+
+            $tituloCategoriaSeleccionada = 'T-Mentorings';
         }else{
             $cursos = Course::where('category_id', '=', $categoria)
                         ->where('status', '=', 2)
                         ->orderBy('id', 'DESC')
                         ->get();
 
-            $libros = Podcast::where('category_id', '=', $categoria)
-                        ->where('status', '=', 2)
-                        ->orderBy('id', 'DESC')
-                        ->get();
+            $datosCategoria = DB::table('categories')
+                                ->select('title')
+                                ->where('id', '=', $categoria)
+                                ->first();
 
-            $cantCursos = $cursos->count();
-            $cantLibros = $libros->count();
+            $tituloCategoriaSeleccionada = $datosCategoria->title; 
         }
 
         $categoriaSeleccionada = $categoria;
-
+        
         $cursosRegalo = 0;
+        $misCursos = [];
+        $misLibros = [];
+        $misCertificaciones = [];
         if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
             $cursosRegalo = DB::table('gifts')
                                 ->where('user_id', '=', Auth::user()->id)
                                 ->where('checked', '=', 0)
                                 ->count();
+
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
+
+            $miContenidoLibros = DB::table('podcasts_students')
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->get();
+
+            foreach ($miContenidoLibros as $contenidoLibro){
+                array_push($misLibros, $contenidoLibro->podcast_id);
+            }
+
+            $miContenidoCertificaciones = DB::table('certifications_students')
+                                            ->where('user_id', '=', Auth::user()->id)
+                                            ->get();
+
+            foreach ($miContenidoCertificaciones as $contenidoCertificacion){
+                array_push($misCertificaciones, $contenidoCertificacion->certification_id);
+            }
         }
 
-        return view('landing.courses')->with(compact('cursos', 'cantCursos', 'libros', 'cantLibros', 'categoriaSeleccionada', 'www', 'cursosRegalo'));
+        return view('landing.courses')->with(compact('totalCursos', 'cursos', 'categoriaSeleccionada', 'tituloCategoriaSeleccionada', 'www', 'cursosRegalo', 'misCursos', 'misLibros', 'misCertificaciones'));
     }
 
     /** Landing / T-Mentor **/
@@ -160,269 +243,57 @@ class LandingController extends Controller
 
     //*** T- Member ***//
     public function t_member(){
-        return view('landing.tMember');
+        $membresia = DB::table('memberships')->first();
+
+        return view('landing.tMember')->with(compact('membresia'));
     }
 
     /** Header / Búsqueda Personalizada **/
     public function search(Request $request){
-        $categoriasRelacionadas = Category::where('title', 'LIKE', '%'.$request->get('busqueda').'%')
-                                        ->with(['courses' => function($query){
-                                            $query->where('status', '=', 2);
-                                        }, 'podcasts' => function($query2){
-                                            $query2->where('status', '=', 2);
-                                        }])->get();
-
-        $cantCategorias = $categoriasRelacionadas->count();
-
-        if ($cantCategorias > 0){
-            foreach ($categoriasRelacionadas as $cat){
-                $cantCursosCat = 0;
-                $cantLibrosCat = 0;
-                foreach($cat->courses as $cur){
-                    if ($cur->status == 2){
-                        $cantCursosCat++;
-                    }
-                }
-                foreach($cat->podcasts as $pod){
-                    if ($pod->status == 2){
-                        $cantLibrosCat++;
-                    }
-                }
-                $cat->courses_count = $cantCursosCat;
-                $cat->podcasts_count = $cantLibrosCat;
-            }
-        }else{
-            $categoriasRelacionadas = NULL;
-        }
-
-        $subcategoriasRelacionadas = Subcategory::where('title', 'LIKE', '%'.$request->get('busqueda').'%')
-                                        ->with(['courses' => function($query){
-                                            $query->where('status', '=', 2);
-                                        }, 'podcasts' => function($query2){
-                                            $query2->where('status', '=', 2);
-                                        }])->get();
-
-        $cantSubcategorias = $subcategoriasRelacionadas->count();
-
-        if ($cantSubcategorias > 0){
-            foreach ($subcategoriasRelacionadas as $subcat){
-                $cantCursosSubcat = 0;
-                $cantLibrosSubcat = 0;
-                foreach($subcat->courses as $cur2){
-                    if ($cur2->status == 2){
-                        $cantCursosSubcat++;
-                    }
-                }
-                foreach($subcat->podcasts as $pod2){
-                    if ($pod2->status == 2){
-                        $cantLibrosSubcat++;
-                    }
-                }
-                $subcat->courses_count = $cantCursosSubcat;
-                $subcat->podcasts_count = $cantLibrosSubcat;
-            }
-        }else{
-            $subcategoriasRelacionadas = NULL;
-        }
-
-        $mentoresRelacionados = User::where('names', 'LIKE', '%'.$request->get('busqueda').'%')
-                                    ->orWhere('last_names', 'LIKE', '%'.$request->get('busqueda').'%')
-                                    ->with(['courses' => function($query){
-                                        $query->where('status', '=', 2);
-                                    }, 'podcasts' => function($query2){
-                                        $query2->where('status', '=', 2);
-                                    } ])->get();
-
-        $cantMentores = $mentoresRelacionados->count();
-        if ($cantMentores > 0){
-            foreach ($mentoresRelacionados as $mentor){
-                $cantCursosMentor = 0;
-                $cantLibrosMentor = 0;
-                foreach ($mentor->courses as $course){
-                    $cantCursosMentor++;
-                }
-                foreach ($mentor->podcasts as $podcast){
-                    $cantLibrosMentor++;
-                }
-                $mentor->courses_count = $cantCursosMentor;
-                $mentor->podcasts_count = $cantLibrosMentor;
-            }
-        }
-
-        $cursosID = [];
-        $cursosRelacionados = null;
-
-        $cursosRelacionados = Course::busqueda($request->get('busqueda'))
+        $cursosRelacionados = Course::where('search_keys', 'like', "%{$request->get('busqueda')}%")
                                     ->where('status', '=', 2)
-                                    ->orderBy('title', 'ASC')
                                     ->get();
 
-        $cantCursos = $cursosRelacionados->count();
-
-        if ($cantCursos > 0){
-            foreach ($cursosRelacionados as $cursoR){
-                if (!in_array($cursoR->id, $cursosID)){
-                    array_push($cursosID, $cursoR->id);
-                }
-            }
-        }
-
-        $librosID = [];
-        $librosRelacionados = null;
-
-        $librosRelacionados = Podcast::busqueda($request->get('busqueda'))
+        $librosRelacionados = Podcast::where('search_keys', 'like', "%{$request->get('busqueda')}%")
                                     ->where('status', '=', 2)
-                                    ->orderBy('title', 'ASC')
                                     ->get();
 
-        $cantLibros = $librosRelacionados->count();
-
-        if ($cantLibros > 0){
-            foreach ($librosRelacionados as $libroR){
-                if (!in_array($libroR->id, $librosID)){
-                    array_push($librosID, $libroR->id);
-                }
-            }
-        }
-
-        $etiquetasRelacionadas = Tag::where('tag', 'LIKE', '%'.$request->get('busqueda').'%')
-                                    ->select('id')
-                                    ->get();
-
-        $cantEtiquetas = $etiquetasRelacionadas->count();
+        $certificacionesRelacionadas = Certification::where('search_keys', 'like', "%{$request->get('busqueda')}%")
+                                            ->where('status', '=', 2)
+                                            ->get();
         
-        if ($cantEtiquetas > 0){
-            foreach ($etiquetasRelacionadas as $etiqueta){
-                $cursosTags = DB::table('courses_tags')
-                                    ->select('course_id')
-                                    ->where('tag_id', '=', $etiqueta->id)
+        $totalCursos = Course::where('status', '=', 2)->count();
+
+        $misCursos = [];
+        $misLibros = [];
+        $misCertificaciones = [];
+        if ( (!Auth::guest()) && (Auth::user()->role_id == 1) ){
+            $miContenidoCursos = DB::table('courses_students')
+                                    ->where('user_id', '=', Auth::user()->id)
                                     ->get();
 
-                foreach ($cursosTags as $cursoT){
-                    if (!in_array($cursoT->course_id, $cursosID)){
-                        array_push($cursosID, $cursoT->course_id);
+            foreach ($miContenidoCursos as $contenidoCurso){
+                array_push($misCursos, $contenidoCurso->course_id);
+            }
 
-                        $datosCurso = Course::where('id', '=', $cursoT->course_id)
-                                        ->where('status', '=', 2)
-                                        ->first();
-
-                        if (!is_null($datosCurso)){
-                            $cantCursos++;
-                            $cursosRelacionados->push($datosCurso);
-                        }
-                    }
-                }
-
-                $librosTags = DB::table('podcasts_tags')
-                                    ->select('podcast_id')
-                                    ->where('tag_id', '=', $etiqueta->id)
+            $miContenidoLibros = DB::table('podcasts_students')
+                                    ->where('user_id', '=', Auth::user()->id)
                                     ->get();
 
-                foreach ($librosTags as $libroT){
-                    if (!in_array($libroT->podcast_id, $librosID)){
-                        array_push($librosID, $libroT->podcast_id);
+            foreach ($miContenidoLibros as $contenidoLibro){
+                array_push($misLibros, $contenidoLibro->podcast_id);
+            }
 
-                        $datosLibro = Podcast::where('id', '=', $libroT->podcast_id)
-                                        ->where('status', '=', 2)
-                                        ->first();
+             $miContenidoCertificaciones = DB::table('certifications_students')
+                                            ->where('user_id', '=', Auth::user()->id)
+                                            ->get();
 
-                        if (!is_null($datosLibro)){
-                            $cantLibros++;
-                            $cursosRelacionados->push($datosLibro);
-                        }
-                    }
-                }
+            foreach ($miContenidoCertificaciones as $contenidoCertificacion){
+                array_push($misCertificaciones, $contenidoCertificacion->certification_id);
             }
         }
 
-        return view('landing.search')->with(compact('cantCategorias', 'categoriasRelacionadas', 'cantSubcategorias', 'subcategoriasRelacionadas', 'cantMentores', 'mentoresRelacionados', 'cantCursos', 'cursosRelacionados', 'cantLibros', 'librosRelacionados'));
-    }
-
-    public function search_certifications_by_category($slug, $categoria){
-        $categoria = Category::where('id', '=', $categoria)
-                        ->with(['certifications' => function ($query){
-                            $query->where('status', '=', 2);
-                        }, 'subcategories', 'subcategories.certifications' => function ($query2){
-                            $query2->where('certifications.status', '=', 2);
-                        }])
-                        ->first();
-
-        $cantCertificacionesCat = 0;
-        foreach ($categoria->certifications as $cer){
-            if ($cer->status == 2){
-                $cantCertificacionesCat++;
-            }  
-        }
-        $categoria->certifications_count = $cantCertificacionesCat;
-
-        foreach ($categoria->subcategories as $subcategoria){
-            $subcategoria->certifications_count = DB::table('certifications')
-                                                    ->where('subcategory_id', '=', $subcategoria->id)
-                                                    ->where('status', '=', 2)
-                                                    ->count();
-        }
-
-        if (Auth::guest()){
-            $certificacionesAgregadas = NULL;
-        }else{
-            if (Auth::user()->role_id == 1){
-                $misCertificaciones = DB::table('certifications_students')
-                                        ->where('user_id', '=', Auth::user()->id)
-                                        ->get();
-
-                $certificacionesAgregadas = array();
-                foreach ($misCertificaciones as $miCertificacion){
-                    array_push($certificacionesAgregadas, $miCertificacion->certification_id);
-                } 
-            }else{
-                $certificacionesAgregadas = NULL;
-            }
-        }
-
-        return view('landing.certificationsByCategory')->with(compact('categoria', 'certificacionesAgregadas'));
-    }
-
-    public function search_podcasts_by_category($slug, $categoria){
-        $categoria = Category::where('id', '=', $categoria)
-                        ->with(['podcasts' => function ($query){
-                            $query->where('status', '=', 2);
-                        }, 'subcategories', 'subcategories.podcasts' => function ($query2){
-                            $query2->where('podcasts.status', '=', 2);
-                        }])
-                        ->first();
-        $cantPodcastsCat = 0;
-        foreach ($categoria->podcasts as $pod){
-            if ($pod->status == 2){
-                $cantPodcastsCat++;
-            }  
-        }
-        $categoria->podcasts_count = $cantPodcastsCat;
-
-        foreach ($categoria->subcategories as $subcategoria){
-            $subcategoria->podcasts_count = DB::table('podcasts')
-                                                ->where('subcategory_id', '=', $subcategoria->id)
-                                                ->where('status', '=', 2)
-                                                ->count();
-        }
-
-        if (Auth::guest()){
-            $podcastsAgregados = NULL;
-        }else{
-            if (Auth::user()->role_id == 1){
-                $misPodcasts = DB::table('podcasts_students')
-                                        ->where('user_id', '=', Auth::user()->id)
-                                        ->get();
-
-                $podcastsAgregados = array();
-                foreach ($misPodcasts as $miPodcast){
-                    array_push($podcastsAgregados, $miPodcast->podcast_id);
-                } 
-            }else{
-                $podcastsAgregados = NULL;
-            }
-        }
-
-        return view('landing.podcastsByCategory')->with(compact('categoria', 'podcastsAgregados'));
+        return view('landing.search')->with(compact('cursosRelacionados', 'librosRelacionados', 'certificacionesRelacionadas', 'totalCursos', 'misCursos', 'misLibros', 'misCertificaciones'));
     }
 
     public function show_instructor_profile($slug, $id){

@@ -32,10 +32,13 @@ Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('desbloquear-lecciones', 'ScriptController@desbloquear_lecciones');
 	Route::get('reiniciar-billeteras', 'ScriptController@reiniciar_billeteras');
 	Route::get('corregir-comisiones', 'ScriptController@corregir_comisiones');
+	Route::get('llenar-claves-busqueda-cursos', 'ScriptController@llenar_claves_busqueda_cursos');
+	Route::get('restaurar-liquidaciones', 'ScriptController@restaurar_liquidaciones');
+	Route::get('cambiar-bucket-s3', 'ScriptController@cambiar_bucket_s3');
 });
 
 Route::group(['middleware' => ['https']], function () {
-
+	
 	Route::post('login', 'Auth\LoginController@post_login')->name('login');
 	Route::post('register', 'Auth\RegisterController@create')->name('register');
 	Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -56,9 +59,11 @@ Route::group(['middleware' => ['https']], function () {
 	});
 
 	Route::group(['prefix' => 't-books'], function() {
-		Route::get('/', 'LandingController@podcasts')->name('landing.podcasts');
-		Route::get('search-by-category/{slug}/{id}', 'LandingController@search_podcasts_by_category')->name('landing.podcasts.search-by-category');
 		Route::get('show/{slug}/{id}', 'PodcastController@show')->name('landing.podcasts.show');
+	});
+
+	Route::group(['prefix' => 't-mentorings'], function() {
+		Route::get('show/{slug}/{id}', 'CertificationController@show')->name('landing.certifications.show');
 	});
 
 	Route::group(['prefix' => 't-master-class'], function() {
@@ -73,19 +78,12 @@ Route::group(['middleware' => ['https']], function () {
 		Route::get('/', 'LandingController@t_member')->name('landing.t-member');
 	});
 
-	Route::group(['prefix' => 't-mentorings'], function() {
-		Route::get('/', 'LandingController@certifications')->name('landing.certifications');
-		Route::get('search-by-category/{slug}/{id}', 'LandingController@search_certifications_by_category')->name('landing.certifications.search-by-category');
-		Route::get('show/{slug}/{id}', 'CertificationController@show')->name('landing.certifications.show');
-	});
-
 	Route::group(['prefix' => 'shopping-cart'], function() {
 		Route::get('/', 'ShoppingCartController@index')->name('landing.shopping-cart.index');
 		Route::get('store/{id}/{tipo}', 'ShoppingCartController@store')->name('landing.shopping-cart.store');
 		Route::get('delete/{id}', 'ShoppingCartController@delete')->name('landing.shopping-cart.delete');
 		Route::get('checkout', 'ShoppingCartController@checkout')->name('landing.shopping-cart.checkout');
 		Route::get('bill/{payment_type}/{payment_id}', 'PaymentController@bill')->name('landing.shopping-cart.bill');
-
 
 		Route::post('add_code', 'ShoppingCartController@add_code')->name('landing.shopping-cart.add-code');
 		Route::get('gift-membership/{membresia}', 'ShoppingCartController@gift_membership')->name('landing.shopping-cart.gift-membership');
@@ -94,9 +92,10 @@ Route::group(['middleware' => ['https']], function () {
 		Route::post('mercado-pago-gift-membership', 'PaymentController@mercado_pago_checkout')->name('landing.shopping-cart.mercado-pago-gift-membership');
 		Route::get('show-gift/{compra_id}', 'ShoppingCartController@show_gift')->name('landing.shopping-cart.show-gift');
 		Route::post('send-gift-membership', 'ShoppingCartController@send_gift_membership')->name('landing.shopping-cart.send-gift-membership');
-
+		
 	});
 
+	Route::get('show-event-new', 'EventController@show2')->name('landing.events.show-new');
 	Route::group(['prefix' => 't-events'], function(){
 		Route::get('/', 'EventController@index')->name('landing.events');
 		Route::get('show/{slug}/{id}', 'EventController@show')->name('landing.events.show');
@@ -114,6 +113,7 @@ Route::group(['middleware' => ['https']], function () {
 		Route::post('redeem-gift', 'EventController@redeem_gift')->name('landing.events.redeem-gift');
 		Route::get('add-video-view-counter/{evento_id}', 'EventController@add_video_view_counter')->name('landing.events.add-video-view-counter');
 	});
+	Route::get('t-events-new', 'EventController@index2')->name('landing.events-new');
 
 	Route::group(['prefix' => 'instructors'], function() {
 		Route::get('profile/{slug}/{id}', 'LandingController@show_instructor_profile')->name('landing.instructor.show-profile');
@@ -147,11 +147,8 @@ Route::group(['prefix' => 'ajax', 'middleware' => 'https'], function() {
 	Route::post('load', 'AjaxController@load');
 	Route::get('detalles-compra/{compra}', 'AjaxController@detalles_compra');
 	Route::get('datos-cobro-mentor/{mentor}', 'AjaxController@datos_cobro_mentor');
-	Route::get('cargar-curso-original/{curso}', 'AjaxController@cargar_curso_original');
 	Route::get('load-preview/{id}/{tipo_contenido}', 'AjaxController@load_preview')->name('ajax.load-preview');
 	Route::get('multimedias-por-producto/{id}', 'AjaxController@multimedias_por_producto');
-	Route::get('load-courses-by-category/{id}', 'AjaxController@load_courses_by_category')->name('ajax.load-courses-by-category');
-	Route::get('change-category/{id}', 'AjaxController@change_category')->name('ajax.change-category');
 	Route::get('actualizar-barra-progreso/{leccion}', 'AjaxController@actualizar_barra_progreso');
 });
 
@@ -172,14 +169,16 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 	});
 
 	Route::get('/my-content', 'StudentController@my_content')->name('students.my-content');
+	Route::get('/my-content-new', 'StudentController@my_content2')->name('students.my-content-new');
 	Route::get('/my-gifts', 'GiftController@index')->name('students.my-gifts');
 	Route::post('redeem-gift-code', 'GiftController@redeem_gift_code')->name('students.redeem-gift-code');
 
 	Route::group(['prefix' => 't-courses'], function() {
 		Route::get('/', 'LandingController@courses')->name('students.courses');
 		Route::get('resume/{slug}/{id}', 'CourseController@resume')->name('students.courses.resume')->middleware('course_student');
+		Route::get('resume-new', 'CourseController@resume2')->name('students.courses.resume-new');
 		Route::get('lessons/{slug}/{id}/{lesson_id}', 'CourseController@lessons')->name('students.courses.lessons');
-		Route::get('add/{id}', 'CourseController@add')->name('students.courses.add');
+		Route::get('add/{id}/{membresia?}', 'CourseController@add')->name('students.courses.add');
 		Route::get('load-video-duration/{leccion}/{duracion?}', 'LessonController@load_video_duration')->name('students.courses.lessons.load-video-duration');
 	});
 
@@ -210,6 +209,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 	Route::group(['prefix' => 'ratings'], function() {
 		Route::post('store', 'RatingController@store')->name('students.ratings.store');
 		Route::post('update', 'RatingController@update')->name('students.ratings.update');
+		Route::get('show-more/{curso}/{cant}/{tipo?}', 'RatingController@show_more')->name('students.ratings.show-more');
 	});
 
 	Route::group(['prefix' => 'instructors'], function() {
@@ -221,7 +221,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 		Route::post('add-gift', 'ShoppingCartController@add_gift')->name('students.shopping-cart.add-gift');
 		Route::post('apply-coupon', 'CouponController@apply')->name('students.shopping-cart.apply-coupon');
 		Route::get('checkout', 'ShoppingCartController@checkout')->name('students.shopping-cart.checkout');
-		Route::get('free-checkout', 'PaymentController@free_checkout')->name('students.shopping-cart.free-checkout');
+		Route::get('free-checkout', 'PaymentController@free_checkout')->name('students.shopping-cart.free-checkout'); 
 		Route::get('/', 'ShoppingCartController@index')->name('students.shopping-cart.index');
 		Route::post('bank-transfer-checkout', 'PaymentController@bank_transfer_checkout')->name('students.checkout.bank-transfer-checkout');
 		Route::post('paypal-checkout', 'PaypalController@checkout')->name('students.shopping-cart.paypal-checkout');
@@ -256,7 +256,7 @@ Route::group(['prefix' => 'students', 'middleware' => ['https', 'auth', 'student
 
 Route::group(['prefix' => 'instructors', 'middleware' => ['https', 'auth', 'instructors']], function() {
 	Route::get('/', 'InstructorController@home')->name('instructors.index');
-
+	
 	Route::group(['prefix' => 'profile'], function() {
 		Route::get('/', 'InstructorController@my_profile')->name('instructors.profile.my-profile');
 		Route::post('update', 'InstructorController@update_profile')->name('instructors.profile.update');
@@ -295,8 +295,20 @@ Route::group(['prefix' => 'instructors', 'middleware' => ['https', 'auth', 'inst
 		Route::get('show/{slug}/{id}', 'CertificationController@show')->name('instructors.certifications.show')->middleware('certification_instructor');
 		Route::get('edit/{slug}/{id}', 'CertificationController@edit')->name('instructors.certifications.edit')->middleware('certification_instructor');
 		Route::post('update', 'CertificationController@update')->name('instructors.certifications.update');
-		Route::get('temary/{slug}/{id}', 'CertificationController@temary')->name('instructors.certifications.temary')->middleware('certification_instructor');
-		Route::post('update-temary', 'CertificationController@update_temary')->name('instructors.certifications.update-temary');
+		
+		Route::group(['prefix' => 'temary'], function() {
+			Route::post('new-module', 'LessonController@add_module')->name('instructors.certifications.temary.add-module');
+			Route::post('update-module', 'LessonController@update_module')->name('instructors.certifications.temary.update-module');
+			Route::get('delete-module/{id}', 'LessonController@delete_module')->name('instructors.certifications.temary.delete-module');
+			Route::post('new-lesson', 'LessonController@store')->name('instructors.certifications.temary.add-lesson');
+			Route::post('load-video', 'LessonController@load_video')->name('instructors.certifications.temary.load-video');
+			Route::post('update-lesson', 'LessonController@update')->name('instructors.certifications.temary.update-lesson');
+			Route::get('delete-lesson/{id}', 'LessonController@delete')->name('instructors.certifications.temary.delete-lesson');
+			Route::post('load-resource', 'LessonController@load_resource')->name('instructors.certifications.temary.load-resource');
+			Route::get('show-resources/{lesson}', 'LessonController@show_resources')->name('instructors.certifications.temary.show-resources');
+			Route::get('delete-resource/{id}', 'LessonController@delete_resource')->name('instructors.certifications.temary.delete-resource');
+			Route::get('{slug}/{curso}', 'CertificationController@temary')->name('instructors.certifications.temary')->middleware('certification_instructor');
+		});
 		Route::get('publish/{id}', 'CertificationController@publish')->name('instructors.certifications.publish')->middleware('certification_instructor');
 		Route::get('purchases-record/{slug}/{certificacion}', 'CertificationController@purchases_record')->name('instructors.certifications.purchases-record')->middleware('certification_instructor');
 	});
@@ -432,6 +444,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('change-status', 'AdminController@change_status_user')->name('admins.users.change-status');
 		Route::post('send-mail-students-by-course', 'AdminController@send_mail_students_by_course')->name('admins.users.send-mail-students-by-course');
 		Route::post('send-mail-all-students', 'AdminController@send_mail_all_students')->name('admins.users.send-mail-all-students');
+		Route::post('add-sponsor', 'AdminController@add_sponsor')->name('admins.users.add-sponsor');
 	});
 
 	Route::group(['prefix' => 'administrative-profiles'], function() {
@@ -449,6 +462,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('disabled', 'CourseController@disabled_record')->name('admins.courses.disabled-record');
 		Route::get('show/{slug}/{id}', 'CourseController@show')->name('admins.courses.show');
 		Route::get('resume/{slug}/{id}', 'CourseController@resume')->name('admins.courses.resume');
+		Route::get('show-more-ratings/{curso}/{cant}', 'RatingController@show_more')->name('admins.ratings.show-more');
 		Route::post('update', 'CourseController@update')->name('admins.courses.update');
 		Route::get('lessons/show-video/{id}', 'LessonController@show_video')->name('admins.courses.lessons.show-video');
 		Route::get('load-video-duration/{leccion}/{duracion?}', 'LessonController@load_video_duration')->name('admins.courses.lessons.load-video-duration');
@@ -456,11 +470,6 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('lessons/{slug}/{id}', 'LessonController@record')->name('admins.courses.lessons');
 		Route::post('change-status', 'AdminController@change_status')->name('admins.courses.change-status');
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.courses.send-corrections');
-		Route::get('home-cover', 'AdminController@home_cover')->name('admins.courses.home-cover');
-		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.courses.upload-home-cover');
-		Route::post('load-cover-image', 'AdminController@load_cover_image')->name('admin.courses.load-cover-image');
-		Route::get('home-sliders', 'AdminController@home_sliders')->name('admin.courses.home-sliders');
-		Route::post('update-home-sliders', 'AdminController@update_home_sliders')->name('admin.courses.update-home-sliders');
 		Route::get('featured', 'AdminController@featured')->name('admins.courses.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.courses.update-featured');
 		Route::group(['prefix' => 'reports'], function() {
@@ -485,11 +494,6 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('update', 'CertificationController@update')->name('admins.certifications.update');
 		Route::post('change-status', 'AdminController@change_status')->name('admins.certifications.change-status');
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.certifications.send-corrections');
-		Route::get('home-cover', 'AdminController@home_cover')->name('admins.certifications.home-cover');
-		Route::post('upload-home-cover', 'AdminController@upload_home_cover')->name('admin.certifications.upload-home-cover');
-		Route::post('load-cover-image', 'AdminController@load_cover_image')->name('admin.certifications.load-cover-image');
-		Route::get('home-sliders', 'AdminController@home_sliders')->name('admins.certifications.home-sliders');
-		Route::post('update-home-sliders', 'AdminController@update_home_sliders')->name('admins.certifications.update-home-sliders');
 		Route::get('featured', 'AdminController@featured')->name('admins.certifications.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.certifications.update-featured');
 		Route::group(['prefix' => 'reports'], function() {
@@ -512,7 +516,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('resume/{slug}/{id}', 'PodcastController@resume')->name('admins.podcasts.resume');
 		Route::post('update', 'PodcastController@update')->name('admins.podcasts.update');
 		Route::post('change-status', 'AdminController@change_status')->name('admins.podcasts.change-status');
-		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.podcasts.send-corrections');
+		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.podcasts.send-corrections');	
 		Route::get('featured', 'AdminController@featured')->name('admins.podcasts.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.podcasts.update-featured');
 		Route::group(['prefix' => 'reports'], function() {
@@ -538,7 +542,7 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::get('change-status/{id}/{status}', 'MasterClassController@change_status')->name('admins.master-class.change-status');
 		Route::get('disabled', 'MasterClassController@disabled')->name('admins.master-class.disabled');
 	});
-
+	
 
 	Route::group(['prefix' => 'tests'], function() {
 		Route::get('show/{show}/{id}', 'TestController@show')->name('admins.tests.show');

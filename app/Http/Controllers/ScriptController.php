@@ -4,12 +4,137 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str as Str;
-use App\Models\Transaction; use App\Models\Commission; use App\Models\EventSubscription;
-use App\Models\Liquidation;
-use App\Models\User;
+use App\Models\Transaction; 
+use App\Models\Commission; 
+use App\Models\EventSubscription;
+use App\Models\Liquidation; 
+use App\Models\Certification; 
+use App\Models\MasterClass;
+use App\Models\User; 
+use App\Models\Course; 
+use App\Models\Podcast;
+use App\Models\Lesson;
+use App\Models\ResourceFile;
 use Auth; use DB; use Carbon\Carbon;
 
 class ScriptController extends Controller{
+
+   public function cambiar_bucket_s3(){
+      $lecciones = Lesson::where('video', '<>', NULL)
+                     ->where('video', '<>', '')
+                     ->get();
+
+      foreach ($lecciones as $leccion){
+         $oldLink = $leccion->video;
+         $partials = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink);
+         $newLink = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials[1];
+         $leccion->video = $newLink;
+         $leccion->save();
+      }
+
+      $cursos = Course::where('preview', '<>', NULL)
+                        ->get();
+
+      foreach ($cursos as $curso){
+         $oldLink = $curso->preview;
+         $partials = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink);
+         $newLink = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials[1];
+         $curso->preview = $newLink;
+         $curso->save();
+      }
+
+      $podcasts = Podcast::where('audio_file', '<>', NULL)
+                        ->get();
+
+      foreach ($podcasts as $podcast){
+         $oldLink = $podcast->audio_file;
+         $partials = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink);
+         $newLink = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials[1];
+         $podcast->audio_file = $newLink;
+
+         $oldLink2 = $podcast->preview;
+         $partials2 = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink2);
+         $newLink2 = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials2[1];
+         $podcast->preview = $newLink2;
+         
+         $podcast->save();
+      }
+
+      $masterclases = MasterClass::where('video_file', '<>', NULL)
+                        ->get();
+
+      foreach ($masterclases as $masterclass){
+         $oldLink = $masterclass->video_file;
+         $partials = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink);
+         $newLink = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials[1];
+         $masterclass->video_file = $newLink;
+         $masterclass->save();
+      }
+
+      $recursos = ResourceFile::where('link', '<>', NULL)
+                        ->get();
+
+      foreach ($recursos as $recurso){
+         $oldLink = $recurso->link;
+         $partials = explode("https://transformate-videos.s3.us-east-2.amazonaws.com/", $oldLink);
+         $newLink = "https://transformate-content.s3.us-east-2.amazonaws.com/".$partials[1];
+         $recurso->link = $newLink;
+         $recurso->save();
+      }
+
+      dd("Script Ejecutado");
+   }
+
+   public function restaurar_liquidaciones(){
+      $liquidaciones = Liquidation::where('date', '=', '2021-02-01')
+                           ->get();
+
+      foreach ($liquidaciones as $liquidacion){
+         $comisiones = DB::table('commissions')
+                           ->where('liquidation_id', '=', $liquidacion->id)
+                           ->update(['status' => 0,
+                                     'liquidation_id' => NULL,
+                                     'updated_at' => date('Y-m-d H:i:s')]);
+
+         $liquidacion->delete();
+      }
+   }
+
+   public function llenar_claves_busqueda_cursos(){
+      /*$cursos = Course::all();
+
+      foreach ($cursos as $curso){
+         $etiquetas = "";
+         foreach ($curso->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $curso->search_keys = $curso->title." ".$curso->subtitle." ".$curso->user->names." ".$curso->user->last_names." ".$curso->category->title." ".$curso->subcategory->title." ".$etiquetas;
+         $curso->save();
+      }
+
+      $libros = Podcast::all();
+
+      foreach ($libros as $libro){
+         $etiquetas = "";
+         foreach ($libro->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $libro->search_keys = $libro->title." ".$libro->subtitle." ".$libro->user->names." ".$libro->user->last_names." ".$libro->category->title." ".$libro->subcategory->title." ".$etiquetas;
+         $libro->save();
+      }*/
+
+      $certificaciones = Certification::all();
+      foreach ($certificaciones as $certificacion){
+         $etiquetas = "";
+         foreach ($certificacion->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+         }
+         $certificacion->search_keys = $certificacion->title." ".$certificacion->subtitle." ".$certificacion->user->names." ".$certificacion->user->last_names." ".$certificacion->category->title." ".$certificacion->subcategory->title." ".$etiquetas;
+         $certificacion->save();
+      }
+
+      dd("Script Ejecutado");
+   }
    public function corregir_comisiones_angelica_carrillo(){
       $comisiones = Commission::where('user_id', '=', 658)->where('liquidation_id', '<>', NULL)->orderBy('id')->get();
 

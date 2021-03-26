@@ -68,7 +68,7 @@
 
 					   			<div class="uk-width-1-1">
 						        	<label class="uk-form-label" for="subtitle"><b>Subtítulo:</b></label>
-						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" value="{{ old('subtitle') }}" placeholder="Subtítulo del Curso" maxlength="100"> 
+						        	<input class="uk-input" id="subtitle" name="subtitle" type="text" value="{{ old('subtitle') }}" placeholder="Subtítulo del Curso"> 
 						    	</div>
 
 							    <div class="uk-width-1-2">

@@ -68,7 +68,7 @@
         function verificarSponsor(){
             $sponsor = document.getElementById("sponsor_id").value; 
 
-            var route = "https://transformatepro.com/ajax/verificar-correo/"+$correo;
+            var route = "https://transformatepro.com/ajax/verificar-sponsor/"+$sponsor;
             //var route = "http://localhost:8000/ajax/verificar-sponsor/"+$sponsor;
                         
             $.ajax({
@@ -132,8 +132,7 @@
                                 <td class="uk-flex-inline uk-text-center"> 
                                     <a href="{{ route('admins.users.show', $instructor->id) }}" class="uk-icon-button uk-button-success btn-icon" uk-icon="icon: search;" uk-tooltip="Ver - Editar"></a> 
                                     <a href="{{ route('admins.courses.show-by-instructor', [$instructor->slug, $instructor->id]) }}" class="uk-icon-button uk-button-danger btn-icon" uk-icon="icon: video-camera;" uk-tooltip="Listado de T-Courses"></a> 
-                                     <a href="{{ route('admins.certifications.show-by-instructor', [$instructor->slug, $instructor->id]) }}" class="uk-icon-button uk-button-danger btn-icon" uk-icon="icon: bookmark;" uk-tooltip="Listado de Certificaciones"></a> 
-                                      <a href="{{ route('admins.podcasts.show-by-instructor', [$instructor->slug, $instructor->id]) }}" class="uk-icon-button uk-button-danger btn-icon" uk-icon="icon: microphone;" uk-tooltip="Listado de T-Books"></a> 
+                                    <a href="{{ route('admins.podcasts.show-by-instructor', [$instructor->slug, $instructor->id]) }}" class="uk-icon-button uk-button-danger btn-icon" uk-icon="icon: microphone;" uk-tooltip="Listado de T-Books"></a> 
                                     @if (Auth::user()->profile->users == 2)
                                         <form action="{{ route('admins.users.change-status') }}" method="POST">
                                             @csrf

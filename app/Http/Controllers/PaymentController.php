@@ -63,14 +63,31 @@ class PaymentController extends Controller
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                             }else{
-                                $precioConMembresia = (($item->course->price * 20) / 100);
+                                $precioConMembresia = (($item->course->price * 70) / 100);
                                 $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                             }
                         }else{
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = $item->course->price;
                             }else{
-                                $productoPendiente->amount = (($item->course->price * 20) / 100);
+                                $productoPendiente->amount = (($item->course->price * 70) / 100);
+                            }
+                        }
+                    }else if (!is_null($item->certification_id)){
+                        $productoPendiente->certification_id = $item->certification_id;
+                        $productoPendiente->original_amount = $item->certification->price;
+                        if (!is_null($cuponAplicado)){
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                            }else{
+                                $precioConMembresia = (($item->certification->price * 70) / 100);
+                                $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                            }
+                        }else{
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = $item->certification->price;
+                            }else{
+                                $productoPendiente->amount = (($item->certification->price * 70) / 100);
                             }
                         }
                     }else if (!is_null($item->podcast_id)){
@@ -80,14 +97,14 @@ class PaymentController extends Controller
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                             }else{
-                                $precioConMembresia = (($item->podcast->price * 50) / 100);
+                                $precioConMembresia = (($item->podcast->price * 70) / 100);
                                 $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                             }
                         }else{
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = $item->podcast->price;
                             }else{
-                                $productoPendiente->amount = (($item->podcast->price * 50) / 100);
+                                $productoPendiente->amount = (($item->podcast->price * 70) / 100);
                             }
                         }   
                     }else if (!is_null($item->membership_id)){
@@ -108,7 +125,7 @@ class PaymentController extends Controller
                         }
                     }
 
-                    if ($request->instructor_code_discount == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $productoPendiente->amount = (($productoPendiente->amount * 90) / 100);
                     }
                     $productoPendiente->save();
@@ -343,14 +360,31 @@ class PaymentController extends Controller
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                             }else{
-                                $precioConMembresia = (($item->course->price * 20) / 100);
+                                $precioConMembresia = (($item->course->price * 70) / 100);
                                 $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                             }
                         }else{
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = $item->course->price;
                             }else{
-                                $productoPendiente->amount = (($item->course->price * 20) / 100);
+                                $productoPendiente->amount = (($item->course->price * 70) / 100);
+                            }
+                        }
+                    }else if (!is_null($item->certification_id)){
+                        $productoPendiente->certification_id = $item->certification_id;
+                        $productoPendiente->original_amount = $item->certification->price;
+                        if (!is_null($cuponAplicado)){
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
+                            }else{
+                                $precioConMembresia = (($item->certification->price * 70) / 100);
+                                $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
+                            }
+                        }else{
+                            if (is_null(Auth::user()->membership_id)){
+                                $productoPendiente->amount = $item->certification->price;
+                            }else{
+                                $productoPendiente->amount = (($item->certification->price * 70) / 100);
                             }
                         }
                     }else if (!is_null($item->podcast_id)){
@@ -360,14 +394,14 @@ class PaymentController extends Controller
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                             }else{
-                                $precioConMembresia = (($item->podcast->price * 50) / 100);
+                                $precioConMembresia = (($item->podcast->price * 70) / 100);
                                 $productoPendiente->amount = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                             }
                         }else{
                             if (is_null(Auth::user()->membership_id)){
                                 $productoPendiente->amount = $item->podcast->price;
                             }else{
-                                $productoPendiente->amount = (($item->podcast->price * 50) / 100);
+                                $productoPendiente->amount = (($item->podcast->price * 70) / 100);
                             }
                         }   
                     }else if (!is_null($item->membership_id)){
@@ -388,7 +422,7 @@ class PaymentController extends Controller
                         }
                     }
 
-                    if ($request->instructor_code_discount == 1){
+                    if ( ($item->instructor_code == 1) || (!is_null($item->partner_code)) ){
                         $productoPendiente->amount = (($productoPendiente->amount * 90) / 100);
                     }
                     $productoPendiente->save();

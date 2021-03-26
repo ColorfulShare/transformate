@@ -4,11 +4,14 @@
    <link rel="stylesheet" type="text/css" href="{{ asset('css/courseDescription.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'AddToCart');
+@endsection
+
 @push('scripts')
    <script>
       $(function(){    
          $('.video-responsive').bind('contextmenu',function() { return false; });
-
          $('.close-trailer').on('click', function(){
             var vid = document.getElementById("video-trailer");
             vid.pause();
@@ -49,11 +52,11 @@
          </div>
 
          <div class="uk-width-1-3 uk-text-right">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$podcast->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
-            <a class="course-header-instructor-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="course-header-instructor-name" href="{{ route('landing.instructor.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a>
          </div>
       </div>
 
@@ -141,7 +144,7 @@
                   </li>
 
                   <!-- Valoraciones -->
-                  {{--<li class="papd"> 
+                  <li class="papd"> 
                      @if ($podcast->ratings_count > 0)
                         @foreach ($podcast->ratings as $valoracion)
                            <div uk-grid> 
@@ -158,7 +161,6 @@
                      @else
                         El T-Book no tiene ninguna valoración aún...
                      @endif
-
                      <div class="uk-text-center course-content-accordion">
                         <h1 class="color-ligth2" id="rating-average">{{ number_format($podcast->promedio, 2) }}</h1>
                         @if ($podcast->avg[0] >= 1) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
@@ -168,7 +170,7 @@
                         @if ($podcast->avg[0] >= 5) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
                         <div class="color-ligth2" id="rating-label">Valoración del T-Book</div>
                      </div>
-                  </li>--}}
+                  </li>
                </ul>
             </div>
             
@@ -185,14 +187,18 @@
                   
                   <div class="uk-child-width-1-1 course-price-buttons-div" uk-grid>
                      <div>
-                        @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
+                        @if (Auth::guest()) 
+                           <a class="button-transformate button-aqua" ref="#modal-login" uk-toggle>
+                              <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+                           </a>
+                        @elseif (Auth::user()->role_id == 1) 
                            @if ($podcast->price > 0)
                               <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$podcast->id, 'podcast']) }}">
                                  <i class="fa fa-shopping-cart"></i> Añadir al Carrito
                               </a>
                            @else
                               <a class="button-transformate button-aqua" href="{{ route('students.podcasts.add', $podcast->id) }}">
-                                 <i class="fa fa-shopping-cart"></i> Tomar T-Book
+                                 <i class="fa fa-shopping-cart"></i> Añadir a Mis T-Books
                               </a>
                            @endif
                         @endif
@@ -225,18 +231,18 @@
 
       <div class="course-instructor-section" uk-grid>
          <div class="uk-width-auto uk-text-center">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$podcast->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
          </div>
          <div class="uk-width-expand uk-text-left" style="padding-top: 15px;">
-            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a>
             <div class="color-ligth2" id="instructor-profession">
-               {{ $instructor->profession }}
+               {{ $podcast->user->profession }}
             </div>
             <div class="color-ligth2" id="instructor-review">
-               {!! $instructor->review !!}
+               {!! $podcast->user->review !!}
             </div>
          </div>
         
@@ -284,16 +290,20 @@
                   
       <div class="uk-child-width-1-1 course-price-buttons-div" uk-grid>
          <div>
-            @if ( (Auth::guest()) || (Auth::user()->role_id == 1) )
+            @if (Auth::guest())
+               <a class="button-transformate button-aqua" ref="#modal-login" uk-toggle>
+                  <i class="fa fa-shopping-cart"></i> Añadir al Carrito
+               </a>
+            @elseif (Auth::user()->role_id == 1) 
                @if ($podcast->price > 0)
                   <a class="button-transformate button-aqua" href="{{ route('landing.shopping-cart.store', [$podcast->id, 'podcast']) }}">
                      <i class="fa fa-shopping-cart"></i> Añadir al Carrito
                   </a>
                @else
                   <a class="button-transformate button-aqua" href="{{ route('students.podcasts.add', $podcast->id) }}">
-                     <i class="fa fa-shopping-cart"></i> Tomar T-Book
+                     <i class="fa fa-shopping-cart"></i> Añadir a Mis T-Books
                   </a>
-               @endif
+                @endif
             @endif
             @if ( (!Auth::guest()) && (Auth::user()->role_id == 2) )
                <a class="button-transformate button-aqua" href="{{ route('instructors.discussions.group', ['podcast', $podcast->slug, $podcast->id]) }}">
@@ -376,7 +386,7 @@
             </li>
 
             <!-- Valoraciones -->
-            {{--<li class="papd"> 
+            <li class="papd"> 
                @if ($podcast->ratings_count > 0)
                   @foreach ($podcast->ratings as $valoracion)
                      <div uk-grid style="padding: 0 10px;"> 
@@ -393,7 +403,6 @@
                @else
                   El T-Book no tiene ninguna valoración aún...
                @endif
-
                <div class="uk-text-center course-content-accordion">
                   <h1 class="color-ligth2" id="rating-average-movil">{{ number_format($podcast->promedio, 2) }}</h1>
                   @if ($podcast->avg[0] >= 1) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
@@ -403,25 +412,25 @@
                   @if ($podcast->avg[0] >= 5) <i class="fas fa-star fa-rating"></i> @else <i class="far fa-star fa-rating"></i> @endif
                   <div class="color-ligth2" id="rating-label-movil">Valoración del Curso</div>
                </div>
-            </li>--}}
+            </li>
          </ul>
       </div>
 
       <div class="course-instructor-section" uk-grid>
          <div class="uk-width-auto uk-text-center">
-            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$instructor->avatar) }}">
+            <img class="uk-margin-small-top uk-margin-small-bottom uk-border-circle uk-box-shadow-large  uk-animation-scale-up course-header-instructor-img" src="{{ asset('uploads/images/users/'.$podcast->user->avatar) }}">
             <div>
                <span class="badge badge-pro">PROFESOR</span> <span class="badge badge-pro">PRO</span>
             </div>
          </div>
          <div class="uk-width-expand uk-text-left" style="padding-top: 15px;">
-            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$instructor->slug, $instructor->id]) }}">{{ $instructor->names }} {{ $instructor->last_names }}</a>
+            <a class="instructor-section-name" href="{{ route('landing.instructor.show-profile', [$podcast->user->slug, $podcast->user->id]) }}">{{ $podcast->user->names }} {{ $podcast->user->last_names }}</a>
             <div class="color-ligth2" id="instructor-profession-movil">
-               {{ $instructor->profession }}
+               {{ $podcast->user->profession }}
             </div>
          </div>
          <div class="uk-width-1-1 color-ligth2" id="instructor-review-movil" style="margin-top: 5px;">
-            {!! $instructor->review !!}
+            {!! $podcast->user->review !!}
          </div>
       </div>
    </div>

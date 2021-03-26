@@ -8,13 +8,11 @@
    <script>
       $(function(){    
          $('.video-responsive').bind('contextmenu',function() { return false; });
-
          $('.close-trailer').on('click', function(){
             var vid = document.getElementById("video-trailer");
             vid.pause();
          });
       });
-
       function loadPreview(){
          modal = UIkit.modal("#previewModal");
          modal.show(); 

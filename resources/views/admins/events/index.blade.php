@@ -128,6 +128,18 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
+                            Fecha (*):
+                            <input class="uk-input" type="date" name="date" required>
+                        </div>
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
+                            Horario (*):
+                            <input class="uk-input" type="text" name="time" required>
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-small-bottom">
+                            Breve Leyenda (*):
+                            <input class="uk-input" type="text" name="legend" placeholder="Leyenda del evento" maxlength="200" required>
+                        </div>
                         <div class="uk-width-1-1 uk-margin-small-bottom">
                             Descripción (*):
                             <textarea class="ckeditor" name="description" rows="10"></textarea>
@@ -140,10 +152,6 @@
                             </script>
                         </div><br>
                         <div class="uk-width-1-3 uk-margin-small-bottom">
-                            Fecha (*):
-                            <input class="uk-input" type="date" name="date" required>
-                        </div>
-                        <div class="uk-width-1-3 uk-margin-small-bottom">
                             Tipo de Evento (*):
                             <select class="uk-select" name="type" id="type" onchange="checkOption();">
                                 <option value="free">Gratuito</option>
@@ -154,21 +162,21 @@
                             Costo (*):
                             <input class="uk-input" type="number" name="price" id="price" value="0" disabled>
                         </div>
-                        <div class="uk-width-1-4 uk-margin-small-bottom">
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
+                            PDF Informativo:
+                            <input class="uk-input" type="file" name="informative_pdf">
+                        </div>
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
                             Portada Versión Escritorio (*):
                             <input class="uk-input" type="file" name="image" required>
                         </div>
-                        <div class="uk-width-1-4 uk-margin-small-bottom">
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
                             Portada Versión Móvil (*):
                             <input class="uk-input" type="file" name="image_movil" required>
                         </div>
-                        <div class="uk-width-1-4 uk-margin-small-bottom">
+                        <div class="uk-width-1-3 uk-margin-small-bottom">
                             Video Trailer:
                             <input class="uk-input" type="file" name="video">
-                        </div>
-                        <div class="uk-width-1-4 uk-margin-small-bottom">
-                            PDF Informativo:
-                            <input class="uk-input" type="file" name="informative_pdf">
                         </div>
                         <div class="uk-width-1-2 uk-margin-small-bottom">
                             Imagenes para Slider (Versión Escritorio):

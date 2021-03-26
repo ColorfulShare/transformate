@@ -4,7 +4,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <link rel="shortcut icon" href="{{ asset('template/images/favicon_transformate_01.png') }}">
-      <title>Transfórmate | Cursos de Transformación </title>          
+      <title>Transf贸rmate | Cursos de Transformaci贸n </title>          
       <!-- Favicon -->
       <link href="{{ asset('template/images/favicon_transformate_01.png') }}" rel="icon" type="image/png">
       <!-- Your stylesheet-->
@@ -14,6 +14,7 @@
       <link rel="stylesheet" href="{{ asset('css/footer_uikit.css') }}">
       <link rel="stylesheet" href="{{ asset('css/header.css') }}">
       <link rel="stylesheet" href="{{ asset('css/modales_auth.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/landing.css') }}"> 
       <!-- font awesome -->
       <link rel="stylesheet" href="{{  asset('template/css/fontawesome.css') }}">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -29,20 +30,33 @@
       <script type="text/javascript" src="{{ asset('vendors/datatables/datatables.min.js') }}"></script>
 
       <!-- Facebook Pixel Code -->
-      <script>
-         !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '160074978728892');
-          fbq('track', 'PageView');
-      </script>
-      <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=160074978728892&ev=PageView&noscript=1"/></noscript>
-      <!-- End Facebook Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            
+            'https://connect.facebook.net/en_US/fbevents.js');
+            
+            
+            fbq('init', '465006734543855'); 
+            
+            fbq('track', 'PageView');
+        </script>
+
+        <noscript>
+            <img height="1" width="1" src="https://www.facebook.com/tr?id=465006734543855&ev=PageView&noscript=1"/>
+        </noscript>
+        <!-- End Facebook Pixel Code -->
       @stack('scripts')
    </head>     
    <body>  

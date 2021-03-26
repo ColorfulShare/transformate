@@ -80,4 +80,39 @@ class RatingController extends Controller
             return redirect('students/t-books/resume/'.$valoracion->podcast_id)->with('msj-exitoso-rating', 'Su valoración ha sido modificada con éxito.');
         }
     }
+
+    public function show_more($curso, $cant, $tipo){
+        $curso_id = $curso;
+        $newCant = $cant + 2;
+
+        if ($tipo == 'curso'){
+            $valoraciones = Rating::where('course_id', '=', $curso)
+                                ->orderBy('id', 'DESC')
+                                ->take($newCant)
+                                ->get();
+
+            $totalValoraciones = Rating::where('course_id', '=', $curso)->count();
+        }elseif ($tipo == 'podcast'){
+            $valoraciones = Rating::where('podcast_id', '=', $curso)
+                                ->orderBy('id', 'DESC')
+                                ->take($newCant)
+                                ->get();
+
+            $totalValoraciones = Rating::where('podcast_id', '=', $curso)->count();
+        }elseif ($tipo == 'certificacion'){
+            $valoraciones = Rating::where('certification_id', '=', $curso)
+                                ->orderBy('id', 'DESC')
+                                ->take($newCant)
+                                ->get();
+
+            $totalValoraciones = Rating::where('certification_id', '=', $curso)->count();
+        }
+        
+        $check = 0;
+        if ($totalValoraciones > $newCant){
+            $check = 1;
+        }
+
+        return view('students.ratings.showMore')->with(compact('valoraciones', 'newCant', 'curso_id', 'check', 'tipo'));
+    }
 }

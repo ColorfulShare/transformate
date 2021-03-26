@@ -5,21 +5,17 @@
         input[type="radio"] {
           display: none;
         }
-
         label {
           color: grey;
         }
-
         .clasificacion {
           direction: rtl;
           unicode-bidi: bidi-override;
         }
-
         label:hover,
         label:hover ~ label {
           color: orange;
         }
-
         input[type="radio"]:checked ~ label {
           color: orange;
         }
@@ -35,7 +31,6 @@
             document.getElementById("rating_id").value = document.getElementById("id_hidden").value;
             document.getElementById("title").value = document.getElementById("title_hidden").value;
             document.getElementById("comment").value = document.getElementById("comment_hidden").value;
-
             if (document.getElementById("points_hidden").value >= 1){
                 document.getElementById("radio5").checked = true;
             }

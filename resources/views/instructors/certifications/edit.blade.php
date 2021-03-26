@@ -20,7 +20,6 @@
                 }
             });
 		}
-
 		function notificar($tipo_actualizacion){
 			if ($tipo_actualizacion == 'cover'){
 				UIkit.notification({message:'<i class="fa fa-check"></i> La portada de la certificación ha sido subida con éxito.', status: 'success'});
@@ -36,7 +35,6 @@
 				UIkit.notification({message:'<i class="fa fa-check"></i>La portada del video resumen ha sido eliminada con éxito.', status: 'success'});
 			}
 		}
-
 		function updateFiles($certificacion){
 			var route = "https://transformatepro.com/ajax/multimedias-por-contenido/certificacion/"+$certificacion;
            // var route = "http://localhost:8000/ajax/multimedias-por-contenido/certificacion/"+$certificacion;
@@ -49,12 +47,10 @@
                 }
             });
 		}
-
 		$(function(){
 			$('#btn-submit').on('click', function(){
 				$("#form_content" ).submit();
 			});
-
 			//Capturar cuando se suba un nuevo archivo
 	        $('.upload-input').on('change', function(e) {
 	            e.preventDefault();
@@ -68,7 +64,6 @@
             	}else{
             		var formData = new FormData(document.getElementById("form_preview_cover"));
             	}
-
             	document.getElementById("cover").disabled = true;
             	document.getElementById("preview").disabled = true;
             	document.getElementById("preview_cover").disabled = true;
@@ -114,7 +109,6 @@
             		document.getElementById("btn-submit").disabled = false;
 	            });
 	        });
-
 	        $('.delete-input').on('click', function(e) {
 	            e.preventDefault();
 	            var element = $(this).attr('id');
@@ -125,7 +119,6 @@
             	}else{
             		document.getElementById("file_type").value = 'preview_cover';
             	}
-
             	var route = "https://transformatepro.com/instructors/t-mentorings/update";
             	//var route = "http://localhost:8000/instructors/t-mentorings/update";
             	var formData = new FormData(document.getElementById("form_delete"));

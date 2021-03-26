@@ -45,6 +45,8 @@
                 <div class="uk-text-center">
                     @if ($type == 'curso')
                         <button class="buttons-trailer btn-course-trailer"><a class="no-link" href="{{ route('students.shopping-cart.store', [$preview->id, 'curso']) }}"><i class="fas fa-cart-plus"></i>  Comprar T-Curso COP${{ number_format($preview->price, 0, ',', '.') }}</a></button>
+                    @elseif ($type == 'certificacion')
+                        <button class="buttons-trailer btn-course-trailer"><a class="no-link" href="{{ route('students.shopping-cart.store', [$preview->id, 'certificacion']) }}"><i class="fas fa-cart-plus"></i>  Comprar T-Mentoring COP${{ number_format($preview->price, 0, ',', '.') }}</a></button>
                     @elseif ($type == 'podcast')
                         <button class="buttons-trailer btn-course-trailer"><a class="no-link" href="{{ route('students.shopping-cart.store', [$preview->id, 'podcast']) }}"><i class="fas fa-cart-plus"></i>  Comprar T-Book COP${{ number_format($preview->price, 0, ',', '.') }}</a></button>
                     @endif
@@ -54,6 +56,8 @@
         <div class="uk-text-center" style="margin-top: 10px; margin-bottom: 20px;">
             @if ($type == 'curso')
                 <button class="buttons-trailer btn-show-trailer"><a class="no-link" href="{{ route('landing.courses.show', [$preview->slug, $preview->id]) }}"><i class="fa fa-plus"></i>  Más Información</a></button>
+            @elseif ($type == 'certificacion')
+                <button class="buttons-trailer btn-show-trailer"><a class="no-link" href="{{ route('landing.certifications.show', [$preview->slug, $preview->id]) }}"><i class="fa fa-plus"></i>  Más Información</a></button>
             @elseif ($type == 'podcast')
                 <button class="buttons-trailer btn-show-trailer"><a class="no-link" href="{{ route('landing.podcasts.show', [$preview->slug, $preview->id]) }}"><i class="fa fa-plus"></i>  Más Información</a></button>
             @endif

@@ -11,7 +11,7 @@ class Podcast extends Model
     protected $fillable = ['user_id', 'category_id', 'subcategory_id', 'mentor_route_time', 'title', 'subtitle', 'slug', 'inspired_in',
         'review', 'objectives', 'destination', 'material_content', 'importance', 'prologue', 'potential_impact', 'price', 'currency', 
         'audio_file', 'audio_filename', 'cover', 'cover_name', 'preview', 'preview_name', 'cover_home', 'image_cover', 'featured', 
-        'original', 'status', 'evaluation_review', 'sent_for_review', 'reviewed_at', 'published_at'];
+        'original', 'status', 'search_keys', 'evaluation_review', 'sent_for_review', 'reviewed_at', 'published_at'];
 
     public function user(){
         return $this->belongsTo('App\Models\User');

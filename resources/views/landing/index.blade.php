@@ -1,756 +1,369 @@
 @extends('layouts.landing')
 
-@push('scripts')
-   <script>
-      function load_courses($categoria){
-         document.getElementById("cursos").style.display = 'none';
-         document.getElementById("wait").style.display = 'block';
-
-         var url = {{ $www }};
-         if (url == 1){
-            var path = "https://www.transformatepro.com/ajax/load-courses-by-category/"+$categoria;
-         }else{
-            var path = "https://transformatepro.com/ajax/load-courses-by-category/"+$categoria;
-         }
-
-         //var path = "http://localhost:8000/ajax/load-courses-by-category/"+$categoria;
-
-         $.ajax({
-            type:"GET",
-            url:path,
-            success:function(ans){
-               $("#main-content").html(ans);
-               if (document.getElementById("tema").value == 'dark'){
-                  $(".color-ligth2").each(function(index) {
-                     $("#"+$(this).attr('id')).removeClass("color-ligth2");
-                     $("#"+$(this).attr('id')).addClass("color-dark2");
-                  });
-                  $(".background-ligth2").each(function(index) {
-                     $("#"+$(this).attr('id')).removeClass("background-ligth2");
-                     $("#"+$(this).attr('id')).addClass("background-dark2");
-                  });
-               }
-            }
-         });
-      }
-   </script>
-@endpush
+@section('fb-events')
+    fbq('track', 'AddToCart');
+@endsection
 
 @section('content')
-   @if ($errors->any())
-      <div class="row">
-         <div class="col-md-2"></div>
-         <div class="col-md-8 alert alert-danger">
-            <ul>
-               @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-               @endforeach
-            </ul>
-         </div>
-         <div class="col-md-2"></div>
-      </div>
-   @endif
-
-   @if (Session::has('msj-exitoso'))
-      <div class="row">
-         <div class="col-md-2"></div>
-         <div class="col-md-8 alert alert-success">
-            <strong>{{ Session::get('msj-exitoso') }}</strong>
-         </div>
-         <div class="col-md-2"></div>
-      </div>
-   @endif
-
-   @if (Session::has('msj-erroneo'))
-      <div class="row">
-         <div class="col-md-2"></div>
-         <div class="col-md-8 alert alert-danger">
-            <strong>{{ Session::get('msj-erroneo') }}</strong>
-         </div>
-         <div class="col-md-2"></div>
-      </div>
-   @endif
-
-
-   @if ($cantEventos > 0)
-      <div class="header-background-ligth" id="t-events">
-         {{-- Versión Escritorio --}}
-
-         <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider id="slideropen">
-            <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-2@m" style="height:600px">
-                <li class="uk-width-1-3">
-                    <img src="https://getuikit.com/docs/images/slider1.jpg" alt="">
-                    <div class="uk-position-center">
-                        <strong><h2>Vibra en la magia de los<br>números</h2></strong>
-                        <h5>Vibra en la Magia de los Números</h5>
-                        <h5>sincronízate con la guía Divina y</h5>
-                        <h5>descubre tu propósito</h5><br>
-
-                        <div uk-grid>
-                            <div class="uk-width-1-2" style="color:#fff">
-                                <a class="courses-button" uk-toggle>Ver este evento</a>
-                            </div>
-                            <div class="uk-width-1-2" style="color:#fff">
-                                <a class="courses-button">Más eventos</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </li>
-                <li class="uk-width-2-3">
-                    <img src="https://getuikit.com/docs/images/slider2.jpg" alt="">
-                    <div class="uk-position-center"></div>
-                </li>
-            </ul>
-        </div>
-         {{-- Versión Móvil --}}
-         <div uk-slider="center: true; autoplay: true; autoplay-interval: 3000;">
-            <div class="uk-position-relative uk-visible-toggle uk-light uk-hidden@s" tabindex="-1">
-               <ul class="uk-slider-items uk-grid">
-                     <li class="uk-width-1-1">
-                        <img src="https://getuikit.com/docs/images/slider1.jpg" alt="">
-                        <div class="uk-position-center">
-                            <h2>Vibra en la magia de los<br>números</h2>
-                            <h5>Vibra en la Magia de los Números</h5>
-                            <h5>sincronízate con la guía Divina y</h5>
-                            <h5>descubre tu propósito</h5><br>
-
-                            <div uk-grid>
-                                <div class="uk-width-1-1" style="color:#fff">
-                                    <a class="courses-button" uk-toggle>Ver este evento</a>
-                                </div>
-                                <div class="uk-width-1-1" style="color:#fff">
-                                    <a class="courses-button">Más eventos</a>
-                                </div>
-                            </div>
-
-                        </div>
-                     </li>
-               </ul>
+    @if ($errors->any())
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
+            <div class="col-md-2"></div>
+        </div>
+    @endif
 
-         </div>
-      </div>
-   @endif
+    @if (Session::has('msj-exitoso'))
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 alert alert-success">
+                <strong>{{ Session::get('msj-exitoso') }}</strong>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    @endif
 
-   {{-- Contenido Principal --}}
-   <div class="content background-ligth2" id="main-content" style="padding-left: 5%; padding-right: 5%;">
+    @if (Session::has('msj-erroneo'))
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 alert alert-danger">
+                <strong>{{ Session::get('msj-erroneo') }}</strong>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    @endif
 
-    <div class="uk-text-center" id="wait" style="display: none;">
-         <span uk-spinner="ratio: 4"></span>
-      </div>
+    @if ($cantEventos > 0)
+        <div uk-slider="center: true; autoplay: true; autoplay-interval: 3000;">
+            <div class="uk-position-relative uk-visible-toggle uk-light " tabindex="-1">
+                <ul class="uk-slider-items uk-grid">
+                    @foreach ($eventos as $evento)
+                        <li class="uk-width-1-1">
+                            <div class="flex-container">
+                                <div class="flex-item-left" style="background-color: #3197BD;  display: flex; align-items: center;">
+                                    <div class="contenflex" style="padding-left: 10%; padding-right: 10%;">
+                                        <div class="uk-text-bold event-title" style="color: white; line-height: 28px;">{{ $evento->title }}</div>
+                                        <p class="small-title">
+                                            <h5>{{ $evento->legend }}</h5><br>
+                                        </p>
 
+                                        <div uk-grid>
+                                            <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s" style="color:#fff">
+                                                <a class="transf-button courses-button-white" href="{{ route('landing.events.show', [$evento->slug, $evento->id]) }}">Ver este evento</a>
+                                            </div>
+                                            <div class="uk-width-1-2@xl uk-width-1-2@l uk-width-1-2@m uk-width-1-1@s" style="color:#fff">
+                                                <a class="transf-button courses-button-white" href="{{ route('landing.events') }}">Más eventos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex-item-right">
+                                    <a href="{{ route('landing.events.show', [$evento->slug, $evento->id]) }}"><img src="{{ asset('uploads/events/images/'.$evento->image) }}" alt="{{ $evento->title }}"></a>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+                <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous" style="color: white !important;"></a>
+                <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next" style="color: white !important;"></a>
+            </div>
+        </div>
+    @endif
+
+{{-- Contenido Principal --}}
+<div class="content background-ligth" id="main-content" style="padding-left: 5%; padding-right: 5%;">
     <div class="uk-text-center" style="padding: 2%;">
-        <span class="best-sellers-title color-black">Nuestros T-Cursos</span>
-        <p class="best-sellers-title color-black">Siempre hay una oportunidad de mejorar y reaprender</p>
+        <span class="big-title color-black">Nuestros T-Cursos</span>
+        <p class="small-title color-black">Encuentra todo para tu Crecimiento Personal, Social y Profesional, con Propósito y Consciencia.</p>
     </div>
 
-    <div class="uk-margin-medium-top">
-        <ul class="uk-flex-center" uk-tab>
-            <li class="uk-active"><a href="#"><h3>Destacados</h3></a></li>
-            <li><a href="#"><h3>Más vendidos</h3></a></li>
-            <li><a href="#"><h3>Recomendados</h3></a></li>
+    <div style="padding-left: 5%; padding-right: 5%;">
+        <ul class="uk-child-width-1-3@xl uk-child-width-1-3@l uk-child-width-1-3@m uk-child-width-1-1@s" uk-tab>
+            <li class="uk-active"><a href="#">
+                <span class="tab-title">Destacados</span>
+            </a></li>
+            <li><a href="#">
+                <span class="tab-title">Más vendidos</span>
+            </a></li>
+            <li><a href="#">
+                <span class="tab-title">Recomendados</span>
+            </a></li>
+        </ul>
+        <ul class="uk-switcher uk-margin">
+            <!-- CURSOS DESTACADOS -->
+            <li>
+                <ul class="uk-child-width-1-1@xs uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
+                    @foreach ($cursosDestacados as $cursoDestacado)
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoDestacado->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoDestacado->id, 'curso']) }}">
+                                            <img src="{{ asset('uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                    <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
+                                        <img src="{{ asset('uploads/images/courses/'.$cursoDestacado->cover) }}" class="content-image">
+                                    </a>
+                                    @endif
+                                </div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoDestacado->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoDestacado->user->names.' '.$cursoDestacado->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoDestacado->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoDestacado->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoDestacado->slug, $cursoDestacado->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle>Agregar al carrito</a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoDestacado->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoDestacado->id, 'membresia']) }}">Agregar a Mis Cursos</a>
+                                                    @else
+                                                        <a cclass="uk-button btn-style2" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}">Agregar al Carrito</a>
+                                                    @endif
+                                                @else
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoDestacado->id, 'curso']) }}">Agregar al Carrito</a>
+                                                @endif
+                                            @else
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoDestacado->slug, $cursoDestacado->id]) }}"> Continuar T-Course</a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoDestacado->price, 0, ',', '.') }}</div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </li>
+            <!-- CURSOS MÁS VENDIDOS -->
+            <li>
+                <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
+                    @foreach ($cursosVendidos as $cursoVendido)
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoVendido->course->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoVendido->course_id, 'curso']) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                        <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoVendido->course_cover) }}" class="content-image">
+                                        </a>
+                                    @endif
+                                </div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course_id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoVendido->course->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoVendido->course->user->names.' '.$cursoVendido->course->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoVendido->course->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoVendido->course->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle>Agregar al carrito</a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoVendido->course->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoVendido->course->id, 'membresia']) }}">Agregar a Mis Cursos</a>
+                                                    @else
+                                                        <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}">Agregar al Carrito</a>
+                                                    @endif
+                                                @else
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoVendido->course->id, 'curso']) }}">Agregar al Carrito></a>
+                                                @endif
+                                            @else
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoVendido->course->slug, $cursoVendido->course->id]) }}">Continuar T-Course</a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoVendido->course->price, 0, ',', '.') }}</div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </li>
+            <!-- CURSOS RECOMENDADOS -->
+            <li>
+                <ul class="uk-child-width-1-1 uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
+                    @foreach ($cursosRecomendados as $cursoRecomendado)
+                        <li class="course uk-transition-toggle" tabindex="0">
+                            <div class="uk-card uk-card-small course-card">
+                                <div class="uk-card-media-top image-div">
+                                    @if (!is_null($cursoRecomendado->preview))
+                                        <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursoRecomendado->id, 'curso']) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
+                                        </a>
+                                    @else
+                                        <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
+                                            <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursoRecomendado->cover) }}" class="content-image">
+                                        </a>
+                                    @endif
+                                </div>
+                                <div class="uk-card-body card-body">
+                                    <a href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">
+                                        <div>
+                                            <div class="course-title">{{ $cursoRecomendado->title }}</div>
+                                            <div class="course-instructor">Por: {{ $cursoRecomendado->user->names.' '.$cursoRecomendado->user->last_names }}</div>
+                                            <div class="course-category"><strong>{{ $cursoRecomendado->category->title }}</strong></div>
+                                            <div class="course-subtitle">{{ ucfirst($cursoRecomendado->subtitle) }}</div>
+
+                                            <br>
+                                            <a class="show-more-link" href="{{ route('landing.courses.show', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Ver más</a>
+                                        </div>
+                                    </a>
+                                    <div class="card-buttons">
+                                        @if (Auth::guest())
+                                            <a class="uk-button btn-style" href="#modal-login" uk-toggle> Agregar al carrito</a>
+                                        @elseif (Auth::user()->role_id == 1)
+                                            @if (!in_array($cursoRecomendado->id, $misCursos))
+                                                @if (!is_null(Auth::user()->membership_id))
+                                                    @if (Auth::user()->membership_courses < 3)
+                                                        <a class="uk-button btn-style" href="{{ route('students.courses.add', [$cursoRecomendado->id, 'membresia']) }}">Agregar a Mis Cursos</a>
+                                                    @else
+                                                        <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}">Agregar al Carrito</a>
+                                                    @endif
+                                                @else
+                                                    <a class="uk-button btn-style" href="{{ route('landing.shopping-cart.store', [$cursoRecomendado->id, 'curso']) }}">Agregar al Carrito</a>
+                                                @endif
+                                            @else
+                                                <a class="uk-button btn-style2" href="{{ route('students.courses.resume', [$cursoRecomendado->slug, $cursoRecomendado->id]) }}">Continuar T-Course</a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="uk-text-center course-price">COP {{ number_format($cursoRecomendado->price, 0, ',', '.') }}</div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </li>
         </ul>
     </div>
 
+    <div class="uk-width-1-1 uk-text-center" style="padding-top: 20px;">
+        <a class="show-more-link" href="{{ route('landing.courses') }}">
+            <h5>Ver todos los cursos disponibles<h5>
+        </a>
+    </div>
+</div>
 
-      {{-- Sección de Cursos por Categoría --}}
-      <div id="cursos">
-         {{-- Cursos Versión Móvil (4 Cards Verticales) --}}
-         <div class="courses uk-hidden@s">
-            @if ($cantCursos > 0)
-               @if ($cantCursos >= 4)
-                  @for($i=0; $i < 4; $i++)
-                     <div class="uk-card uk-card-small card-background-ligth" id="curso-{{$cursos[$i]->id}}">
-                        <div class="uk-card-media-top image-div">
-                           @if (!is_null($cursos[$i]->preview))
-                              @if ($categoriaSeleccionada == 100)
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'clase']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$cursos[$i]->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'clase']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @elseif ($categoriaSeleccionada == 0)
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'podcast']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$cursos[$i]->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'podcast']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @else
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'curso']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursos[$i]->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$cursos[$i]->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @endif
-                           @else
-                              @if ($categoriaSeleccionada == 100)
-                                 <a href="{{ route('landing.master-class.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$cursos[$i]->cover) }}" class="content-image">
-                                 </a>
-                              @elseif ($categoriaSeleccionada == 0)
-                                 <a href="{{ route('landing.podcasts.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$cursos[$i]->cover) }}" class="content-image">
-                                 </a>
-                              @else
-                                 <a href="{{ route('landing.courses.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$cursos[$i]->cover) }}" class="content-image">
-                                 </a>
-                              @endif
-                           @endif
-                        </div>
-                        <div class="uk-card-body card-body" style="padding-top: 2%;">
-                           @if ($categoriaSeleccionada == 100)
-                              <a href="{{ route('landing.master-class.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                           @elseif ($categoriaSeleccionada == 0)
-                              <a href="{{ route('landing.podcasts.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                           @else
-                              <a href="{{ route('landing.courses.show', [$cursos[$i]->slug, $cursos[$i]->id]) }}">
-                           @endif
-                              <div style="min-height: 100px;">
-                                 <div class="course-title color-ligth2" id="course-title-{{$cursos[$i]->id}}">{{ $cursos[$i]->title }}</div>
-                                 @if ($categoriaSeleccionada != 100)
-                                    <div class="course-instructor color-ligth2" id="course-instructor-{{$cursos[$i]->id}}">{{ $cursos[$i]->user->names.' '.$cursos[$i]->user->last_names }}</div>
-                                 @endif
-                                 @if ($categoriaSeleccionada != 100)
-                                    <div class="color-ligth3"><strong>{{ $cursos[$i]->category->title }}</strong></div>
-                                 @endif
-                                 <div class="course-subtitle color-ligth3" id="course-subtitle-{{$cursos[$i]->id}}">{{ strtolower($cursos[$i]->subtitle) }}</div>
-                                 <br><a><div class="course-instructor color-ligth2">Ver más</div></a>
-                              </div>
-                           </a>
-                           <div style="margin-top: 6%;margin-bottom:6%">
-                                <a class="link-course"> <span class="btn-course2">Agregar al carrito</span></a>
-                            </div>
-                        </div>
-                        <div class="uk-card-footer" style="padding:0px">
-                            <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                <h5 class="uk-text-center">Cop 59,900 USD 13,500</h5>
-                            </div>
-                        </div>
-                     </div><br>
-                  @endfor
-               @else
-                  @foreach ($cursos as $curso2)
-                     <div class="uk-card uk-card-small card-background-ligth" id="curso-{{$curso2->id}}">
-                        <div class="uk-card-media-top image-div">
-                           @if (!is_null($curso2->preview))
-                              @if ($categoriaSeleccionada == 100)
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'clase']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$curso2->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'clase']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @elseif ($categoriaSeleccionada == 0)
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'podcast']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$curso2->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'podcast']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @else
-                                 <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'curso']) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$curso2->cover) }}" class="content-image">
-                                    <div class="uk-overlay uk-position-center">
-                                       <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso2->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                    </div>
-                                 </a>
-                              @endif
-                           @else
-                              @if ($categoriaSeleccionada == 100)
-                                 <a href="{{ route('landing.master-class.show', [$curso2->slug, $curso2->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$curso2->cover) }}" class="content-image">
-                                 </a>
-                              @elseif ($categoriaSeleccionada == 0)
-                                 <a href="{{ route('landing.podcasts.show', [$curso2->slug, $curso2->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$curso2->cover) }}" class="content-image">
-                                 </a>
-                              @else
-                                 <a href="{{ route('landing.courses.show', [$curso2->slug, $curso2->id]) }}">
-                                    <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$curso2->cover) }}" class="content-image">
-                                 </a>
-                              @endif
-                           @endif
-                        </div>
-                        <div class="uk-card-body card-body" style="padding-top: 2%;">
-                           @if ($categoriaSeleccionada == 100)
-                              <a href="{{ route('landing.master-class.show', [$curso2->slug, $curso2->id]) }}">
-                           @elseif ($categoriaSeleccionada == 0)
-                              <a href="{{ route('landing.podcasts.show', [$curso2->slug, $curso2->id]) }}">
-                           @else
-                              <a href="{{ route('landing.courses.show', [$curso2->slug, $curso2->id]) }}">
-                           @endif
-                              <div style="min-height: 100px;">
-                                 <div class="course-title color-ligth2" id="course-title-{{$curso2->id}}">{{ $curso2->title }}</div>
-                                 @if ($categoriaSeleccionada != 100)
-                                    <div class="course-instructor color-ligth2" id="course-instructor-{{$curso2->id}}">{{ $curso2->user->names.' '.$curso2->user->last_names }}</div>
-                                 @endif
-                                 @if ($categoriaSeleccionada != 100)
-                                    <div class="color-ligth3"><strong>{{ $curso2->category->title }}</strong></div>
-                                 @endif
-                                 <div class="course-subtitle color-ligth3" id="course-subtitle-pc-{{$curso->id}}">{{ strtolower($curso2->subtitle) }}</div>
+<!-- Categorías -->
+<div class="uk-text-center best-sellers background-ligth2" id="best-sellers" style="padding-left: 5%; padding-right: 5%;">
 
-                                 <br><a><div class="course-instructor color-ligth2">Ver más</div></a>
-                              </div>
-                           </a>
-                           <div style="margin-top: 6%;margin-bottom:6%">
-                                <a class="link-course"> <span class="btn-course2">Agregar al carrito</span></a>
-                            </div>
-                        </div>
-                        <div class="uk-card-footer" style="padding:0px">
-                            <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                <h5 class="uk-text-center">Cop 59,900 USD 13,500</h5>
-                            </div>
-                        </div>
-                     </div><br>
-                  @endforeach
-               @endif
-            @endif
-         </div>
-
-         {{-- Cursos Versión Escritorio (Slider) --}}
-         <div class="courses uk-visible@s">
-            <div uk-slider class="content-carousel">
-               <div class="uk-position-relative">
-                  <div class="uk-slider-container uk-light">
-                     <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-child-width-1-4@l uk-child-width-1-4@xl" uk-grid>
-                        @foreach ($cursos as $curso)
-                           <li class="course uk-transition-toggle" tabindex="0">
-                              <div class="uk-card uk-card-small card-background-ligth" id="curso-pc-{{$curso->id}}">
-                                 <div class="uk-card-media-top image-div">
-                                    @if (!is_null($curso->preview))
-                                       @if ($categoriaSeleccionada == 100)
-                                          <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'clase']) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$curso->cover) }}" class="content-image">
-                                             <div class="uk-overlay uk-position-center">
-                                                <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'clase']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                             </div>
-                                          </a>
-                                       @elseif ($categoriaSeleccionada == 0)
-                                          <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'podcast']) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$curso->cover) }}" class="content-image">
-                                             <div class="uk-overlay uk-position-center">
-                                                <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'podcast']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                             </div>
-                                          </a>
-                                       @else
-                                          <a class="view-preview" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'curso']) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$curso->cover) }}" class="content-image">
-                                             <div class="uk-overlay uk-position-center">
-                                                <a class="view-preview link-play-card" uk-toggle="target: #modal-preview" data-viewPreview="{{ route('ajax.load-preview', [$curso->id, 'curso']) }}"><i class="fas fa-play icon-play-card"></i></a>
-                                             </div>
-                                          </a>
-                                       @endif
-                                    @else
-                                       @if ($categoriaSeleccionada == 100)
-                                          <a href="{{ route('landing.master-class.show', [$curso->slug, $curso->id]) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/master-class/'.$curso->cover) }}" class="content-image">
-                                          </a>
-                                       @elseif ($categoriaSeleccionada == 0)
-                                          <a href="{{ route('landing.podcasts.show', [$curso->slug, $curso->id]) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/podcasts/'.$curso->cover) }}" class="content-image">
-                                          </a>
-                                       @else
-                                          <a href="{{ route('landing.courses.show', [$curso->slug, $curso->id]) }}">
-                                             <img src="{{ asset('https://transformatepro.com/uploads/images/courses/'.$curso->cover) }}" class="content-image">
-                                          </a>
-                                       @endif
-                                    @endif
-                                 </div>
-                                 <div class="uk-card-body card-body" style="padding-top: 2%; ">
-                                    @if ($categoriaSeleccionada == 100)
-                                       <a href="{{ route('landing.master-class.show', [$curso->slug, $curso->id]) }}">
-                                    @elseif ($categoriaSeleccionada == 0)
-                                       <a href="{{ route('landing.podcasts.show', [$curso->slug, $curso->id]) }}">
-                                    @else
-                                       <a href="{{ route('landing.courses.show', [$curso->slug, $curso->id]) }}">
-                                    @endif
-                                       <div style="min-height: 120px;">
-                                          <div class="course-title color-ligth2" id="course-title-pc-{{$curso->id}}">{{ $curso->title }}</div>
-                                          @if ($categoriaSeleccionada != 100)
-                                             <div class="course-instructor color-ligth2" id="course-instructor-pc-{{$curso->id}}">{{ $curso->user->names.' '.$curso->user->last_names }}</div>
-                                          @endif
-                                          @if ($categoriaSeleccionada != 100)
-                                             <div class="color-ligth3" id="course-subtitle-pc-{{$curso->id}}"><strong>{{ $cursos[$i]->category->title }}</strong></div>
-                                          @endif
-                                          <div class="course-subtitle color-ligth3" id="course-subtitle-pc-{{$curso->id}}">{{ strtolower($curso->subtitle) }}</div>
-
-                                          <br><a><div class="course-instructor color-ligth2">Ver más</div></a>
-                                       </div>
-                                    </a>
-                                    <div style="margin-top: 6%;margin-bottom:6%">
-                                        <a class="link-course"> <span class="btn-course2">Agregar al carrito</span></a>
-                                    </div>
-                                 </div>
-
-                                 <div class="uk-card-footer" style="padding:0px">
-                                     <div class="uk-box-shadow-hover-small uk-padding uk-card-primary" style="padding:10px;background:#1172A9;">
-                                        <h5 class="uk-text-center">Cop 59,900 USD 13,500</h5>
-                                     </div>
-                                 </div>
-                              </div>
-                           </li>
-                        @endforeach
-                     </ul>
-                  </div>
-                  <div class="controls">
-                     <a class="uk-position-center-left-out" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                     <a class="uk-position-center-right-out" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-
-        <br><br>
-        <div class="uk-width-1-1 uk-text-center">
-            <a class="link-course" href="{{ route('landing.courses') }}"><h5>Ver todos los cursos disponibles<h5></a>
-        </div>
-
+    <div class="uk-text-center" style="padding: 2%;">
+        <span class="big-title color-black" style="color:#0B132B;">Nuestras Categorías</span>
+        <p class="small-title color-black" style="color:#0B132B;">Encuentra la Ruta que transforma más apropiada para ti y Transformate para Transformar.</p>
     </div>
 
-   {{-- T-Cursos Preferidos --}}
-   <div class="uk-text-center best-sellers background-ligth2" id="best-sellers" style="padding-left: 5%; padding-right:5%;">
-
-   <div class="uk-text-center" style="padding: 2%;">
-        <span class="best-sellers-title color-black" style="color:#0B132B;">Categorías destacadas</span>
-        <p class="best-sellers-title color-black" style="color:#0B132B;">Siempre hay una oportunidad de mejorar y reaprender</p>
-    </div>
-
-      {{-- Versión Móvil (8 Cards Verticales en dos columnas) --}}
-      <div class="best-sellers-cards uk-hidden@s">
-         <div class="uk-child-width-1" uk-grid>
+    {{-- Versión Móvil (8 Cards Verticales en dos columnas) --}}
+    <div class="best-sellers-cards" style="padding-left: 5%; padding-right: 5%;">
+        <div class="uk-child-width-1-4@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s uk-child-width-1-1@xs" uk-grid>
             <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon1.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformate kids</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon2.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformación empresa</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon3.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Educación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon4.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Empresa</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon5.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">T master class</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon6.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformate mujer</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon7.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Innovación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon8.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Financiación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon9.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformación personal</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon10.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Creatividad</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-      </div>
-
-      {{-- Versión Escritorio (Slider) --}}
-      <div class="best-sellers-cards uk-visible@s">
-         <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l" uk-grid>
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon1.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformate kids</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon2.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformación empresa</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon3.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Educación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon4.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Empresa</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon5.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">T master class</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon6.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformate mujer</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon7.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Innovación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon8.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Financiación</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon9.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Transformación personal</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px;">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            <img src="{{ asset('/images/icon10.png') }}" style="width:40px;">
-                        </div>
-                        <div class="uk-width-expand" style="text-align:left;line-height:1px">
-                            <h3 class="uk-card-title uk-margin-remove-bottom" style="height:24px;font-weight:bold;font-size:18px;color:#3A506B;">Creatividad</h3>
-                            <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">21 cursos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-   </div>
-
-   {{-- Sección final --}}
-   <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider id="slideropen">
-            <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-2@m">
-                <li class="uk-width-1-3">
-                    <div class="course-pro">
-                        <div class="uk-visible@s">
-                            <div class="uk-text-bold title">Se parte de la transformación y expande tu ser</div>
-                            <div class="description">Con acceso a mucho más que educación<br> online serás parte de una comunidad de<br> transformadores.</div>
-                        </div>
-                        <div class="uk-hidden@s">
-                            <div class="uk-text-bold title">TransfórmatePRO<br> expande tu ser</div>
-                        </div>
-                        <div uk-grid >
-                            <div class="uk-width-1-3 course-button-white-div" style="text-align: left;">
-                                <a class="link-course"> <span class="btn-course2">Crear cuenta</span></a>
+                <a href="{{ route('landing.courses', ['t-master-class', 100]) }}">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
                             </div>
-                            <div class="uk-width-2-3 register-button-blue-div" style="text-align: right;">
-                                <a class="link-course"> <span class="btn-course2">Volverme mentor de cursos</span></a>
+                            <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Master Class</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantMasterClass }} cursos</p>
                             </div>
                         </div>
                     </div>
-                </li>
-                <li class="uk-width-2-3">
-                    <img src="{{ asset('/images/image2.jpg') }}" alt="">
-                    <div class="uk-position-center"></div>
-                </li>
-            </ul>
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('landing.courses', ['t-books', 'tbooks']) }}">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img src="{{ asset('/images/icon12.png') }}" style="width:40px;">
+                            </div>
+                            <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Books</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantPodcasts }} cursos</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('landing.courses', ['t-mentorings', 'tmentorings']) }}">
+                    <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img src="{{ asset('/images/icon11.png') }}" style="width:40px;">
+                            </div>
+                            <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px;color:#3A506B;">T-Mentorings</h3>
+                                <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $cantCertificaciones }} cursos</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @foreach ($categoriasHome as $categoriaH)
+                <div>
+                    <a href="{{ route('landing.courses', [$categoriaH->slug, $categoriaH->id]) }}">
+                        <div class="uk-box-shadow-hover-small uk-padding uk-card-default" style="border-radius:5px; padding: 10px 10px !important; min-height: 91px;">
+                            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img src="{{ asset('/images/'.$categoriaH->image) }}" style="width:40px;">
+                                </div>
+                                <div class="uk-width-expand" style="text-align:left;line-height:20px">
+                                    <h3 class="uk-card-title uk-margin-remove-bottom" style="font-weight:bold;font-size:18px; line-height: 19px;color:#3A506B;">{{ $categoriaH->title }}</h3>
+                                    <p class="uk-text-meta uk-margin-remove-top" style="color:#5FA8D3">{{ $categoriaH->courses_count }} cursos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
-
-        {{-- Sección Botones --}}
-    <div class="course-pro-buttons background-ligth uk-hidden@s" id="transformatepro-section">
-      <div uk-grid>
-         <div class="uk-width-1-1" style="padding-right: 10px;color:#fff">
-            <a class="courses-button" uk-toggle>Crear cuenta</a>
-         </div>
-         <div class="uk-width-1-1" style="padding-left: 10px;color:#fff">
-            <a class="courses-button">Volverme mentor de cursos</a>
-         </div>
-      </div>
     </div>
+</div>
 
+    <div class="flex-container">
+        <div class="flex-item-left" style="display: flex; align-items: center;">
+            <div class="contenflex">
+                <div class="uk-text-bold banner-transforma-title">Se parte de la transformación y expande tu ser</div>
+                <p class="small-title">Con acceso a la posibilidad de crear tus cursos y productos online, expande tu ser y haz parte de nuestra Comunidad de Transformadores.</p>
+
+                <a class="link-course" href="#modal-register" uk-toggle style="box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.25);"> <span class="btn-course2">Crear cuenta</span></a>
+                <br class="uk-hidden@s">
+
+                <a class="link-course" href="#modal-register-instructor" uk-toggle style="box-shadow: 0px 10px 8px 0px rgba(0, 0, 0, 0.25);"> <span class="btn-course2">Volverme mentor de cursos</span></a>
+            </div>
+
+        </div>
+        <div class="flex-item-right">
+            <img src="{{ asset('/images/image2.jpg') }}" alt="">
+        </div>
+    </div>
 @endsection

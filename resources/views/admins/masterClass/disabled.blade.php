@@ -66,7 +66,7 @@
                                 <td class="uk-text-center">{{ $clase->subtitle }}</td> 
                                 <td class="uk-text-center">{{ date('d-m-Y', strtotime("$clase->created_at -5 Hours")) }}</td> 
                                 <td class="uk-flex-inline uk-text-center"> 
-                                    <a href="{{ route('admins.master-class.show', [$clase->slug, $clase->id]) }}" class="uk-icon-button uk-button-success btn-icon" uk-icon="icon: search;" uk-tooltip="Ver Detalles"></a> 
+                                    <a href="{{ route('landing.master-class.show', [$clase->slug, $clase->id]) }}" class="uk-icon-button uk-button-success btn-icon" uk-icon="icon: search;" uk-tooltip="Ver Detalles"></a> 
                                     @if (Auth::user()->profile->master_class == 2)
                                         <a href="{{ route('admins.master-class.change-status', [$clase->id, 1]) }}" class="uk-icon-button uk-button-primary btn-icon" uk-icon="icon: check;" uk-tooltip="Habilitar"></a>
                                     @endif                          

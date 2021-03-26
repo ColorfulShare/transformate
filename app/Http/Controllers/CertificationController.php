@@ -12,154 +12,40 @@ use Auth; use DB; use Storage;
 
 class CertificationController extends Controller
 {
-    //**** Estudiante / T - Mentorings
     //**** Instructor / T - Mentorings
     public function index(){
-        //Vista de Estudiantes
-        if (Auth::user()->role_id == 1){
-            return view('contador');
+        //Vista de Instructor
+        $certificaciones = Certification::where('user_id', '=', Auth::user()->id)
+                                ->orderBy('created_at', 'DESC')
+                                ->paginate(8);
 
-            /*$configuracion = DB::table('settings')->first();
-            $certificacionesMasVendidas = NULL;
-            $cantCertificacionesMasVendidas = 0;
-            $certificacionesMasRecientes = NULL;
-            //$certificacionesMasCursadas = NULL;
-            //$cantCertificacionesMasCursadas = 0;
+        $certificacionesConCorrecciones = Certification::where('user_id', '=', Auth::user()->id)
+                                            ->where('status', '=', 4)
+                                            ->orderBy('reviewed_at', 'DESC')
+                                            ->get();
 
-            $categorys = Category::with(['certifications' => function ($query2){
-                                        $query2->where('status', '=', 2);
-                                    }])->orderBy('id', 'ASC')
-                                    ->get();
+        $cantCertificacionesConCorrecciones = $certificacionesConCorrecciones->count();
 
-            $cantCertificacionesRestantes = 0;
-            $certificacionesRestantes = collect();
-            foreach ($categorys as $cat){
-                $cat->certifications_count = $cat->certifications->count();
+        $nuevasDiscusiones = collect();
 
-                if ($cat->certifications_count < 4){
-                    foreach ($cat->certifications as $cer){
-                        $certificacionesRestantes->push($cer);
-                        $cantCertificacionesRestantes++; 
-                    }
-                }
+        $instructor = User::where('id', '=', Auth::user()->id)
+                        ->with(['certifications',
+                            'certifications.discussions' => function ($query){
+                                $query->where('status', '=', 0);
+                            }
+                        ])->first();
+
+        foreach ($instructor->certifications as $certificacion){
+            foreach ($certificacion->discussions as $discusion){
+                $nuevasDiscusiones->push($discusion);
             }
+        }
 
-            if ($configuracion->most_sellers_slider_certification == 1){
-                $certificacionesMasVendidas = PurchaseDetail::with('certification')
-                                                ->select('purchase_details.certification_id', DB::raw('count(*) as total'))
-                                                ->where('certification_id', '<>', NULL)
-                                                ->groupBy('certification_id')
-                                                ->orderBy('total', 'DESC')
-                                                ->get();
-
-                foreach ($certificacionesMasVendidas as $certificacionVendida){
-                    if ($certificacionVendida->status == 2){
-                        $cantCertificacionesMasVendidas++;
-                    }
-                }
-            }
-            
-            if ($configuracion->most_recent_slider_certification == 1){
-                $certificacionesMasRecientes = Certification::where('status', '=', 2)
-                                                ->orderBy('created_at', 'DESC')
-                                                ->get();
-            }
-
-            /*if ($configuracion->most_taken_slider_certification == 1){
-                $certificacionesCursadas = DB::table('certifications_students')
-                                                ->select('certification_id', DB::raw('count(*) as total'))
-                                                ->groupBy('certification_id')
-                                                ->orderBy('total', 'DESC')
-                                                ->get();
-
-                $certificacionesMasCursadas = collect();
-                foreach ($certificacionesCursadas as $certificacionCursada){
-                    $datosCertificacion = Certification::where('id', '=', $certificacionCursada->certification_id)
-                                            ->where('status', '=', 2)
-                                            ->first();
-
-                    if (!is_null($datosCertificacion)){
-                        $cantCertificacionesMasCursadas++;
-                        $certificacionesMasCursadas->push($datosCertificacion);
-                    }
-                }
-            }*/
-
-            /*$cantCertificacionesDestacadas = Certification::where('featured', '=', 1)
-                                                ->where('status', '=', 2)
-                                                ->count();
-
-            $certificacionesDestacadas = NULL;
-            if ($cantCertificacionesDestacadas > 0){
-                $certificacionesDestacadas = Certification::withCount(['students', 'ratings', 
-                                                'ratings as promedio' => function ($query2){
-                                                    $query2->select(DB::raw('avg(points)'));
-                                                }])->where('featured', '=', 1)
-                                                ->where('status', '=', 2)
-                                                ->orderBy('created_at', 'DESC')
-                                                ->get();
-            }*/
-
-            /*$portada = Certification::select('id', 'user_id', 'title', 'subtitle', 'slug', 'cover', 'review', 'price','image_cover', 'preview')
-                        ->where('cover_home', '=', 1)
-                        ->first();
-            if ( (!is_null($portada)) && (empty($portada->image_cover)) ) {
-                $portada->image_cover = '10.jpg';
-            }
-
-            if (!is_null($portada)){
-                $portadaAgregada = DB::table('certifications_students')
-                                    ->where('user_id', '=', Auth::user()->id)
-                                    ->where('certification_id', '=', $portada->id)
-                                    ->first();
-            }else{
-                $portadaAgregada = NULL;
-            }
-           
-
-            $misCertificaciones = DB::table('certifications_students')
-                                    ->where('user_id', '=', Auth::user()->id)
-                                    ->get();
-
-            $certificacionesAgregadas = array();
-            foreach ($misCertificaciones as $miCertificacion){
-                array_push($certificacionesAgregadas, $miCertificacion->certification_id);
-            }
-
-            return view('landing.certifications')->with(compact('categorys', 'portada', 'certificacionesMasVendidas', 'cantCertificacionesMasVendidas', 'certificacionesMasRecientes', 'configuracion', 'portadaAgregada', 'certificacionesAgregadas', 'cantCertificacionesRestantes', 'certificacionesRestantes'));*/
-        }else if (Auth::user()->role_id == 2){
-            //Vista de Instructor
-            $certificaciones = Certification::where('user_id', '=', Auth::user()->id)
-                                    ->orderBy('created_at', 'DESC')
-                                    ->paginate(8);
-
-            $certificacionesConCorrecciones = Certification::where('user_id', '=', Auth::user()->id)
-                                                ->where('status', '=', 4)
-                                                ->orderBy('reviewed_at', 'DESC')
-                                                ->get();
-
-            $cantCertificacionesConCorrecciones = $certificacionesConCorrecciones->count();
-
-            $nuevasDiscusiones = collect();
-
-            $instructor = User::where('id', '=', Auth::user()->id)
-                            ->with(['certifications',
-                                'certifications.discussions' => function ($query){
-                                    $query->where('status', '=', 0);
-                                }
-                            ])->first();
-
-            foreach ($instructor->certifications as $certificacion){
-                foreach ($certificacion->discussions as $discusion){
-                    $nuevasDiscusiones->push($discusion);
-                }
-            }
-
-            $cantNuevasDiscusiones = $nuevasDiscusiones->count();
-            $nuevasDiscusiones = $nuevasDiscusiones->sortByDesc('created_at');
+        $cantNuevasDiscusiones = $nuevasDiscusiones->count();
+        $nuevasDiscusiones = $nuevasDiscusiones->sortByDesc('created_at');
 
 
-            $nuevosComentarios = Comment::join('discussions', 'comments.discussion_id', '=', 'discussions.id')
+        $nuevosComentarios = Comment::join('discussions', 'comments.discussion_id', '=', 'discussions.id')
                                     ->join('certifications', 'discussions.certification_id', '=', 'certifications.id')
                                     ->join('users', 'discussions.user_id', '=', 'users.id')
                                     ->where('comments.status', '=', 0)
@@ -169,10 +55,9 @@ class CertificationController extends Controller
                                     ->groupBy('comments.discussion_id')
                                     ->get();
 
-            $cantNuevosComentarios = $nuevosComentarios->count();
+        $cantNuevosComentarios = $nuevosComentarios->count();
 
-            return view('instructors.certifications.index')->with(compact('certificaciones', 'certificacionesConCorrecciones', 'cantCertificacionesConCorrecciones', 'nuevasDiscusiones', 'cantNuevasDiscusiones',  'nuevosComentarios', 'cantNuevosComentarios'));
-        }
+        return view('instructors.certifications.index')->with(compact('certificaciones', 'certificacionesConCorrecciones', 'cantCertificacionesConCorrecciones', 'nuevasDiscusiones', 'cantNuevasDiscusiones',  'nuevosComentarios', 'cantNuevosComentarios'));
     }
 
     //**** Instructor /  T-Mentoring / Crear T-Mentoring ***//
@@ -230,23 +115,9 @@ class CertificationController extends Controller
             }
         }
         
-        for ($i = 1; $i < 11; $i++){
-            $modulo = new Module();
-            $modulo->certification_id = $certificacion->id;
-            $modulo->priority_order = $i;
-            $modulo->title = 'Módulo '.$i;
-            $modulo->save();
+        $this->save_search_keys($certificacion->id);
 
-            for ($j = 1; $j < 7; $j++){
-                $leccion = new Lesson();
-                $leccion->module_id = $modulo->id;
-                $leccion->priority_order = $j;
-                $leccion->title = 'Lección '.$j;
-                $leccion->save();
-            }
-        }
-
-        return redirect('instructors/t-mentoring/temary/'.$certificacion->slug.'/'.$certificacion->id)->with('msj-exitoso', 'La T-Mentoring ha sido creada con éxito. Por favor, cree el temario de la misma para finalizar.');
+        return redirect('instructors/t-mentorings/temary/'.$certificacion->slug.'/'.$certificacion->id)->with('msj-exitoso', 'La T-Mentoring ha sido creada con éxito. Por favor, cree el temario de la misma para finalizar.');
     }
 
     //**** Instructor /  T-Mentoring / Cargar Temario ***//
@@ -260,7 +131,7 @@ class CertificationController extends Controller
                                     $query2->orderBy('priority_order', 'ASC');
                                 }, 'modules.lessons.resource_files'])->first();
 
-        return view('instructors.certifications.temary')->with(compact('certificacion', 'www'));
+        return view('instructors.certifications.temary')->with(compact('certificacion'));
     }
 
     //**** Instructor /  T-Mentoring / Temario / Actualizar ***//
@@ -287,7 +158,7 @@ class CertificationController extends Controller
             $leccion->filename = $request->nombre_archivo;
             $leccion->file_extension = $request->extension;
             $leccion->file_icon = $this->setIcon($leccion->file_extension);
-            $leccion->video = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+            $leccion->video = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
             $leccion->save();
 
             return response()->json(
@@ -299,7 +170,7 @@ class CertificationController extends Controller
             $recurso->filename = $request->nombre_archivo;
             $recurso->file_extension = $request->extension;
             $recurso->file_icon = $this->setIcon($recurso->file_extension);
-            $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+            $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
             $recurso->save();
 
             return response()->json(
@@ -363,78 +234,47 @@ class CertificationController extends Controller
     //**** Invitado - Estudiante - Instructor /  T-Mentorings / Ver T-Mentoring ***//
     //**** Admin /  T-Mentorings / Ver - Editar T-Mentoring ***//
     public function show($slug, $id){
-        if (Auth::guest()){
-            $certificacion = Certification::where('id', '=', $id)
-                                ->with('modules', 'modules.lessons', 'modules.tests', 'tags')
-                                ->withCount(['students', 
-                                    'ratings' => function($query){
-                                         $query->orderBy('created_at', 'DESC');
-                                    }, 
-                                    'ratings as promedio' => function ($query2){
-                                        $query2->select(DB::raw('avg(points)'));
-                                    }
-                                ])->first();
+        $certificacion = Certification::where('id', '=', $id)
+                             ->with('modules', 'modules.lessons', 'tags')
+                            ->withCount(['students', 'modules',
+                                'ratings' => function($query){
+                                    $query->orderBy('created_at', 'DESC');
+                                }, 
+                                'ratings as promedio' => function ($query2){
+                                    $query2->select(DB::raw('avg(points)'));
+                                }
+                            ])->first();
 
-            $promedio = explode('.', $certificacion->promedio);
+        $certificacion->avg = explode('.', $certificacion->promedio);
 
-            $instructor = User::where('id', '=', $certificacion->user_id)
-                            ->withCount('certifications')
-                            ->first();
+        $cantLecciones = 0;
+        foreach ($certificacion->modules as $modulo) {
+            $leccionesMod = DB::table('lessons')
+                                ->where('module_id', '=', $modulo->id)
+                                ->select('id')
+                                ->get();
 
-            $cantEstudiantes = 0;
-            foreach ($instructor->certifications as $certificacion2){
-                $estudiantes = DB::table('certifications_students')
-                                ->where('certification_id', '=', $certificacion2->id)
-                                ->count();
-
-                $cantEstudiantes = $cantEstudiantes + $estudiantes;
+            foreach ($leccionesMod as $leccion){
+                $cantLecciones++;
             }
+        }
 
-            return view('landing.showCertification')->with(compact('certificacion', 'promedio', 'instructor', 'cantEstudiantes'));
+        $certificacion->lessons_count = $cantLecciones;
+
+        if (Auth::guest()){
+            return view('landing.showCertification')->with(compact('certificacion'));
         }else{
             if (Auth::user()->role_id == 1){ 
                 //Vista de Estudiantes  
                 $agregado = Auth::user()->certifications_students()->where('certification_id', '=', $id)->count();
 
                 if ($agregado == 0){
-                    $certificacion = Certification::where('id', '=', $id)
-                                        ->with('modules', 'modules.lessons', 'modules.tests', 'tags')
-                                        ->withCount(['students', 
-                                            'ratings' => function($query){
-                                                 $query->orderBy('created_at', 'DESC');
-                                            }, 
-                                            'ratings as promedio' => function ($query2){
-                                                $query2->select(DB::raw('avg(points)'));
-                                            }
-                                         ])->first();
-
-                    $promedio = explode('.', $certificacion->promedio);
-
-                    $instructor = User::where('id', '=', $certificacion->user_id)
-                                    ->withCount('certifications')
-                                    ->first();
-
-                    $cantEstudiantes = 0;
-                    foreach ($instructor->certifications as $certificacion2){
-                        $estudiantes = DB::table('certifications_students')
-                                        ->where('certification_id', '=', $certificacion2->id)
-                                        ->count();
-
-                        $cantEstudiantes = $cantEstudiantes + $estudiantes;
-                    }
-
-
-                    return view('students.certifications.show')->with(compact('certificacion', 'promedio', 'instructor', 'cantEstudiantes'));
+                    return view('landing.showCertification')->with(compact('certificacion'));
                 }else{
                     return redirect('students/t-mentorings/resume/'.$slug.'/'.$id);
                 }
             }else if (Auth::user()->role_id == 2){
-                //Vista de Instructor;
-                $certificacion = Certification::where('id', '=', $id)
-                                    ->with('modules', 'modules.lessons', 'tags')
-                                    ->withCount(['students'])->first();
-
-                return view('instructors.certifications.show')->with(compact('certificacion'));
+                return view('landing.showCertification')->with(compact('certificacion'));
             }else if (Auth::user()->role_id == 3){
                 $certificacion = Certification::find($id);
 
@@ -537,6 +377,8 @@ class CertificationController extends Controller
             
             $certificacion->save();
 
+            $this->save_search_keys($certificacion->id);
+
             if (Auth::user()->role_id == 2){
                 return redirect('instructors/t-mentorings/edit/'.$certificacion->slug.'/'.$request->certification_id)->with('msj-exitoso', 'Los datos de la T-Mentoring han sido actualizados con éxito');
             }else if (Auth::user()->role_id == 3){
@@ -581,7 +423,7 @@ class CertificationController extends Controller
                 }else if ($request->hasFile('preview')){
                     $file2 = $request->file('preview');
                     $upload = Storage::disk('s3')->put('certifications/previews', $file2, 'public');
-                    $certificacion->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $certificacion->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $certificacion->preview_name = $file2->getClientOriginalName();
                 }else if ($request->hasFile('preview_cover')){
                     $file3 = $request->file('preview_cover');
@@ -621,17 +463,9 @@ class CertificationController extends Controller
                             ->with(['modules' => function ($query){
                                     $query->orderBy('priority_order', 'ASC');
                                 },
-                                'modules.lessons', 
-                                'students' => function ($query2){
-                                    $query2->where('user_id', '=', Auth::user()->id);
-                                },
-                                'tags'
-                            ])->withCount(['students',
-                                'ratings' => function ($query3){
-                                    $query3->orderBy('created_at', 'DESC');
-                                },
-                                'ratings as promedio' => function ($query4){
-                                    $query4->select(DB::raw('avg(points)'));
+                                'modules.lessons', 'tags'
+                            ])->withCount(['ratings as promedio' => function ($query2){
+                                    $query2->select(DB::raw('avg(points)'));
                                 }
                             ])->first();
 
@@ -939,5 +773,16 @@ class CertificationController extends Controller
                                     ->count();
 
         return view('admins.certifications.showByInstructor')->with(compact('certificaciones', 'totalCertificaciones'));
+    }
+
+    public function save_search_keys($certification){
+        $certificacion = Certification::find($certification);
+
+        $etiquetas = "";
+        foreach ($certificacion->tags as $tag){
+            $etiquetas = $etiquetas." ".$tag->tag;
+        }
+        $certificacion->search_keys = $certificacion->title." ".$certificacion->subtitle." ".$certificacion->user->names." ".$certificacion->user->last_names." ".$certificacion->category->title." ".$certificacion->subcategory->title." ".$etiquetas;
+        $certificacion->save();
     }
 }

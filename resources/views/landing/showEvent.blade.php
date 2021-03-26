@@ -4,12 +4,15 @@
    <link rel="stylesheet" href="{{ asset('css/events.css') }}">
 @endpush
 
+@section('fb-events')
+   fbq('track', 'InitiateCheckout');
+@endsection
+
 @push('scripts')
    <script>
         $(function(){    
             $('.video-responsive').bind('contextmenu',function() { return false; });
         });
-
         var vid = document.getElementById("event-video");
         vid.onplay = function() {
             var url = {{ $www }};
@@ -18,7 +21,6 @@
             }else{
                 var path = "https://transformatepro.com/t-events/add-video-view-counter/{{$evento->id}}";
             }
-
             //var path = "http://localhost:8000/t-events/add-video-view-counter/{{$evento->id}}";
                         
             $.ajax({
@@ -38,27 +40,22 @@
       if (fecha != null){
          
          var countDownDate = new Date(fecha).getTime();
-
          // Update the count down every 1 second
          var x = setInterval(function() {
-
             // Get today's date and time
             var now = new Date().getTime();
            // Find the distance between now and the count down date
            var distance = countDownDate - now;
-
            // Time calculations for days, hours, minutes and seconds
            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
            // Display the result in the element with id="demo"
            document.getElementById("days").innerHTML = days;
            document.getElementById("hours").innerHTML = hours;
            document.getElementById("minutes").innerHTML = minutes;
            document.getElementById("seconds").innerHTML = seconds;
-
            // If the count down is finished, write some text
             if (distance < 0) {
                clearInterval(x);
@@ -166,7 +163,7 @@
                         <i class="fa fa-users"></i> <span id="video-viewers">{{ $evento->video_view_counter }}</span> 
                     </span>   
                     @if (!is_null($evento->video))
-                        <video src="{{ asset('uploads/events/videos/'.$evento->video) }}" id="event-video" controls controlslist="nodownload" style="height: 90% !important;" poster="{{ asset('uploads/events/images/'.$evento->image) }}"></video>  
+                        <video src="{{ asset('uploads/events/videos/'.$evento->video) }}" id="event-video" controls controlslist="nodownload" style="height: 90% !important;"></video>  
                     @else
                         Este evento no tiene un video disponible
                     @endif
