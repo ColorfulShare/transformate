@@ -185,7 +185,7 @@
 
             	document.getElementById("resource").disabled = true;
 
-            	var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+            	var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
                 var uploadFiles = $('#resource')[0];
                 var upFile = uploadFiles.files[0];
                 if (upFile) {
@@ -521,6 +521,6 @@
 		<input type="hidden" name="resource_id" id="resource_id">
 	</form>
 
-	<input type="hidden" id="accessKeyId" value="QUtJQUpHUjNPSTJQVDJUUVY0S0E=">
-    <input type="hidden" id="secretAccessKey" value="ak8xZTI1SW1yM2NDS2IwYlpmLzRLZncvNWJFSE9wVDR1Q1gvc09acA==">
+	<input type="hidden" id="accessKeyId" value="QUtJQVpOTEo1N0hWSkM1T1o1TFk=">
+    <input type="hidden" id="secretAccessKey" value="Um5vNGZqMFZ0MzFucnNmdUQ3ZXJYMWh6OXA2ODE5aERPdVJCZ0dHeQ==">
 @endsection

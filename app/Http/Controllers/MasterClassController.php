@@ -171,7 +171,7 @@ class MasterClassController extends Controller
                     
                     $file = $request->file('video_file');
                     $upload = Storage::disk('s3')->put('master-class/'.$clase->id, $file, 'public');
-                    $clase->video_file = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $clase->video_file = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $clase->video_filename = $file->getClientOriginalName();
                 }
             }
@@ -196,7 +196,7 @@ class MasterClassController extends Controller
         $recurso->save();
 
         $upload = Storage::disk('s3')->put('master-class/'.$request->master_class_id.'/resources', $file, 'public');
-        $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+        $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
         $recurso->save();
 
         return response()->json(

@@ -158,7 +158,7 @@ class CertificationController extends Controller
             $leccion->filename = $request->nombre_archivo;
             $leccion->file_extension = $request->extension;
             $leccion->file_icon = $this->setIcon($leccion->file_extension);
-            $leccion->video = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+            $leccion->video = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
             $leccion->save();
 
             return response()->json(
@@ -170,7 +170,7 @@ class CertificationController extends Controller
             $recurso->filename = $request->nombre_archivo;
             $recurso->file_extension = $request->extension;
             $recurso->file_icon = $this->setIcon($recurso->file_extension);
-            $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+            $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
             $recurso->save();
 
             return response()->json(
@@ -423,7 +423,7 @@ class CertificationController extends Controller
                 }else if ($request->hasFile('preview')){
                     $file2 = $request->file('preview');
                     $upload = Storage::disk('s3')->put('certifications/previews', $file2, 'public');
-                    $certificacion->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $certificacion->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $certificacion->preview_name = $file2->getClientOriginalName();
                 }else if ($request->hasFile('preview_cover')){
                     $file3 = $request->file('preview_cover');

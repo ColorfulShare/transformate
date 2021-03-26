@@ -52,7 +52,7 @@ class LessonController extends Controller
             $leccion->filename = $request->filename;
             $leccion->file_extension = $request->file_extension;
             $leccion->file_icon = $this->setIcon($leccion->file_extension);
-            $leccion->video = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->file_path; 
+            $leccion->video = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->file_path; 
             $leccion->save();
 
             if (!is_null($datosModulo->course_id)){
@@ -183,7 +183,7 @@ class LessonController extends Controller
             $recurso->filename = $request->filename;
             $recurso->file_extension = $request->file_extension;
             $recurso->file_icon = $this->setIcon($recurso->file_extension);
-            $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->file_path; 
+            $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->file_path; 
             $recurso->save();
 
             if (!is_null($leccion->module->course_id)){

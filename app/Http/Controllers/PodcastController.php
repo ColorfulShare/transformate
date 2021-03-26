@@ -361,7 +361,7 @@ class PodcastController extends Controller
 
                     $file = $request->file('preview');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id.'/preview', $file, 'public');
-                    $podcast->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $podcast->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $podcast->preview_name = $file->getClientOriginalName();
                 }else if ($request->hasFile('audio_file')){
                     /*if (!is_null($podcast->audio_file)){
@@ -373,7 +373,7 @@ class PodcastController extends Controller
                     
                     $file = $request->file('audio_file');
                     $upload = Storage::disk('s3')->put('podcasts/'.$podcast->id, $file, 'public');
-                    $podcast->audio_file = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $podcast->audio_file = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $podcast->audio_filename = $file->getClientOriginalName();
                 }
             }
@@ -392,7 +392,7 @@ class PodcastController extends Controller
         $recurso->filename = $request->nombre_archivo;
         $recurso->file_extension = $request->extension;
         $recurso->file_icon = $this->setIcon($recurso->file_extension);
-        $recurso->link = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$request->direccion; 
+        $recurso->link = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$request->direccion; 
         $recurso->save();
 
         return response()->json(

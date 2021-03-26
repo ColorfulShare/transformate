@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('certificado/{curso}/{usuario}/{fecha}', 'CourseController@generate_certificate');
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('config:clear');
@@ -34,6 +33,7 @@ Route::group(['prefix' => 'scripts', 'middleware' => 'https'], function () {
 	Route::get('corregir-comisiones', 'ScriptController@corregir_comisiones');
 	Route::get('llenar-claves-busqueda-cursos', 'ScriptController@llenar_claves_busqueda_cursos');
 	Route::get('restaurar-liquidaciones', 'ScriptController@restaurar_liquidaciones');
+	Route::get('cambiar-bucket-s3', 'ScriptController@cambiar_bucket_s3');
 });
 
 Route::group(['middleware' => ['https']], function () {

@@ -375,7 +375,7 @@ class CourseController extends Controller
                 }else if ($request->hasFile('preview')){
                     $file2 = $request->file('preview');
                     $upload = Storage::disk('s3')->put('courses/previews', $file2, 'public');
-                    $curso->preview = 'https://transformate-videos.s3.us-east-2.amazonaws.com/'.$upload;
+                    $curso->preview = 'https://transformate-content.s3.us-east-2.amazonaws.com/'.$upload;
                     $curso->preview_name = $file2->getClientOriginalName();
                 }else if ($request->hasFile('preview_cover')){
                     $file3 = $request->file('preview_cover');

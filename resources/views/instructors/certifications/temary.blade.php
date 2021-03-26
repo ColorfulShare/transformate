@@ -43,7 +43,7 @@
 			$('.video-file-upload').on('change', function(e) {
 	            e.preventDefault();
                 
-                var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
 	            var certificacion = $("#certification_id").val();
 	            var leccion = $("#lesson_id").val();
 	            var uploadFiles = $('#video')[0];
@@ -87,7 +87,7 @@
 	        $('.resource-file-upload').on('change', function(e) {
 	            e.preventDefault();
                 
-                var bucket = new AWS.S3({params: {Bucket: 'transformate-videos'}});
+                var bucket = new AWS.S3({params: {Bucket: 'transformate-content'}});
 	            var certificacion = $("#certification_id").val();
 	            var leccion = $("#lesson_id_resource").val();
 	            var uploadFiles = $('#resource')[0];
@@ -431,6 +431,6 @@
 		<input type="hidden" name="file_path" id="file_path_resource">
 	</form>
 	
-	<input type="hidden" id="accessKeyId" value="QUtJQVg0SEM1SE1DWU5BV1FOQlI=">
-    <input type="hidden" id="secretAccessKey" value="QXNPeVJKOHVwVEhvUnlKVEwrL3NjZzU4TTJ0VXg2WXM5SUFocDcyag==">
+	<input type="hidden" id="accessKeyId" value="QUtJQVpOTEo1N0hWSkM1T1o1TFk=">
+    <input type="hidden" id="secretAccessKey" value="Um5vNGZqMFZ0MzFucnNmdUQ3ZXJYMWh6OXA2ODE5aERPdVJCZ0dHeQ==">
 @endsection
