@@ -73,7 +73,12 @@
                 </div>
             </div>
             <div class="uk-text-left checkout-total-div">
-                Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                @if ($totalItems != $totalAnterior)
+                    <del style="color:red;">Total Anterior COP$ {{ number_format($totalAnterior, 0, ',', '.') }}</del><br> <span style="margin-left: 10px;">Total con Descuento COP$ {{ number_format($totalItems, 0, ',', '.') }}</span>
+                    
+                @else
+                    Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                @endif
             </div>
 
             <div class="items-content">
@@ -135,22 +140,55 @@
                         </div>
                         <div class="uk-text-right item-price">
                             @if (!is_null($item->course_id))
-                                COP$ {{ number_format($item->course->price, 0, ',', '.') }}
+                                @if (isset($item->new_price))
+                                    COP$ {{ number_format($item->new_price, 0, ',', '.') }}<br>
+                                    <del style="color: red;">
+                                        COP$ {{ number_format($item->course->price, 0, ',', '.') }}
+                                    </del>
+                                @else
+                                    COP$ {{ number_format($item->course->price, 0, ',', '.') }}
+                                @endif
                             @elseif (!is_null($item->certification_id))
-                                COP$ {{ number_format($item->certification->price, 0, ',', '.') }}
+                                @if (isset($item->new_price))
+                                    COP$ {{ number_format($item->new_price, 0, ',', '.') }}<br>
+                                    <del style="color: red;">
+                                        COP$ {{ number_format($item->certification->price, 0, ',', '.') }}
+                                    </del>
+                                @else
+                                    COP$ {{ number_format($item->certification->price, 0, ',', '.') }}
+                                @endif
                             @elseif (!is_null($item->podcast_id))
-                                COP$ {{ number_format($item->podcast->price, 0, ',', '.') }}
+                                @if (isset($item->new_price))
+                                    COP$ {{ number_format($item->new_price, 0, ',', '.') }}<br>
+                                    <del style="color: red;">
+                                        COP$ {{ number_format($item->podcast->price, 0, ',', '.') }}
+                                    </del>
+                                @else
+                                    COP$ {{ number_format($item->podcast->price, 0, ',', '.') }}
+                                @endif
                             @elseif (!is_null($item->membership_id))
                                 COP$ {{ number_format($item->membership->price, 0, ',', '.') }}
                             @elseif (!is_null($item->product_id))
-                                COP$ {{ number_format($item->market_product->price, 0, ',', '.') }}
+                                @if (isset($item->new_price))
+                                    COP$ {{ number_format($item->new_price, 0, ',', '.') }}<br>
+                                    <del style="color: red;">
+                                        COP$ {{ number_format($item->market_product->price, 0, ',', '.') }}
+                                    </del>
+                                @else
+                                    COP$ {{ number_format($item->market_product->price, 0, ',', '.') }}
+                                @endif
                             @endif
                         </div>
                     @endforeach
                 </div>
 
                 <div class="uk-text-right total-div">
-                    Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                    @if ($totalItems != $totalAnterior)
+                        Total COP$ {{ number_format($totalItems, 0, ',', '.') }}<br>
+                        <del style="color:red;">Total Anterior COP$ {{ number_format($totalAnterior, 0, ',', '.') }}</del>
+                    @else
+                        Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                    @endif
                 </div>
 
                 <div class="buttons-div">

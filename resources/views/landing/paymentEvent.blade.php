@@ -68,8 +68,23 @@
                 </div>
             </div>
 
-            <div class="uk-text-left checkout-total-div">
-                Total COP$ @if ($evento->presale == 1) {{ number_format($evento->presale_price, 0, ',', '.') }} @else {{ number_format($evento->price, 0, ',', '.') }} @endif
+            <div class="uk-text-left checkout-total-div" style="margin-top: 10px;">
+                @if ($evento->presale == 1)
+                    @if ($evento->presale_price != $evento->amount)
+                        Total con Descuento COP$ {{ number_format($evento->amount, 0, ',', '.') }} <br>
+                        <del style="color: red;">Total Anterior COP$ {{ number_format($evento->presale_price, 0, ',', '.') }} </del>
+                    @else
+                        Total COP$ {{ number_format($evento->presale_price, 0, ',', '.') }}
+                    @endif
+                @else
+                    @if ($evento->price != $evento->amount)
+                        Total con Descuento COP$ {{ number_format($evento->amount, 0, ',', '.') }}<br>
+                        <del style="color: red;">Total Anterior COP$ {{ number_format($evento->price, 0, ',', '.') }} </del>
+                    @else
+                        Total COP$ {{ number_format($evento->price, 0, ',', '.') }}
+                    @endif
+                @endif
+                
                 @if ( (!is_null($suscriptor->instructor_code)) || (!is_null($suscriptor->partner_code)) )
                     <br>-10% de descuento por aplicación de Código<br>
                     Total a Pagar:  {{ number_format(($evento->amount), 0, ',', '.') }} 

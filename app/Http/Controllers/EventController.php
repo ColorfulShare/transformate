@@ -211,12 +211,13 @@ class EventController extends Controller{
 		}
 
 		if (!Auth::guest()){
-			if (Auth::user()->email == $suscriptor->email){
+		//	if (Auth::user()->email == $suscriptor->email){
 				if (!is_null(Auth::user()->membership_id)){
-					$evento->amount = ($evento->amount*70)/100;
+				    $evento->amount = (($evento->amount*70)/100);
 				}
-			}
+			//}
 		}
+		
 
 		\MercadoPago\SDK::setAccessToken("APP_USR-1902410051285318-043020-57263f6c7aa781de7dba01fd37458c14-515837620");
         $payment_methods = \MercadoPago\SDK::get("/v1/payment_methods");

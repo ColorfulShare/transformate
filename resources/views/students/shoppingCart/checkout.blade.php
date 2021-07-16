@@ -71,7 +71,12 @@
             </div>
 
             <div class="uk-text-left checkout-total-div">
-                Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                @if ($totalItems != $totalAnterior)
+                    Total con Descuento COP$ {{ number_format($totalItems, 0, ',', '.') }}<br> 
+                    <del style="color:red;">Total Anterior COP$ {{ number_format($totalAnterior, 0, ',', '.') }}</del>
+                @else
+                    Total COP$ {{ number_format($totalItems, 0, ',', '.') }}
+                @endif
             </div>
 
             <div class="items-content">
