@@ -79,7 +79,7 @@ class ShoppingCartController extends Controller
             $podcasts = [];
             $sugerencias = collect();
 
-            foreach ($items as $key => $item){     
+            foreach ($items as $key => $item){
                 $cantItems++;
                 if ($item->instructor_code == 1){
                     $cantItemsInstructorCode++;
@@ -97,7 +97,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         
@@ -106,8 +106,8 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->course->price;
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
-                            $totalItems += $precioConMembresia;
+                            $item->new_price = (($item->course->price * 70) / 100);
+                            $totalItems += $item->new_price;
                         }
                     }
                     $categoriasCursos[$key] = $item->course->category_id;
@@ -118,7 +118,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->certification->price * 80) / 100);
+                            $precioConMembresia = (($item->certification->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         $totalItems += $item->new_price;
@@ -126,8 +126,8 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->certification->price;
                         }else{
-                            $precioConMembresia = (($item->certification->price * 80) / 100);
-                            $totalItems += $precioConMembresia;
+                            $item->new_price = (($item->certification->price * 70) / 100);
+                            $totalItems += $item->new_price;
                         }
                     }
                     $categoriasCertificaciones[$key] = $item->certification->category_id;
@@ -138,7 +138,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         $totalItems += $item->new_price;
@@ -146,8 +146,8 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->podcast->price;
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
-                            $totalItems += $precioConMembresia;
+                            $item->new_price = (($item->podcast->price * 70) / 100);
+                            $totalItems += $item->new_price;
                         }
                     }
                     $categoriasPodcasts[$key] = $item->podcast->category_id;
@@ -476,7 +476,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->course->price - (($item->course->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         
@@ -485,7 +485,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->course->price;
                         }else{
-                            $precioConMembresia = (($item->course->price * 20) / 100);
+                            $precioConMembresia = (($item->course->price * 70) / 100);
                             $totalItems += $precioConMembresia;
                         }
                     }
@@ -495,7 +495,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->podcast->price - (($item->podcast->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         
@@ -504,7 +504,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->podcast->price;
                         }else{
-                            $precioConMembresia = (($item->podcast->price * 50) / 100);
+                            $precioConMembresia = (($item->podcast->price * 70) / 100);
                             $totalItems += $precioConMembresia;
                         }
                     }
@@ -514,7 +514,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $item->new_price = ( $item->certification->price - (($item->certification->price * $cuponAplicado->discount) / 100));
                         }else{
-                            $precioConMembresia = (($item->certification->price * 50) / 100);
+                            $precioConMembresia = (($item->certification->price * 70) / 100);
                             $item->new_price = ( $precioConMembresia - (($precioConMembresia * $cuponAplicado->discount) / 100));
                         }
                         
@@ -523,7 +523,7 @@ class ShoppingCartController extends Controller
                         if (is_null(Auth::user()->membership_id)){
                             $totalItems += $item->certification->price;
                         }else{
-                            $precioConMembresia = (($item->certification->price * 50) / 100);
+                            $precioConMembresia = (($item->certification->price * 70) / 100);
                             $totalItems += $precioConMembresia;
                         }
                     }
