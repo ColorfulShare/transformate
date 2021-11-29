@@ -42,6 +42,7 @@
                <a href="{{ route('admins.courses.featured') }}">Destacados</a>
                <a href="{{ route('admins.courses.disabled-record') }}">Deshabilitados</a>
                <a href="{{ route('admins.courses.reports.sales') }}">Reportes</a>
+               <a href="{{ route('admins.courses.setting-general-price') }}">Establecer Precio General</a>
             </div>
          </li>
       @endif
@@ -59,6 +60,7 @@
                <a href="{{ route('admins.certifications.featured') }}">Destacadas</a>
                <a href="{{ route('admins.certifications.disabled-record') }}">Deshabilitadas</a>
                <a href="{{ route('admins.certifications.reports.sales') }}">Reportes</a>
+               <a href="{{ route('admins.certifications.setting-general-price') }}">Establecer Precio General</a>
             </div>
          </li>
       @endif
@@ -77,6 +79,7 @@
                <a href="{{ route('admins.podcasts.disabled-record') }}">Deshabilitados</a>
                <a href="{{ route('admins.podcasts.featured') }}">Destacados</a>
                <a href="{{ route('admins.podcasts.reports.sales') }}">Reportes</a>
+               <a href="{{ route('admins.podcasts.setting-general-price') }}">Establecer Precio General</a>
             </div>
          </li>
       @endif

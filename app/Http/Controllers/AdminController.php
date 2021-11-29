@@ -614,4 +614,22 @@ class AdminController extends Controller
         }
         
     }
+
+    function set_general_price(Request $request){
+        $fecha = date('Y-m-d H:i:s');
+        
+        if ($request->type == 'courses'){
+            DB::table('courses')
+            ->update(['price' => $request->price, 'updated_at' => $fecha]);
+        }else if ($request->type == 'certifications'){
+            DB::table('certifications')
+            ->update(['price' => $request->price, 'updated_at' => $fecha]);
+        }else if ($request->type == 'podcasts'){
+            DB::table('podcasts')
+            ->update(['price' => $request->price, 'updated_at' => $fecha]);
+        }
+        
+        
+        return redirect()->back()->with('msj-exitoso', 'El precio de los cursos ha sido cambiado con éxito.');
+    }
 }
