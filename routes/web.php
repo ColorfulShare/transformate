@@ -472,6 +472,10 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.courses.send-corrections');
 		Route::get('featured', 'AdminController@featured')->name('admins.courses.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.courses.update-featured');
+		Route::get('setting-general-price', function(){
+		    return view('admins.courses.settingGeneralPrice');
+		})->name('admins.courses.setting-general-price');
+		Route::post('set-general-price', 'AdminController@set_general_price')->name('admins.courses.set-general-price');
 		Route::group(['prefix' => 'reports'], function() {
 			Route::get('sales', 'CourseController@sales')->name('admins.courses.reports.sales');
 			Route::get('show-sales/{curso}', 'CourseController@show_sales')->name('admins.courses.reports.show-sales');
@@ -496,6 +500,10 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.certifications.send-corrections');
 		Route::get('featured', 'AdminController@featured')->name('admins.certifications.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.certifications.update-featured');
+		Route::get('setting-general-price', function(){
+		    return view('admins.certifications.settingGeneralPrice');
+		})->name('admins.certifications.setting-general-price');
+		Route::post('set-general-price', 'AdminController@set_general_price')->name('admins.certifications.set-general-price');
 		Route::group(['prefix' => 'reports'], function() {
 			Route::get('sales', 'CertificationController@sales')->name('admins.certifications.reports.sales');
 			Route::get('show-sales/{curso}', 'CertificationController@show_sales')->name('admins.certifications.reports.show-sales');
@@ -519,6 +527,10 @@ Route::group(['prefix' => 'admins', 'middleware' => ['https', 'auth', 'admins']]
 		Route::post('send-corrections', 'AdminController@send_corrections')->name('admins.podcasts.send-corrections');	
 		Route::get('featured', 'AdminController@featured')->name('admins.podcasts.featured');
 		Route::post('update-featured', 'AdminController@update_featured')->name('admins.podcasts.update-featured');
+		Route::get('setting-general-price', function(){
+		    return view('admins.podcasts.settingGeneralPrice');
+		})->name('admins.podcasts.setting-general-price');
+		Route::post('set-general-price', 'AdminController@set_general_price')->name('admins.podcasts.set-general-price');
 		Route::group(['prefix' => 'reports'], function() {
 			Route::get('sales', 'PodcastController@sales')->name('admins.podcasts.reports.sales');
 			Route::get('show-sales/{podcast}', 'PodcastController@show_sales')->name('admins.podcasts.reports.show-sales');
